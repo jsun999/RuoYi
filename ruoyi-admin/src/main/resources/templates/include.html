@@ -43,7 +43,42 @@
 	<script th:src="@{/ruoyi/js/ry-ui.js?v=3.3.0}"></script>
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 </div>
+<!--百度网盘css-->
+<div th:fragment="baiduCSS">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/alpha.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/function.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/context-all_1aa43af.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/all_fe4c0e3.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/home-all_5215898.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/main-all_1804208.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/upDataTips-all_4601f56.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/asideAppDownloads-all_9e09c9a.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/sync-all_6df50b9.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/activity_26dfb4a.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/quota-all_6785087.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/vipWarn-all_2f77222.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/uploader-all_e773d4b.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/rMenu_6fb4554.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/sync-all_cdd0f48.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/disk.header.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/baidupage.css}">
 
+</div>
+
+<!--页面右键-->
+<div th:fragment="rightButton">
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/rightbutton.css}">
+	<script th:src="@{/js/jquery.contextMenu.min.js}"></script>
+	<script th:src="@{/js/rightButton.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/jquery.contextMenu.min.css}">
+</div>
+
+<!--华为obs sdk-->
+<div th:fragment="huawei">
+	<script th:src="@{/js/esdk-obs-browserjs-3.1.4.min.js}"></script>
+	<script th:src="@{/js/esdk-obs-browserjs-without-polyfill-3.1.4.min.js}"></script>
+	<script th:src="@{/js/huaweiOBS.js}"></script>
+</div>
 <!-- ztree树插件 -->
 <div th:fragment="ztree-css">
     <link th:href="@{/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css}" rel="stylesheet"/>
@@ -110,3 +145,5 @@
 <div th:fragment="jsonview-js">
     <script th:src="@{/ajax/libs/jsonview/jquery.jsonview.js}"></script>
 </div>
+
+

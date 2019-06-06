@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysParamMapper">
+    
+	<sql id="selectParamVo">
+        select id, param_name, param_value, descr, sort, type, create_by, create_time, update_by, update_time, remark from sys_param
+    </sql>
+    <select id="getHuaweiParam" resultType="map">
+        select param_name, param_value from sys_param where param_name in ("yuxing_huawei_access_key_id","yuxing_huawei_secret_access_key","server");
+    </select>
+
+
+</mapper>

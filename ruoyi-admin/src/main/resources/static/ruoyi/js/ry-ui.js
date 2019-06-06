@@ -71,7 +71,6 @@
                     showToggle: options.showToggle,                     // 是否显示详细视图和列表视图的切换按钮
                     showExport: options.showExport,                     // 是否支持导出文件
                     clickToSelect: options.clickToSelect,				// 是否启用点击选中行
-                    onClickRow: options.onClickRow,                     // 点击某行触发的事件
                     rememberSelected: options.rememberSelected,         // 启用翻页记住前面的选择
                     fixedColumns: options.fixedColumns,                 // 是否启用冻结列（左侧）
                     fixedNumber: options.fixedNumber,                   // 列冻结的个数（左侧）
@@ -140,7 +139,7 @@
     			    	layer.open({
         			        title: false,
         			        type: 1,
-        			        closeBtn: true,
+        			        closeBtn: false,
         			        shadeClose: true,
         			        area: ['auto', 'auto'],
         			        content: "<img src='" + src + "' />"
@@ -543,7 +542,8 @@
             	layer.confirm(content, {
         	        icon: 3,
         	        title: "系统提示",
-        	        btn: ['确认', '取消']
+        	        btn: ['确认', '取消'],
+        	        btnclass: ['btn btn-primary', 'btn btn-danger'],
         	    }, function (index) {
         	    	layer.close(index);
         	        callBack(true);
@@ -598,7 +598,6 @@
             	var _title = $.common.isEmpty(options.title) ? "系统窗口" : options.title; 
                 var _width = $.common.isEmpty(options.width) ? "800" : options.width; 
                 var _height = $.common.isEmpty(options.height) ? ($(window).height() - 50) : options.height;
-                var _btn = ['<i class="fa fa-check"></i> 确认', '<i class="fa fa-close"></i> 关闭'];
                 layer.open({
                     type: 2,
             		maxmin: true,
@@ -608,7 +607,7 @@
                     area: [_width + 'px', _height + 'px'],
                     content: _url,
                     shadeClose: true,
-                    btn: $.common.isEmpty(options.btn) ? _btn : options.btn,
+                    btn: ['<i class="fa fa-check"></i> 确认', '<i class="fa fa-close"></i> 关闭'],
                     yes: function (index, layero) {
                         options.callBack(index, layero)
                     }, cancel: function () {
@@ -712,7 +711,7 @@
             	$.operate.submit(url, "post", "json", data, callback);
             },
             // get请求传输
-            get: function(url, callback) {
+            get: function(url) {
             	$.operate.submit(url, "get", "json", "", callback);
             },
             // 详细信息
