@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysSupplierMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.SysSupplier" id="SupplierResult">
+        <result property="supplierId"    column="supplier_id"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="supplierCompanyName"    column="supplier_company_name"    />
+        <result property="supplierAddress"    column="supplier_address"    />
+        <result property="supplierTelephone"    column="supplier_telephone"    />
+        <result property="supplierEmail"    column="supplier_email"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectSupplierVo">
+        select supplier_id, supplier_name, supplier_address, supplier_telephone,supplier_email,del_flag, create_by, create_time, update_by, update_time, remark from sys_supplier
+    </sql>
+	
+    <select id="selectSupplierList" parameterType="com.ruoyi.system.domain.SysSupplier" resultMap="SupplierResult">
+        <include refid="selectSupplierVo"/>
+        <where>  del_flag=0
+            <if test="supplierId != null "> and supplier_id = #{supplierId}</if>
+            <if test="supplierName != null  and supplierName != '' "> and supplier_name like concat('%',#{supplierName},'%') </if>
+            <if test="supplierCompanyName != null  and supplierCompanyName != '' "> and supplier_company_name like concat('%',#{supplierCompanyName},'%') </if>
+            <if test="supplierAddress != null  and supplierAddress != '' "> and supplier_address like concat('%',#{supplierAddress},'%')</if>
+            <if test="supplierTelephone != null  and supplierTelephone != '' "> and supplier_telephone like concat('%',#{supplierTelephone},'%')</if>
+            <if test="supplierEmail != null  and supplierEmail != '' "> and supplier_email like concat('%',#{supplierEmail},'%')</if>
+            <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+            <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+            <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectSupplierById" parameterType="Long" resultMap="SupplierResult">
+        <include refid="selectSupplierVo"/>
+        where supplier_id = #{supplierId} and del_flag=0
+    </select>
+        
+    <insert id="insertSupplier" parameterType="com.ruoyi.system.domain.SysSupplier">
+        insert into sys_supplier
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="supplierId != null  ">supplier_id,</if>
+			<if test="supplierName != null  and supplierName != ''  ">supplier_name,</if>
+            <if test="supplierCompanyName != null  and supplierCompanyName != ''  ">supplier_company_name,</if>
+			<if test="supplierAddress != null  and supplierAddress != ''  ">supplier_address,</if>
+			<if test="supplierTelephone != null  and supplierTelephone != ''  ">supplier_telephone,</if>
+            <if test="supplierEmail != null  and supplierEmail != ''  ">supplier_email,</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="supplierId != null  ">#{supplierId},</if>
+			<if test="supplierName != null  and supplierName != ''  ">#{supplierName},</if>
+            <if test="supplierCompanyName != null  and supplierCompanyName != ''  ">#{supplierCompanyName},</if>
+			<if test="supplierAddress != null  and supplierAddress != ''  ">#{supplierAddress},</if>
+			<if test="supplierTelephone != null  and supplierTelephone != ''  ">#{supplierTelephone},</if>
+            <if test="supplierEmail != null  and supplierEmail != ''  ">#{supplierEmail},</if>
+            <if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSupplier" parameterType="com.ruoyi.system.domain.SysSupplier">
+        update sys_supplier
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplierName != null  and supplierName != ''  ">supplier_name = #{supplierName},</if>
+            <if test="supplierCompanyName != null  and supplierCompanyName != ''  ">supplier_name = #{supplierCompanyName},</if>
+            <if test="supplierAddress != null  and supplierAddress != ''  ">supplier_address = #{supplierAddress},</if>
+            <if test="supplierTelephone != null  and supplierTelephone != ''  ">supplier_telephone = #{supplierTelephone},</if>
+            <if test="supplierEmail != null  and supplierEmail != ''  ">supplier_email = #{supplierEmail},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where supplier_id = #{supplierId}
+    </update>
+
+	<delete id="deleteSupplierById" parameterType="Long">
+        update sys_supplier set del_flag=1 where supplier_id = #{supplierId}
+    </delete>
+	
+    <delete id="deleteSupplierByIds" parameterType="String">
+        update sys_supplier set del_flag=1 where supplier_id in
+        <foreach item="supplierId" collection="array" open="(" separator="," close=")">
+            #{supplierId}
+        </foreach>
+    </delete>
+    
+</mapper>

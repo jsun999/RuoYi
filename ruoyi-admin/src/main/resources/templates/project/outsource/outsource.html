@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('外发记录列表')" />
+	<th:block th:include="include :: select2-css" />
+	<style type="text/css">
+		.select2-container--bootstrap .select2-selection {
+			border-radius:4px;
+		}
+		.select2-container{
+			display:inline-block;
+		}
+	</style>
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								零件名称：
+								<div style="display: inline-block;width:200px;height:30px;">
+									<select name="partId" class="form-control" th:with="parts=${@part.getParts(false,'外发')}">
+										<option value="">所有</option>
+										<option th:each="part:${parts}" th:value="${part.partId}" th:text="${part.partName}"></option>
+									</select>
+								</div>
+							</li>
+
+							<li>
+								项目：
+								<div style="display: inline-block;width:200px;height:30px;">
+									<select name="projectId" class="form-control" th:with="projects=${@project.getProjects(false)}">
+										<option value="">所有</option>
+										<option th:each="project:${projects}" th:value="${project.projectId}" th:text="${project.projectName}"></option>
+									</select>
+								</div>
+							</li>
+
+							<li>
+								规格：<input type="text" name="norms"/>
+							</li>
+
+							<li class="select-time">
+								<label>交期： </label>
+								<input type="text" class="time-input" id="ourDeliveryTime" name="ourDeliveryTime"/>
+							</li>
+
+							<li>
+								外发状态：
+								<select name="status" th:with="type=${@dict.getType('sys_outsource_status')}">
+									<option value="">所有</option>
+									<option th:each="status : ${type}" th:text="${status.dictLabel}" th:value="${status.dictValue}"></option>
+								</select>
+							</li>
+
+							<li class="select-time">
+								<label>外发交期：</label>
+								<input type="text" class="time-input" id="outDeliveryTime" name="outDeliveryTime"/>
+							</li>
+
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="project:outsource:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="project:outsource:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="project:outsource:export">
+					<i class="fa fa-download"></i> 导出
+				</a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: select2-js" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('project:outsource:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('project:outsource:remove')}]];
+        var prefix = ctx + "project/outsource";
+		var datas = [[${@dict.getType('sys_outsourse_status')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "外发记录",
+		        showExport: true,
+				showFooter:true,  //开启底部
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'outsourceId', 
+					title : '外发ID',
+					visible: false
+				},
+				{
+					field : 'partName',
+					title : '零件名称',
+					sortable: true,
+					footerFormatter: function(value){
+						return "金额合计";
+					}
+				},
+				{
+					field : 'projectName',
+					title : '项目名称',
+					sortable: true
+				},
+				{
+					field : 'norms', 
+					title : '规格',
+					sortable: true
+				},
+				{
+					field : 'ourUnitprice', 
+					title : '报价',
+					sortable: true
+				},
+				{
+					field : 'ourQuantity', 
+					title : '总数',
+					sortable: true
+				},
+				{
+					field : 'ourTotalamount', 
+					title : '总价',
+					sortable: true,
+					formatter:function (value, row, index) {
+						return (row.ourQuantity)*(row.ourUnitprice);
+					},
+					footerFormatter: function(rows){
+						var sum = 0;
+						for (var i=0;i<rows.length;i++) {
+							sum += (rows[i].ourQuantity)*(rows[i].ourUnitprice);
+						}
+						return sum.toFixed(2);
+					}
+				},
+				{
+					field : 'ourDeliveryTime', 
+					title : '交期',
+					sortable: true
+				},
+				{
+					field : 'outUnitprice', 
+					title : '外发单价',
+					sortable: true
+				},
+				{
+					field : 'outQuantity', 
+					title : '外发数量',
+					sortable: true
+				},
+				{
+					field : 'outTotalamount', 
+					title : '外发总价',
+					sortable: true,
+					formatter:function (value, row, index) {
+						return (row.outQuantity)*(row.outUnitprice);
+					},
+					footerFormatter: function(rows){
+						var sum = 0;
+						for (var i=0;i<rows.length;i++) {
+							sum += (rows[i].outQuantity)*(rows[i].outUnitprice);
+						}
+						return sum.toFixed(2);
+					}
+				},
+				{
+					field : 'status', 
+					title : '外发状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(datas, value);
+					}
+				},
+				{
+					field : 'outDeliveryTime', 
+					title : '外发交期',
+					sortable: true
+				},
+				{
+					field : 'pmUserName',
+					title : '负责人',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'remark', 
+					title : '备注',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.outsourceId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.outsourceId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

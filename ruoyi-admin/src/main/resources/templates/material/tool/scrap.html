@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('报废刀具')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tool-edit" th:object="${tool}">
+			<input id="toolPartNumber" name="toolPartNumber" th:field="*{toolPartNumber}"  type="hidden">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">请输入数量：</label>
+				<div class="col-sm-8">
+					<input id="quantity" name="quantity" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">操作人：</label>
+				<div class="col-sm-8">
+					<select id="userId" name="userId" th:with="type=${@user.getUser(null)}" class="form-control">
+						<option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
+					</select>
+				</div>
+			</div>
+		</form>
+    </div>
+	<th:block th:include="include::footer" />
+    <script type="text/javascript">
+		var prefix = ctx + "material/tool";
+		$("#form-tool-edit").validate({
+			rules:{
+				quantity:{
+					digits:true
+				},
+				userId:{
+					required: true
+				}
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/scrap", $('#form-tool-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,4 +1,15 @@
+// var thisIframe;
 $(function () {
+/*    var frameid = $("div.page-tabs-content").children(".active").data("id");
+    var thisFrame = function(){
+        $("#side-menu a.menuItem").each(function () {
+            if($(this).attr("href")==frameid){
+                return $(window.frames["iframe"+$(this).data("index")]);
+            }
+        });
+    };
+    thisIframe= thisFrame();*/
+
     listObjects();
 })
 var currentPath = "";
@@ -53,140 +64,171 @@ function listObjects(){
         }
     });
 }
-
-var showObjectsContents = function (param) {
-    var txt = "<dd class=\"g-clearfix AuPKyz open-enable\" _position=\"0\"\n" +
-        "    _cmd_installed=\"1\" _installed=\"1\">"+
+var getFolder = function(dir,type){
+    if(type==1){
+        var arr = dir.split("/")
+        if(arr[arr.length-2]==undefined){
+            return "全部文件";
+        }else{
+            return arr[arr.length-2];
+        }
+    }else if(type==2){
+        var arr = dir.split("/")
+        if(arr[arr.length-3]==undefined){
+            return "全部文件";
+        }else{
+            return arr[arr.length-3];
+        }
+    }
+}
+var showObjectsContents = function (param,searchType) {
+    var txt =
+        "<dd class=\"g-clearfix AuPKyz open-enable\" _position=\"0\"\n" +
+        "_cmd_installed=\"1\" _installed=\"1\" data-type='1'>"+
         "<span node-type=\"EOGexf\" class=\"EOGexf\">\n" +
-        "        <span class=\"icon NbKJexb\">\n" +
+        "<span class=\"icon NbKJexb\">\n" +
         "</span>\n" +
-        "    </span>\n" +
-        "    <div class=\"creyDgd "+ getType(param['Key']) +"\"></div>\n" +
-        "        <div class=\"file-name\" style=\"width:60%\">\n" +
-        "        <div class=\"text\">\n" +
-        "        <a href=\"javascript:void(0);\" class=\"ltvdXqk\" title="+getFileName(param['Key'])+ ">"+ getFileName(param['Key'])+"</a>\n" +
-        "        </div>\n" +
+        "</span>\n" +
+        "<div class=\"creyDgd "+ getType(param['Key']) +"\"></div>\n" +
+        "<div class=\"file-name\" style=\"width:60%\">\n" +
+        "<div class=\"text\">\n" +
+        "<a href=\"javascript:void(0);\" class=\"ltvdXqk\" title="+getFileName(param['Key'])+ ">"+ getFileName(param['Key'])+"</a>\n" +
+        "</div>\n" +
         "<div class=\"operate\">\n" +
-        "     <div class=\"button-box-mark\" style=\"display:inline-block;*display:inline;*zoom:1;width:1px;height:1px;line-height:0;\"></div>\n" +
-        "          <div class=\"x-button-box\" style=\"position: absolute; top: 0px; line-height: normal; visibility: visible; width: 0px; padding-left: 0px; display: block;\">\n" +
-        "              <div style=\"display:none;width:100%;height:100%;z-index:30;position:absolute;top:0;left:0;\"></div>\n" +
-        "                     <a class=\"g-button\" data-button-id=\"b9\" data-button-index=\"1\" href=\"javascript:;\" title=\"分享\" style=\"display: inline-block;\">\n" +
-        "            <span class=\"g-button-right\">\n" +
-        "               <em class=\"icon icon-share\" title=\"分享\"></em>\n" +
-        "                           <span class=\"text\" style=\"width: auto;\">分享</span>\n" +
-        "                 </span>\n" +
-        "                  </a>\n" +
-        "                <a class=\"g-button\" data-button-id=\"b11\" data-button-index=\"2\" href=\"javascript:;\" title=\"下载\" style=\"display: inline-block;\">\n" +
-        "                              <span class=\"g-button-right\">\n" +
-        "                       <em class=\"icon icon-download\" title=\"下载\"></em>\n" +
-        "                  <span class=\"text\" style=\"width: auto;\">下载</span>\n" +
-        "                            </span>\n" +
-        "                        </a>\n" +
-        "                            <span class=\"g-dropdown-button tools-more\" style=\"display: inline-block;\">\n" +
-        "                      <a class=\"g-button\" data-button-id=\"b29\" data-button-index=\"\" href=\"javascript:;\" title=\"更多\">\n" +
-        "                        <span class=\"g-button-right\">\n" +
-        "                        <em class=\"icon icon-more\" title=\"更多\"></em>\n" +
-        "                      <span class=\"text\" style=\"width: auto;\">更多</span>\n" +
-        "                         </span>\n" +
-        "                           <i class=\"button-red-light-icon tools-more-red-light-icon\"></i>\n" +
-        "                         </a>\n" +
-        "                           <span class=\"menu\" style=\"width: 68px;\">\n" +
-        "                             <a style=\"display:none;\" data-menu-id=\"b-menu0\" class=\"g-button-menu g-menu-hasIcon\" href=\"javascript:;\">\n" +
-        "                     <em class=\"icon icon-share\"></em>分享\n" +
-        "                                  </a>\n" +
-        "                      <a style=\"display:none;\" data-menu-id=\"b-menu1\" class=\"g-button-menu g-menu-hasIcon\" href=\"javascript:;\">\n" +
-        "                 <em class=\"icon icon-download\"></em>下载\n" +
-        "                       </a>\n" +
-        "                    <a style=\"display: block;\" data-menu-id=\"b-menu2\" class=\"g-button-menu\" href=\"javascript:;\">移动到</a>\n" +
-        "                <a style=\"display: block;\" data-menu-id=\"b-menu3\" class=\"g-button-menu\" href=\"javascript:;\">复制到</a>\n" +
-        "                <a style=\"display: block;\" data-menu-id=\"b-menu4\" class=\"g-button-menu\" href=\"javascript:;\">重命名</a>\n" +
-        "              <a style=\"display: block;\" data-menu-id=\"b-menu5\" class=\"g-button-menu\" href=\"javascript:delObject(\'"+param['Key']+"\');\">删除</a>\n" +
-        "                     </span>\n" +
-        "              </span>\n" +
-        "              </div>\n" +
-        "       </div>"+
-        "        </div>\n" +
-        "        <div class=\"wsbdJ7D\" style=\"width:16%\">"+getSize(param['Size'])+"</div>\n" +
-        "        <div class=\"pdgbd47Z\" style=\"width:23%\">"+convertUTCTimeToLocalTime(param['LastModified'])+"</div>\n" +
-        "    <div class=\"ufuryDBg\" style=\"width:0%\">\n" +
-        "        <span class=\"oyLE7b\" node-type=\"xeLW3p\"></span>\n" +
-        "        </div>\n" +
-        "        </dd>"
+        "<div class=\"button-box-mark\" style=\"display:inline-block;*display:inline;*zoom:1;width:1px;height:1px;line-height:0;\"></div>\n" +
+        "<div class=\"x-button-box\" style=\"position: absolute; top: 0px; line-height: normal; visibility: visible; width: 0px; padding-left: 0px; display: block;\">\n" +
+        "<div style=\"display:none;width:100%;height:100%;z-index:30;position:absolute;top:0;left:0;\"></div>\n" +
+        "<a class=\"g-button\" data-button-id=\"b9\" data-button-index=\"1\" href=\"javascript:share(\'"+param['Key']+"\','1');\" title=\"分享\" style=\"display: inline-block;\">\n" +
+        "<span class=\"g-button-right\">\n" +
+        "<em class=\"icon icon-share\" title=\"分享\"></em>\n" +
+        "<span class=\"text\" style=\"width: auto;\">分享</span>\n" +
+        "</span>\n" +
+        "</a>\n" +
+        "<a class=\"g-button\" data-button-id=\"b11\" data-button-index=\"2\" href=\"javascript:javascript:downloadFile(\'"+param['Key']+"\');\" title=\"下载\" style=\"display: inline-block;\">\n" +
+        "<span class=\"g-button-right\">\n" +
+        "<em class=\"icon icon-download\" title=\"下载\"></em>\n" +
+        "<span class=\"text\" style=\"width: auto;\">下载</span>\n" +
+        "</span>\n" +
+        "</a>\n" +
+        "<span class=\"g-dropdown-button tools-more\" style=\"display: inline-block;\">\n" +
+        "<a class=\"g-button\" data-button-id=\"b29\" data-button-index=\"\" href=\"javascript:;\" title=\"更多\">\n" +
+        "<span class=\"g-button-right\">\n" +
+        "<em class=\"icon icon-more\" title=\"更多\"></em>\n" +
+        "<span class=\"text\" style=\"width: auto;\">更多</span>\n" +
+        "</span>\n" +
+        "<i class=\"button-red-light-icon tools-more-red-light-icon\"></i>\n" +
+        "</a>\n" +
+        "<span class=\"menu\" style=\"width: 68px;\">\n" +
+        "<a style=\"display: block;\" data-menu-id=\"b-menu2\" class=\"g-button-menu\" href=\"javascript:;\">移动到</a>\n" +
+        "<a style=\"display: block;\" data-menu-id=\"b-menu3\" class=\"g-button-menu\" href=\"javascript:;\">复制到</a>\n" +
+        "<a style=\"display: block;\" data-menu-id=\"b-menu4\" class=\"g-button-menu\" onclick=\"rename(this)\">重命名</a>\n" +
+        "<a style=\"display: block;\" data-menu-id=\"b-menu5\" class=\"g-button-menu\" href=\"javascript:delObjectConfirm(\'"+param['Key']+"\');\">删除</a>\n" +
+        "</span>\n" +
+        "</span>\n" +
+        "</div>\n" +
+        "</div>"+
+        "</div>\n" +
+        "<div class=\"wsbdJ7D\" style=\"width:16%\">"+getSize(param['Size'])+"</div>\n"
+    if(searchType==1){
+        txt+="<div class=\"pdgbd47Z\" style=\"width:13%\">"+convertUTCTimeToLocalTime(param['LastModified'])+"</div>\n" +
+        "<div class=\"ufuryDBg\" style=\"width:9%\"><span onclick=\"javascript:goDetail(\'"+param['Key'].substring(0,param['Key'].lastIndexOf("/")+1)+"\');\" class=\"oyLE7b\" node-type=\"xeLW3p\" title="+ getFolder(param['Key'],1) +">"+getFolder(param['Key'],1)+"</span></div>";
+    }else {
+        txt+="<div class=\"pdgbd47Z\" style=\"width:23%\">"+convertUTCTimeToLocalTime(param['LastModified'])+"</div>\n" +
+            "<div class=\"ufuryDBg\" style=\"width:0%\">\n" ;
+    }
+        txt+=
+        "<span class=\"oyLE7b\" node-type=\"xeLW3p\"></span>\n" +
+        "</div>\n" +
+        "</dd>"
     $("div .vdAfKMb").append(txt);
 }
-
-
-
 var getFileName = function (fullName) {
-    return fullName.substring(fullName.lastIndexOf("/")+1,fullName.length);
+    if(fullName.endsWith("/")){
+        return fullName.substring(fullName.substring(0,fullName.length-1).lastIndexOf("/")+1,fullName.length-1);
+    }else{
+        return fullName.substring(fullName.lastIndexOf("/")+1,fullName.length);
+    }
 }
-
-var showObjectsCommonPrefixes = function (param) {
-    var txt = "<dd class=\"g-clearfix AuPKyz open-enable\" _position=\"0\"\n" +
-        "    _cmd_installed=\"1\" _installed=\"1\">"+
-        "<span node-type=\"EOGexf\" class=\"EOGexf\">\n" +
-        "        <span class=\"icon NbKJexb\">\n" +
-        "</span>\n" +
-        "    </span>\n" +
-        "    <div class=\"creyDgd dir-small\"></div>\n" +
-        "        <div class=\"file-name\" style=\"width:60%\">\n" +
-        "        <div class=\"text\">\n" +
-        "        <a href=\"javascript:goDetail(\'"+param['Prefix']+"\');\" class=\"ltvdXqk\" title="+getFileName(param['Prefix'].substring(0,param['Prefix'].length-1))+ ">"+ getFileName(param['Prefix'].substring(0,param['Prefix'].length-1))+"</a>\n" +
-        "        </div>\n" +
-        "<div class=\"operate\">\n" +
-        "     <div class=\"button-box-mark\" style=\"display:inline-block;*display:inline;*zoom:1;width:1px;height:1px;line-height:0;\"></div>\n" +
-        "          <div class=\"x-button-box\" style=\"position: absolute; top: 0px; line-height: normal; visibility: visible; width: 0px; padding-left: 0px; display: block;\">\n" +
-        "              <div style=\"display:none;width:100%;height:100%;z-index:30;position:absolute;top:0;left:0;\"></div>\n" +
-        "                     <a class=\"g-button\" data-button-id=\"b9\" data-button-index=\"1\" href=\"javascript:;\" title=\"分享\" style=\"display: inline-block;\">\n" +
-        "            <span class=\"g-button-right\">\n" +
-        "               <em class=\"icon icon-share\" title=\"分享\"></em>\n" +
-        "                           <span class=\"text\" style=\"width: auto;\">分享</span>\n" +
-        "                 </span>\n" +
-        "                  </a>\n" +
-        "                <a class=\"g-button\" data-button-id=\"b11\" data-button-index=\"2\" href=\"javascript:;\" title=\"下载\" style=\"display: inline-block;\">\n" +
-        "                              <span class=\"g-button-right\">\n" +
-        "                       <em class=\"icon icon-download\" title=\"下载\"></em>\n" +
-        "                  <span class=\"text\" style=\"width: auto;\">下载</span>\n" +
-        "                            </span>\n" +
-        "                        </a>\n" +
-        "                            <span class=\"g-dropdown-button tools-more\" style=\"display: inline-block;\">\n" +
-        "                      <a class=\"g-button\" data-button-id=\"b29\" data-button-index=\"\" href=\"javascript:;\" title=\"更多\">\n" +
-        "                        <span class=\"g-button-right\">\n" +
-        "                        <em class=\"icon icon-more\" title=\"更多\"></em>\n" +
-        "                      <span class=\"text\" style=\"width: auto;\">更多</span>\n" +
-        "                         </span>\n" +
-        "                           <i class=\"button-red-light-icon tools-more-red-light-icon\"></i>\n" +
-        "                         </a>\n" +
-        "                           <span class=\"menu\" style=\"width: 68px;\">\n" +
-        "                             <a style=\"display:none;\" data-menu-id=\"b-menu0\" class=\"g-button-menu g-menu-hasIcon\" href=\"javascript:;\">\n" +
-        "                     <em class=\"icon icon-share\"></em>分享\n" +
-        "                                  </a>\n" +
-        "                      <a style=\"display:none;\" data-menu-id=\"b-menu1\" class=\"g-button-menu g-menu-hasIcon\" href=\"javascript:;\">\n" +
-        "                 <em class=\"icon icon-download\"></em>下载\n" +
-        "                       </a>\n" +
-        "                    <a style=\"display: block;\" data-menu-id=\"b-menu2\" class=\"g-button-menu\" href=\"javascript:;\">移动到</a>\n" +
-        "                <a style=\"display: block;\" data-menu-id=\"b-menu3\" class=\"g-button-menu\" href=\"javascript:;\">复制到</a>\n" +
-        "                <a style=\"display: block;\" data-menu-id=\"b-menu4\" class=\"g-button-menu\" href=\"javascript:;\">重命名</a>\n" +
-        "              <a style=\"display: block;\" data-menu-id=\"b-menu5\" class=\"g-button-menu\" href=\"javascript:delObject(\'"+param['Key']+"\');\">删除</a>\n" +
-        "                     </span>\n" +
-        "              </span>\n" +
-        "              </div>\n" +
-        "        </div>"+
-        "        </div>\n" +
-        "        <div class=\"wsbdJ7D\" style=\"width:16%\">-</div>\n" +
-        "        <div class=\"pdgbd47Z\" style=\"width:23%\"></div>\n" +
-        "    <div class=\"ufuryDBg\" style=\"width:0%\">\n" +
-        "        <span class=\"oyLE7b\" node-type=\"xeLW3p\"></span>\n" +
-        "        </div>\n" +
-        "        </dd>"
-    $("div .vdAfKMb").append(txt);
+function addfolderTxt(param,searchType){
+    var arr=new Array();
+    arr.push("<dd class=\"g-clearfix AuPKyz open-enable\" _position=\"0\"\n");
+    arr.push("_cmd_installed=\"1\" _installed=\"1\" data-type='2'>");
+    arr.push("<span node-type=\"EOGexf\" class=\"EOGexf\">\n");
+    arr.push("<span class=\"icon NbKJexb\">\n");
+    arr.push("</span>\n");
+    arr.push("</span>\n");
+    arr.push("<div class=\"creyDgd dir-small\"></div>\n");
+    arr.push("<div class=\"file-name\" style=\"width:60%\">\n");
+    arr.push("<div class=\"text\">\n");
+    if(param==undefined||param==null){
+        arr.push("<a href=\"javascript:;\" class=\"ltvdXqk\" title=\"-\">-</a>\n");
+    }else{
+        arr.push("<a href=\"javascript:goDetail(\'"+param['Prefix']+"\');\" class=\"ltvdXqk\" title="+getFileName(param['Prefix'].substring(0,param['Prefix'].length-1))+ ">"+ getFileName(param['Prefix'].substring(0,param['Prefix'].length-1))+"</a>\n");
+    }
+    arr.push("</div>\n");
+    arr.push("<div class=\"operate\">\n");
+    arr.push("<div class=\"button-box-mark\" style=\"display:inline-block;*display:inline;*zoom:1;width:1px;height:1px;line-height:0;\"></div>\n");
+    arr.push("<div class=\"x-button-box\" style=\"position: absolute; top: 0px; line-height: normal; visibility: visible; width: 0px; padding-left: 0px; display: block;\">\n");
+    arr.push("<div style=\"display:none;width:100%;height:100%;z-index:30;position:absolute;top:0;left:0;\"></div>\n");
+    arr.push("<a class=\"g-button\" data-button-id=\"b9\" data-button-index=\"1\" href=\"javascript:share(\'"+param['Prefix']+"\','2');\" title=\"分享\" style=\"display: inline-block;\">\n");
+    arr.push("<span class=\"g-button-right\">\n");
+    arr.push("<em class=\"icon icon-share\" title=\"分享\"></em>\n");
+    arr.push("<span class=\"text\" style=\"width: auto;\">分享</span>\n");
+    arr.push("</span>\n");
+    arr.push("</a>\n");
+    if(param==undefined||param==null){
+        arr.push("<a class=\"g-button\" data-button-id=\"b11\" data-button-index=\"2\" href=\"javascript:;\" title=\"下载\" style=\"display: inline-block;\">\n");
+    }else{
+        arr.push("<a class=\"g-button\" data-button-id=\"b11\" data-button-index=\"2\" href=\"javascript:downloadFile(\'"+param['Prefix']+"\');\" title=\"下载\" style=\"display: inline-block;\">\n");
+    }
+    arr.push("<span class=\"g-button-right\">\n");
+    arr.push("<em class=\"icon icon-download\" title=\"下载\"></em>\n");
+    arr.push("<span class=\"text\" style=\"width: auto;\">下载</span>\n");
+    arr.push("</span>\n");
+    arr.push("</a>\n");
+    arr.push("<span class=\"g-dropdown-button tools-more\" style=\"display: inline-block;\">\n");
+    arr.push("<a class=\"g-button\" data-button-id=\"b29\" data-button-index=\"\" href=\"javascript:;\" title=\"更多\">\n");
+    arr.push("<span class=\"g-button-right\">\n");
+    arr.push("<em class=\"icon icon-more\" title=\"更多\"></em>\n");
+    arr.push("<span class=\"text\" style=\"width: auto;\">更多</span>\n");
+    arr.push("</span>\n");
+    arr.push("<i class=\"button-red-light-icon tools-more-red-light-icon\"></i>\n");
+    arr.push("</a>\n");
+    arr.push("<span class=\"menu\" style=\"width: 68px;\">\n");
+    arr.push("<a style=\"display: block;\" data-menu-id=\"b-menu2\" class=\"g-button-menu\" href=\"javascript:;\">移动到</a>\n");
+    arr.push("<a style=\"display: block;\" data-menu-id=\"b-menu3\" class=\"g-button-menu\" href=\"javascript:;\">复制到</a>\n");
+    arr.push("<a style=\"display: block;\" data-menu-id=\"b-menu4\" class=\"g-button-menu\" onclick=\"rename(this)\">重命名</a>\n");
+    if(param==undefined||param==null){
+        arr.push("<a style=\"display: block;\" class=\"g-button-menu\" href=\"javascript:;\">删除</a>\n");
+    }else{
+        arr.push("<a style=\"display: block;\" class=\"g-button-menu\" href=\"javascript:delObjectConfirm(\'"+param['Prefix']+"\');\">删除</a>\n");
+    }
+    arr.push("</span>\n");
+    arr.push("</span>\n");
+    arr.push("</div>\n");
+    arr.push("</div>");
+    arr.push("</div>\n");
+    arr.push("<div class=\"wsbdJ7D\" style=\"width:16%\">-</div>\n");
+    if(searchType==1){
+        arr.push("<div class=\"pdgbd47Z\" style=\"width:13%\"></div>\n");
+        arr.push("<div class=\"ufuryDBg\" style=\"width:9%\"><span onclick=\"javascript:goDetail(\'"+param['Prefix'].substring(0,param['Prefix'].lastIndexOf("/")+1)+"\');\" class=\"oyLE7b\" node-type=\"xeLW3p\" title="+getFolder(param['Prefix'],2)+">"+getFolder(param['Prefix'],2)+"</span></div>");
+    }else{
+        arr.push("<div class=\"pdgbd47Z\" style=\"width:23%\"></div>\n");
+        arr.push("<div class=\"ufuryDBg\" style=\"width:0%\">\n");
+    }
+    arr.push("<span class=\"oyLE7b\" node-type=\"xeLW3p\"></span>\n");
+    arr.push("</div>\n");
+    arr.push("</dd>");
+    var str=arr.join("");
+    return str;
 }
-
+var showObjectsCommonPrefixes = function (param,searchType) {
+    $("div .vdAfKMb").append(addfolderTxt(param,searchType));
+}
 var goDetail = function (dir) {
     currentPath=dir;
     $("div .vdAfKMb").empty();
     changePath(dir);
-    $("#FuIxtL").show();
     obs.listObjects({
         Bucket : 'guidang1',
         MaxKeys : 1000,
@@ -213,8 +255,11 @@ var goDetail = function (dir) {
         }
     });
 }
-
 var changePath = function(dir){
+    if(dir==""){
+        $("#FuIxtL").hide();
+        return;
+    }
     $("#linkfolder").empty();
     var txt = "<a href=\"javascript:listObjects();\" title=\"全部文件\">全部文件</a><span class=\"KLxwHFb\">&gt;</span>";
     $("#linkfolder").append(txt);
@@ -227,6 +272,7 @@ var changePath = function(dir){
     var txt2 = "<span title="+dir+">"+ arr[arr.length-2] +"</span>";
     $("#linkfolder").append(txt2);
     changeGoback(dir,arr);
+    $("#FuIxtL").show();
 }
 var changeGoback = function (dir,arr){
     if(arr.length>2){
@@ -247,7 +293,6 @@ var getPath = function(dir,index){
     }
     return dir.substring(0,x+1);
 }
-
 var getType = function(fileName){
     var type = fileName.substr(fileName.lastIndexOf(".")+1);
     if(fileType[type]==""||fileType[type]==null||fileType[type]==undefined){
@@ -255,11 +300,10 @@ var getType = function(fileName){
     }
     return fileType[type][0];
 }
-
 var getSize = function (limit){
     var size = "";
     if(limit < 0.1 * 1024){                            //小于0.1KB，则转化成B
-        size = limit.toFixed(2) + "B"
+        size = limit + "B"
     }else if(limit < 0.1 * 1024 * 1024){            //小于0.1MB，则转化成KB
         size = (limit/1024).toFixed(2) + "KB"
     }else if(limit < 0.1 * 1024 * 1024 * 1024){        //小于0.1GB，则转化成MB
@@ -276,7 +320,6 @@ var getSize = function (limit){
     }
     return size;
 }
-
 var convertUTCTimeToLocalTime = function (UTCDateString) {
     if(!UTCDateString){
         return '-';
@@ -297,7 +340,6 @@ var convertUTCTimeToLocalTime = function (UTCDateString) {
     var dateStr = year+'-'+mon+'-'+day+' '+hour+':'+min+":"+sec;
     return dateStr;
 }
-
 var fileType = {
     "bt": ["fileicon-small-bt", "fileicon-large-bt", "fileicon-middle-bt"],
     "torrent": ["fileicon-small-bt", "fileicon-large-bt", "fileicon-middle-bt"],
@@ -455,7 +497,6 @@ var fileType = {
     "rar": ["fileicon-small-zip", "fileicon-large-zip", "fileicon-middle-zip"],
     "zip": ["fileicon-small-zip", "fileicon-large-zip", "fileicon-middle-zip"]
 }
-
 $("#uploadButton").mouseenter(function () {
     $("#uploadButton").addClass("button-open")
 });
@@ -464,11 +505,28 @@ $("#uploadButton").mouseleave(function () {
 });
 $('div.vdAfKMb').on("mouseenter","dd",function () {
     $(this).addClass("ehd7py");
-})
+});
 $('div.vdAfKMb').on("mouseleave","dd",function () {
     $(this).removeClass("ehd7py");
-})
-
+});
+$('#web-uploader div.dialog-control').eq(0).on("click","span.icon-minimize",function () {
+    $("#web-uploader div.dialog-header").hide();
+    $("#web-uploader div.dialog-min-header").show();
+    $("#web-uploader div.dialog-body").hide();
+});
+$('#web-uploader div.dialog-control').eq(0).on("click","span.icon-close",function () {
+    $("#web-uploader").hide();
+    clearUploadList();
+});
+$('#web-uploader div.dialog-control').eq(1).on("click","span.icon-maximizing",function () {
+    $("#web-uploader div.dialog-header").show();
+    $("#web-uploader div.dialog-min-header").hide();
+    $("#web-uploader div.dialog-body").show();
+});
+$('#web-uploader div.dialog-control').eq(1).on("click","span.icon-close",function () {
+    $("#web-uploader").hide();
+    clearUploadList();
+});
 $(document).ready(function(){
     $("#h5Input1").change(function () {
         if($(this).val() != ""){
@@ -489,9 +547,12 @@ var uploadFileFolder = function(file){
 }
 //上传单个文件
 var uploadFile = function(file){
+    $("#web-uploader em.select-text").eq(0).text("上传中");
+    $("#web-uploader em.select-text").eq(1).text("上传中");
     $("#web-uploader").show();
+    $("#web-downloader").hide();
     addUploadList(file);
-    var length = $("em.percent").length;
+    var length = $("#uploaderList em.percent").length;
     var name;
     if(file.webkitRelativePath==""){
         name = getUploadFileName(file.name);
@@ -505,24 +566,27 @@ var uploadFile = function(file){
         ProgressCallback: function(transferredAmount, totalAmount, totalSeconds){
             // 获取上传平均速率
             var speed = getSize(transferredAmount/ totalSeconds)+"/s";
-            $("em.speed").eq(length-1).html("("+speed+")");
+            $("#uploaderList em.speed").eq(length-1).html("("+speed+")");
             // 获取上传进度百分比
             var percent = (transferredAmount * 100.0 / totalAmount).toFixed(2)+"%";
-            $("em.percent").eq(length-1).html(percent);
-            $("div.process").eq(length-1).css("width",percent);
+            $("#uploaderList em.percent").eq(length-1).html(percent);
+            $("#uploaderList div.process").eq(length-1).css("width",percent);
         }
     }, function (err, result) {
         if(err){
             console.error('Error-->' + err);
         }else{
             if(result.CommonMsg.Status==200){
-                $("li.file-list").eq(length-1).removeClass("status-uploading");
-                $("li.file-list").eq(length-1).addClass("status-success");
+                $("#uploaderList li.file-list").eq(length-1).removeClass("status-uploading");
+                $("#uploaderList li.file-list").eq(length-1).addClass("status-success");
+                goDetail(currentPath);
             }
         }
     });
 };
-
+var clearUploadList = function () {
+    $("#uploaderList").empty();
+}
 var addUploadList = function(file){
     var txt = "<li class=\"file-list status-uploading\">\n" +
         "                        <div class=\"process\"></div>\n" +
@@ -574,45 +638,611 @@ var addUploadList = function(file){
         "                    </li>";
     $("#uploaderList").append(txt);
 };
-
 //云上的文件名
 var getUploadFileName = function(name){
     return currentPath+name;
 };
-
 var getFoldername = function (path) {
+    if(path==""){
+        return "全部文件";
+    }
     var arr = path.split("/");
     return arr[arr.length-2];
 }
-
-
 var uploadCallback = function(transferredAmount, totalAmount, totalSeconds){
 // 获取上传平均速率
     var speed = getSize(transferredAmount/ totalSeconds)+"/s";
-    $("em.speed").html("("+speed+")");
+    $("uploaderList em.speed").html("("+speed+")");
 // 获取上传进度百分比
     var percent = (transferredAmount * 100.0 / totalAmount).toFixed(2)+"%";
-    $("em.percent").html(percent);
-    $("div.process").css("width",percent);
+    $("uploaderList em.percent").html(percent);
+    $("uploaderList div.process").css("width",percent);
 };
 //绑定显示下拉菜单
 $("div.vdAfKMb").on("click",".g-dropdown-button",function () {
     $(this).toggleClass("button-open");
 })
-
+$('div.vdAfKMb').on("mouseleave",".g-dropdown-button",function () {
+    $(this).removeClass("button-open");
+})
+//弹出删除框
+var delObjectConfirm = function(name){
+    $("#confirm").show();
+    $("div.module-canvas").show();
+    $("#confirm a.g-button-blue-large").attr("data-filename",name);
+}
+//删除对象
+var delObject = function () {
+    $("#confirm").hide();$("div.module-canvas").hide();
+    var fileName = $("#confirm a.g-button-blue-large").attr("data-filename");
+    if(fileName.endsWith("/")){
+        delFileFolder(fileName);
+    }else{
+        delSingleObject(fileName);
+    }
+}
 //删除单个对象
-var delObject = function (name) {
+var delSingleObject = function (fileName) {
     obs.deleteObject({
         Bucket: 'guidang1',
-        Key : name
+        Key : fileName
     }, function (err, result) {
         if(err){
             console.log('Error-->' + err);
         }else{
-            console.log('Status-->' + result.CommonMsg.Status);
             if(result.CommonMsg.Status=="204"){
-                $("div.module-yun-tip").show();
+                goDetail(currentPath);
+                $("div.module-yun-tip").show().delay (2000).fadeOut();
             }
         }
+    });
+}
+//删除文件夹下的对象
+var delFileFolder = function(dir){
+    var fileList = [];
+    obs.listObjects({
+        Bucket : 'guidang1',
+        MaxKeys : 1000,
+        // Delimiter: '/',
+        // 设置文件夹对象名"dir/"为前缀
+        Prefix : dir
+    }, function (err, result) {
+        if(err){
+            console.error('Error-->' + err);
+        }else{
+            if(result.CommonMsg.Status < 300 && result.InterfaceResult){
+                for(var j in result.InterfaceResult.Contents){
+                    var xx={Key:result.InterfaceResult.Contents[j].Key};
+                    fileList.push(xx);
+                }
+                obs.deleteObjects({
+                    Bucket: 'guidang1',
+                    // 设置为verbose模式
+                    Quiet : false,
+                    Objects : fileList
+                }, function (err, result) {
+                    if(err){
+                        console.log('Error-->' + err);
+                    }else{
+                        console.log('Status-->' + result.CommonMsg.Status);
+                        if(result.CommonMsg.Status < 300 && result.InterfaceResult){
+                            goDetail(currentPath);
+                            $("div.module-yun-tip").show().delay (2000).fadeOut ();;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+}
+//取消删除
+var cancelDel = function(){
+    $("#confirm").hide();$("div.module-canvas").hide();
+}
+var downloadFile = function(filename){
+    if(filename.endsWith("/")){
+        downloadFileFolder(filename);
+    }else{
+        downloadSingleObject(filename);
+    }
+}
+var downloadSingleObject = function(file){
+    $("#web-downloader em.select-text").text("下载中");
+    $("#web-uploader").hide();
+    $("#web-downloader").show();
+    addDownloadList(file);
+    var length = $("#downloaderList em.percent").length;
+    obs.getObject({
+        Bucket : 'guidang1',
+        Key : file,
+        SaveByType : 'arraybuffer',
+        ProgressCallback:function(transferredAmount, totalAmount, totalSeconds){
+            $("#downloaderList div.file-size").eq(length-1).html(getSize(totalAmount));
+            // 获取上传平均速率
+            var speed = getSize(transferredAmount/ totalSeconds)+"/s";
+            $("#downloaderList em.speed").eq(length-1).html("("+speed+")");
+            // 获取上传进度百分比
+            var percent = (transferredAmount * 100.0 / totalAmount).toFixed(2)+"%";
+            $("#downloaderList em.percent").eq(length-1).html(percent);
+            $("#downloaderList div.process").eq(length-1).css("width",percent);
+            if(transferredAmount==totalAmount){
+                $("#downloaderList li.file-list").eq(length-1).removeClass("status-uploading");
+                $("#downloaderList li.file-list").eq(length-1).addClass("status-success");
+                goDetail(currentPath);
+            }
+
+        }
+    }, function (err, result) {
+        if(err){
+            console.error('Error-->' + err);
+        }else{
+            console.log('Status-->' + result.CommonMsg.Status);
+            if(result.CommonMsg.Status < 300 && result.InterfaceResult){
+                // 获取下载对象的路径
+                // window.open(result.InterfaceResult.Content.SignedUrl)
+                // var $eleForm = $("<form method='get'></form>");
+                // $eleForm.attr("action",result.InterfaceResult.Content.SignedUrl);
+                // $(document.body).append($eleForm);
+                // //提交表单，实现下载
+                // $eleForm.submit();
+                var data = new Blob([result.InterfaceResult.Content]);
+                var downloadUrl = window.URL.createObjectURL(data);
+                var anchor = document.createElement("a");
+                anchor.href = downloadUrl;
+                anchor.download = getFileName(file);
+                anchor.click();
+                window.URL.revokeObjectURL(data);
+            }
+        }
+    });
+};
+var downloadFileFolder = function (dir) {
+    var fileList=[];
+    obs.listObjects({
+        Bucket : 'guidang1',
+        MaxKeys : 1000,
+        // Delimiter: '/',
+        // 设置文件夹对象名"dir/"为前缀
+        Prefix : dir
+    }, function (err, result) {
+        if(err){
+            console.error('Error-->' + err);
+        }else{
+            if(result.CommonMsg.Status < 300 && result.InterfaceResult){
+                for(var j in result.InterfaceResult.Contents){
+                    fileList.push(result.InterfaceResult.Contents[j].Key);
+                }
+                dcb(fileList,downloadSingleObject);
+            }
+        }
+    });
+}
+var dcb = function(arr,cb){
+    for (var i of arr){
+        (function (i) {
+            cb(i);
+        })(i);
+    }
+}
+var addDownloadList = function(file){
+    var txt = "<li class=\"file-list status-uploading\">\n" +
+        "                        <div class=\"process\"></div>\n" +
+        "                        <div class=\"info\">\n" +
+        "                            <div class=\"file-name\" title=\""+ getFileName(file) +"\">\n" +
+        "                                <div class=\"file-icon fileicon-small-video\"></div>\n" +
+        "                                <span class=\"name-text\">"+ getFileName(file) +"</span></div>\n" +
+        "                            <div class=\"file-size\">"+ "" +"</div>\n" +
+        "                            <div class=\"file-status\">\n" +
+        "                                <span class=\"waiting\">排队中…</span>\n" +
+        "                                <span class=\"prepare\">准备下载…</span>\n" +
+        "                                <span class=\"uploading\">\n" +
+        "                                    <em class=\"percent\"></em>\n" +
+        "                                    <em class=\"speed\"></em>\n" +
+        "                                </span>\n" +
+        "                                <span class=\"error\">\n" +
+        "                                    <em></em>\n" +
+        "                                    <i>服务器错误</i>\n" +
+        "                                    <b></b>\n" +
+        "                                </span>\n" +
+        "                                <span class=\"caution\">\n" +
+        "                                    <em></em>\n" +
+        "                                    <i>服务器错误</i>\n" +
+        "                                    <b></b>\n" +
+        "                                </span>\n" +
+        "                                <span class=\"pause\">\n" +
+        "                                    <em></em>\n" +
+        "                                    <i>已暂停</i>\n" +
+        "                                </span>\n" +
+        "                                <span class=\"cancel\">\n" +
+        "                                    <em></em>\n" +
+        "                                    <i>已取消</i>\n" +
+        "                                </span>\n" +
+        "                                <span class=\"success\">\n" +
+        "                                    <em></em>\n" +
+        "                                    <i>下载成功</i>\n" +
+        "                                </span></div>\n" +
+        "                            <div class=\"file-operate\">\n" +
+        "                                <em class=\"operate-pause\"></em>\n" +
+        "                                <em class=\"operate-continue\"></em>\n" +
+        "                                <em class=\"operate-retry\"></em>\n" +
+        "                                <em class=\"operate-remove\"></em>\n" +
+        "                                <a class=\"error-link\" href=\"javascript:void(0);\">点我解决</a>\n" +
+        "                            </div>\n" +
+        "                        </div>\n" +
+        "                    </li>";
+    $("#downloaderList").append(txt);
+};
+$('#web-downloader div.dialog-control').eq(0).on("click","span.icon-minimize",function () {
+    $("#web-downloader div.dialog-header").hide();
+    $("#web-downloader div.dialog-min-header").show();
+    $("#web-downloader div.dialog-body").hide();
+});
+$('#web-downloader div.dialog-control').eq(0).on("click","span.icon-close",function () {
+    $("#web-downloader").hide();
+    $("#downloaderList").empty();
+});
+$('#web-downloader div.dialog-control').eq(1).on("click","span.icon-maximizing",function () {
+    $("#web-downloader div.dialog-header").show();
+    $("#web-downloader div.dialog-min-header").hide();
+    $("#web-downloader div.dialog-body").show();
+});
+$('#web-downloader div.dialog-control').eq(1).on("click","span.icon-close",function () {
+    $("#web-downloader").hide();
+    $("#downloaderList").empty();
+});
+//新建文件夹：1；重命名：2
+var neworrename=0;
+var newFileFolder = function () {
+    neworrename=1;
+    if($("div.ExFGye").is(':hidden')){
+        $("div.vdAfKMb").prepend(addfolderTxt());
+        $("div.ExFGye").show();
+        $("input.GadHyA").val("新建文件夹");
+        $("input.GadHyA").focus();
+        $("input.GadHyA").select();
+    }else{
+        return;
+    }
+}
+$("span.fvdQMx").on("click",function () {
+    var folderName="";
+    if(neworrename==1){
+        folderName = currentPath + $(this).prev().val()+"/";
+        obs.putObject({
+            Bucket : 'guidang1',
+            Key : folderName
+        }, function (err, result) {
+            if(err){
+                console.error('Error-->' + err);
+            }else{
+                if(result.CommonMsg.Status==200){
+                    $("div.ExFGye").hide();
+                    goDetail(currentPath);
+                }
+            }
+        });
+    }
+    if(neworrename==2){
+        var originname = $("div.vdAfKMb").children().eq($("div.ExFGye").data("index")).find("a.ltvdXqk").text();
+        folderName = currentPath + $(this).prev().val();
+        obs.copyObject({
+            Bucket: 'guidang1',
+            Key : folderName,
+            CopySource:'guidang1/'+currentPath + originname
+        }, function (err, result) {
+            if(err){
+                console.log('Error-->' + err);
+            }else{
+                console.log('Status-->' + result.CommonMsg.Status);
+            }
+        });
+    }
+});
+$("span.gtLWGp").on("click",function () {
+    $("div.ExFGye").hide();
+    $("input.GadHyA").val("");
+    if(neworrename==1){//新建文件夹
+        $("div.vdAfKMb").children().eq(0).remove();
+    }
+});
+var rename = function(obj){
+    neworrename=2;
+    var index = $(obj).parents("dd").parent().children().index($(obj).parents("dd"));
+    $("div.ExFGye").css("top",(58+44*index)+"px");
+    $("div.ExFGye").data("index",index);
+    $("div.ExFGye").show();
+    $("input.GadHyA").val($(obj).parents("dd").find("a.ltvdXqk").text());
+    $("input.GadHyA").focus();
+    $("input.GadHyA").select();
+
+}
+$("#searchCur").on("click",function () {
+    var patt = new RegExp("\\w*"+$(this).prev().prev().val()+"\\w*");
+    $("div .vdAfKMb").empty();
+    changePath1(currentPath,$(this).prev().prev().val());
+    obs.listObjects({
+        Bucket : 'guidang1',
+        MaxKeys : 1000,
+        Delimiter: '/',
+        // 设置文件夹对象名"dir/"为前缀
+        Prefix : currentPath
+    }, function (err, result) {
+        if(err){
+            console.error('Error-->' + err);
+        }else{
+            if(result.CommonMsg.Status < 300 && result.InterfaceResult){
+                for(var k in result.InterfaceResult.CommonPrefixes){
+                    if(patt.test(getFileName(result.InterfaceResult.CommonPrefixes[k]['Prefix']))){
+                        showObjectsCommonPrefixes(result.InterfaceResult.CommonPrefixes[k])
+                    }
+                }
+                for(var j in result.InterfaceResult.Contents){
+                    if(patt.test(getFileName(result.InterfaceResult.Contents[j]['Key']))){
+                        showObjectsContents(result.InterfaceResult.Contents[j])
+                    }
+                }
+            }
+        }
+    });
+});
+var changePath1 = function(dir,searchContent){
+    $("#linkfolder").empty();
+    var txt = "<a href=\"javascript:listObjects();\" title=\"全部文件\">全部文件</a><span class=\"KLxwHFb\">&gt;</span>";
+    $("#linkfolder").append(txt);
+    var arr = dir.split("/")
+    var arr1 = arr.slice(0,-1);
+    arr1.forEach(function(i,index){
+        var txt1 = "<a href=\"javascript:goDetail(\'"+getPath(dir,index)+"\');\" title=\""+ getPath(dir,index).substring(0,getPath(dir,index).length-1)+"\">"+ i + "</a><span class=\"KLxwHFb\">&gt;</span>";
+        $("#linkfolder").append(txt1);
+    });
+
+    var txt2 = "<span title="+dir+">搜索:"+ searchContent +"</span>";
+    $("#linkfolder").append(txt2);
+    changeGoback(dir,arr);
+    $("#FuIxtL").show();
+}
+$('#searchCurInput').bind('input propertychange', function() {
+    if($(this).val()==""){
+        goDetail(currentPath);
+    }else{
+        $("#curSearchDel").show();
+    }
+});
+$("#curSearchDel").on("click",function () {
+    $("#searchCurInput").val("");
+    $("#curSearchDel").hide();
+});
+$("#searchAll").on("click",function () {
+    var patt = new RegExp("\\w*"+$(this).prev().prev().val()+"\\w*");
+    $("div .vdAfKMb").empty();
+    $("li.MCGAxG").css("width","13%");
+    var txt =
+        "<li data-key=\"path-info\" class=\"fufHyA BEPxaPb gObdAzb \" style=\"width:10%;\">\n" +
+        "<span class=\"text\">所在目录</span>\n" +
+        "<span class=\"xEuDywb\"></span>\n" +
+        "<span class=\"icon aHEytd icon-up\"></span>\n" +
+        "<span class=\"icon sFxCFbb icon-downtitle\"></span>\n" +
+        "</li>"
+    $("ul.QAfdwP").append(txt);
+    changePath2("",$(this).prev().prev().val());
+    obs.listObjects({
+        Bucket: 'guidang1',
+        Delimiter: '/'
+    }).then(function(result)  {
+        if(result.CommonMsg.Status < 300){
+            for(var k in result.InterfaceResult.CommonPrefixes){
+                if(patt.test(result.InterfaceResult.CommonPrefixes[k]['Prefix'])){
+                    showObjectsCommonPrefixes(result.InterfaceResult.CommonPrefixes[k],1)
+                }
+            }
+            for(var j in result.InterfaceResult.Contents){
+                if(patt.test(result.InterfaceResult.Contents[j]['Key'])){
+                    showObjectsContents(result.InterfaceResult.Contents[j],1)
+                }
+            }
+
+            var listObjectsByPrefix = function(commonPrefixes){
+                var i=0;
+                for(;i<commonPrefixes.length;i++){
+                    obs.listObjects({
+                        Bucket: 'guidang1',
+                        Delimiter: '/',
+                        Prefix: commonPrefixes[i]['Prefix']
+                    }).then((function(i){
+                        return function(result){
+                            if(result.CommonMsg.Status < 300){
+                                for(var k in result.InterfaceResult.CommonPrefixes){
+                                    if(patt.test(getFileName(result.InterfaceResult.CommonPrefixes[k]['Prefix']))){
+                                        showObjectsCommonPrefixes(result.InterfaceResult.CommonPrefixes[k],1)
+                                    }
+                                }
+                                for(var j in result.InterfaceResult.Contents){
+                                    if(patt.test(getFileName(result.InterfaceResult.Contents[j]['Key']))&&result.InterfaceResult.Contents[j]['Key']!=commonPrefixes[i]['Prefix']){
+                                        showObjectsContents(result.InterfaceResult.Contents[j],1)
+                                    }
+                                }
+                                if(result.InterfaceResult.CommonPrefixes && result.InterfaceResult.CommonPrefixes.length > 0){
+                                    listObjectsByPrefix(result.InterfaceResult.CommonPrefixes);
+                                }
+                            }
+                        };
+                    })(i));
+                }
+            };
+
+            listObjectsByPrefix(result.InterfaceResult.CommonPrefixes);
+        }
+    });
+});
+var changePath2 = function(dir,searchContent){
+    $("#linkfolder").empty();
+    var txt = "<a href=\"javascript:listObjects();\" title=\"全部文件\">全部文件</a><span class=\"KLxwHFb\">&gt;</span>";
+    $("#linkfolder").append(txt);
+    var txt2 = "<span title="+dir+">搜索:"+ searchContent +"</span>";
+    $("#linkfolder").append(txt2);
+    changeGoback(dir,[]);
+    $("#FuIxtL").show();
+}
+$('#searchAllInput').bind('input propertychange', function() {
+    if($(this).val()==""){
+        goDetail(currentPath);
+    }else{
+        $("#allSearchDel").show();
+    }
+});
+$("#allSearchDel").on("click",function () {
+    $("#searchAllInput").val("");
+    $("#allSearchDel").hide();
+});
+$('div.zJMtAEb').on("click","span.EOGexf",function () {
+    $(this).parent().toggleClass("zwcb105L");
+    $("a.g-button").eq(2).show();
+    $("a.g-button").eq(3).show();
+    $("a.g-button").eq(4).show();
+    $("a.g-button").eq(5).show();
+    $("a.g-button").eq(6).show();
+});
+$('div.zJMtAEb').on("dblclick","dd.g-clearfix",function () {
+    if($(this).data("type")==2){
+        $(this).find("a.ltvdXqk")[0].click();
+    }
+});
+var checkShareTime = function(obj){
+    if(0<$(obj).val()&&$(obj).val()<=1080){
+        $(obj).css("border","1px solid #e9e9e9")
+        return;
+    }else{
+        $(obj).css("border","1px solid #ff0000")
+        alert("请输入0到1080的正整数")
+    }
+}
+var inputTime = function(obj){
+    $(obj).css("border","1px solid #39f")
+}
+// 分享
+var share = function(objname,type) {
+    if(type==1){
+        $("#share em.select-text").text("分享文件");
+        $("#shareFileName").text(getFileName(objname));
+        $("#urlArea").show();
+        $("#share").show();
+        $("#shareBtnTd").hide();
+        $("#copyTypeTd").show();
+        $("div.module-canvas").show();
+        $("#sharePath").val(objname);
+        createShare($("#shareTime").val()*60,objname)
+    }else if(type==2){
+        $("#share em.select-text").text("分享文件夹");
+        $("#copyTypeTd").hide();
+        $("#shareFileName").text(getFileName(objname));
+        $("#urlArea").hide();
+        $("#share").show();
+        $("div.module-canvas").show();
+        $("#shareBtnTd").show();
+        $("#createShareBtn").data("objname",objname);
+    }
+}
+var closeShare = function(){
+    $("#share").hide();
+    $("div.module-canvas").hide();
+}
+var copyURL = function(){
+    var oContent=document.getElementById("shareURL");
+    oContent.select();
+    document.execCommand("Copy");
+    $("#share div.create-success span.public").eq(0).show().delay (2000).fadeOut();
+}
+var copyPath =function(){
+    var oContent=document.getElementById("sharePath");
+    oContent.select();
+    document.execCommand("Copy");
+    $("#share div.create-success span.public").eq(1).show().delay (2000).fadeOut();
+}
+var createShare = function (time,objname) {
+    $("#copyTypeTd").show();
+    $("#urlArea").show();
+    $("#shareBtnTd").hide();
+    if(objname==null||objname==undefined){
+        objname=$("#createShareBtn").data("objname");
+    }
+    if(time==null||time==undefined){
+        time=$("#shareTime").val()*60;
+    }
+    var bucketName = 'guidang1';
+    var method = 'GET';
+    var res = obs.createSignedUrlSync({
+        Method: method,
+        Bucket: bucketName,
+        Key: objname,
+        Expires: time,
+    });
+    var reopt = {
+        method: method,
+        url: res.SignedUrl,
+        withCredentials: false,
+        headers: res.ActualSignedRequestHeaders || {},
+        validateStatus: function (status) {
+            return status >= 200;
+        },
+        maxRedirects: 0,
+        responseType: 'text',
+    };
+    axios.request(reopt).then(function (response) {
+        if (response.status < 300) {
+            console.log('Getting object using temporary signature succeed.');
+            $("#share textarea").val(response.config.url);
+        } else {
+            console.log('Getting object using temporary signature failed!');
+            console.log('status:' + response.status);
+            console.log('\n');
+        }
+    }).catch(function (err) {
+        console.log('Getting object using temporary signature failed!');
+        console.log(err);
+        console.log('\n');
+    });
+}
+var listShare = function (time,objname) {
+    $("#copyTypeTd").show();
+    $("#urlArea").show();
+    $("#shareBtnTd").hide();
+    if(objname==null||objname==undefined){
+        objname=$("#createShareBtn").data("objname");
+    }
+    if(time==null||time==undefined){
+        time=$("#shareTime").val()*60;
+    }
+    var bucketName = 'guidang1';
+    var method = 'GET';
+    var res = obs.createSignedUrlSync({
+        Method : method,
+        Bucket : bucketName,
+        Expires : time,
+    });
+    var reopt = {
+        method : method,
+        url : res.SignedUrl,
+        withCredentials: false,
+        headers : res.ActualSignedRequestHeaders || {},
+        validateStatus: function(status){
+            return status >= 200;
+        },
+        maxRedirects : 0,
+        responseType : 'text',
+    };
+    axios.request(reopt).then(function (response) {
+        if(response.status < 300){
+            console.log('Listing object using temporary signature succeed.');
+            $("#share textarea").val(response.config.url);
+        }else{
+            console.log('Listing object using temporary signature failed!');
+            console.log('status:' + response.status);
+            console.log('\n');
+        }
+    }).catch(function (err) {
+        console.log('Listing object using temporary signature failed!');
+        console.log(err);
+        console.log('\n');
     });
 }

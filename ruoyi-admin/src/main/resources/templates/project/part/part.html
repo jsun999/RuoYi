@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('零件列表')" />
+	<th:block th:include="include :: select2-css" />
+	<style type="text/css">
+		.select2-container--bootstrap .select2-selection {
+			border-radius:4px;
+		}
+		.select2-container{
+			display:inline-block;
+		}
+	</style>
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								项目：
+								<div style="display: inline-block;width:200px;height:30px;">
+									<select name="projectId" class="form-control" th:with="projects=${@project.getProjects(false)}">
+										<option value="">所有</option>
+										<option th:each="project:${projects}" th:value="${project.projectId}" th:text="${project.projectName}"></option>
+									</select>
+								</div>
+							</li>
+
+							<li>
+								零件名称：<input type="text" name="partName"/>
+							</li>
+
+							<li>
+								规格：<input type="text" name="partNorms"/>
+							</li>
+
+							<li>
+								工艺类型：
+								<select name="dealFlag" th:with="type=${@dict.getType('sys_craft_type')}">
+									<option value="">所有</option>
+									<option th:each="craft : ${type}" th:text="${craft.dictLabel}" th:value="${craft.dictValue}"></option>
+								</select>
+							</li>
+
+							<li>
+								编程人员：
+								<select name="pmUserId" th:with="type=${@user.getUser('201')}">
+									<option value="">所有</option>
+									<option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="project:part:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="project:part:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="project:part:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="project:part:export">
+					<i class="fa fa-download"></i> 导出
+				</a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <th:block th:include="include :: footer" />
+	<th:block th:include="include :: select2-js" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('project:part:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('project:part:remove')}]];
+		var datas = [[${@dict.getType('sys_craft_type')}]];
+        var prefix = ctx + "project/part";
+		var priceFlag = [[${@permission.hasPermi('project:part:price')}]];;
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "零件",
+		        showExport: true,
+				showFooter:true,  //开启底部
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'partId', 
+					title : '零件ID',
+					visible: false
+				},
+				{
+					field : 'projectName',
+					title : '项目名称',
+					sortable: true,
+					footerFormatter: function(value){
+						return "金额合计";
+					}
+				},
+				{
+					field : 'partName', 
+					title : '零件名称'
+				},
+				{
+					field : 'partNorms', 
+					title : '规格'
+				},
+				{
+					field : 'quantity', 
+					title : '数量',
+					sortable: true
+				},
+				{
+					field : 'unitPrice', 
+					title : '单价',
+					sortable: true
+				},
+				{
+					field : 'totalPrice',
+					title : '总价',
+					sortable: true,
+					formatter:function (value, row, index) {
+						return (row.quantity)*(row.unitPrice);
+					},
+					footerFormatter: function(rows){
+						var sum = 0;
+						for (var i=0;i<rows.length;i++) {
+							sum += (rows[i].quantity)*(rows[i].unitPrice);
+						}
+						return sum.toFixed(2);
+					}
+				},
+				{
+					field : 'deliveryTime', 
+					title : '交货时间',
+					sortable: true
+				},
+				{
+					field : 'craftType',
+					title : '工艺类型',
+					sortable: true,
+					align: 'center',
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(datas, value);
+					}
+				},
+				{
+					field : 'programUserName',
+					title : '编程人员',
+					sortable: true
+				},
+				{
+					field : 'remark', 
+					title : '备注'
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.partId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.partId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            if(priceFlag == "hidden"){
+				options.columns = options.columns.filter(function (item) {
+					return item.field!="unitPrice";
+				});
+			}
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

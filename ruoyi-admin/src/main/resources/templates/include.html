@@ -13,6 +13,8 @@
 	<link th:href="@{/css/animate.css}" rel="stylesheet"/>
 	<link th:href="@{/css/style.css}" rel="stylesheet"/>
 	<link th:href="@{/ruoyi/css/ry-ui.css}" rel="stylesheet"/>
+<!--	<link th:href="@{/js/plugins/luceneSearch/jquery.realtimeSearch.css}" rel="stylesheet">-->
+<!--	<link th:href="@{/js/plugins/jqueryAos/aos.css}" rel="stylesheet">-->
 </head>
 
 <!-- 通用JS -->
@@ -62,9 +64,12 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/sync-all_cdd0f48.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/disk.header.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/baidupage.css}">
-
+	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/share-all_3a477b9.css}">
 </div>
-
+<!--图表css-->
+<div th:fragment="chartCSS">
+	<link th:href="@{/css/chart/custom.min.css" rel="stylesheet">
+</div>
 <!--页面右键-->
 <div th:fragment="rightButton">
 	<link rel="stylesheet" type="text/css" th:href="@{/baidu/css/rightbutton.css}">
@@ -75,8 +80,8 @@
 
 <!--华为obs sdk-->
 <div th:fragment="huawei">
-	<script th:src="@{/js/esdk-obs-browserjs-3.1.4.min.js}"></script>
-	<script th:src="@{/js/esdk-obs-browserjs-without-polyfill-3.1.4.min.js}"></script>
+	<script th:src="@{/js/esdk-obs-browserjs-3.19.5.min.js}"></script>
+	<script th:src="@{/js/esdk-obs-browserjs-without-polyfill-3.19.5.min.js}"></script>
 	<script th:src="@{/js/huaweiOBS.js}"></script>
 </div>
 <!-- ztree树插件 -->
@@ -109,7 +114,7 @@
     <link th:href="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
 </div>
 <div th:fragment="datetimepicker-js">
-    <script th:src="@{/ajax/libs//datapicker/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.js}"></script>
 </div>
 
 <!-- ui布局插件 -->

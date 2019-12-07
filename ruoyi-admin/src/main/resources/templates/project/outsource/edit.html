@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改外发记录')" />
+	<th:block th:include="include :: select2-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-outsource-edit" th:object="${outsource}">
+            <input id="outsourceId" name="outsourceId" th:field="*{outsourceId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">零件名称：</label>
+				<div class="col-sm-8">
+					<select id="partId" name="partId" class="form-control" th:with="parts=${@part.getParts(false,'外发')}">
+						<option th:each="part:${parts}" th:value="${part.partId}" th:text="${part.partName}" th:field="*{partId}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">项目名称：</label>
+				<div class="col-sm-8">
+					<select name="projectId" class="form-control" th:with="projects=${@project.getProjects(false)}">
+						<option th:each="project:${projects}" th:value="${project.projectId}" th:text="${project.projectName}" th:field="*{projectId}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">规格：</label>
+				<div class="col-sm-8">
+					<input id="norms" name="norms" th:field="*{norms}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">报价：</label>
+				<div class="col-sm-8">
+					<input id="ourUnitprice" name="ourUnitprice" th:field="*{ourUnitprice}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">总数：</label>
+				<div class="col-sm-8">
+					<input id="ourQuantity" name="ourQuantity" th:field="*{ourQuantity}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">总价：</label>
+				<div class="col-sm-8">
+					<input disabled id="ourTotalamount" name="ourTotalamount" th:field="*{ourTotalamount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">交期：</label>
+				<div class="col-sm-8">
+					<div class="input-group date"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="ourDeliveryTime" name="ourDeliveryTime" type="text" class="time-input form-control" th:field="*{ourDeliveryTime}">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">外发单价：</label>
+				<div class="col-sm-8">
+					<input id="outUnitprice" name="outUnitprice" th:field="*{outUnitprice}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">外发数量：</label>
+				<div class="col-sm-8">
+					<input id="outQuantity" name="outQuantity" th:field="*{outQuantity}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">外发总价：</label>
+				<div class="col-sm-8">
+					<input disabled id="outTotalamount" name="outTotalamount" th:field="*{outTotalamount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">外发状态：</label>
+				<div class="col-sm-8">
+					<select id="status" name="status" class="form-control" th:with="type=${@dict.getType('sys_outsource_status')}">
+						<option value="">所有</option>
+						<option th:each="status : ${type}" th:text="${status.dictLabel}" th:value="${status.dictValue}" th:field="*{status}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">外发交期：</label>
+				<div class="col-sm-8">
+					<div class="input-group date"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="outDeliveryTime" name="outDeliveryTime" type="text" class="time-input form-control" th:field="*{outDeliveryTime}">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">负责人：</label>
+				<div class="col-sm-8">
+					<select name="pmUserId" th:with="type=${@user.getUser('104')}" class="form-control">
+						<option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}" th:field="*{pmUserId}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea name="remark" autocomplete="off" maxlength="500" class="form-control" rows="3">[[*{remark}]]</textarea>
+				</div>
+			</div>
+		</form>
+    </div>
+	<th:block th:include="include::footer" />
+	<th:block th:include="include :: select2-js" />
+    <script type="text/javascript">
+		var prefix = ctx + "project/outsource";
+		jQuery.validator.addMethod("isMoney", function(value, element) {
+			// return this.optional(element) || /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(value);  //金额,不允许货币格式
+			//允许, 货币格式
+			return this.optional(element) || /^([1-9]{1}[0-9]{0,3}(\,[0-9]{3,4})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/.test(value);
+		}, "请输入正确的金额格式");
+		$("#form-outsource-edit").validate({
+			rules:{
+				projectName:{
+					required:true,
+				},
+				partName:{
+					required:true,
+				},
+				ourQuantity:{
+					digits:true
+				},
+				ourUnitprice:{
+					isMoney: true
+				},
+				outQuantity:{
+					digits:true
+				},
+				outUnitprice:{
+					isMoney: true
+				}
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-outsource-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

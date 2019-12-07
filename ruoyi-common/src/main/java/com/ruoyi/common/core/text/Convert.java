@@ -5,6 +5,9 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 import com.ruoyi.common.utils.StringUtils;
 
@@ -995,5 +998,15 @@ public class Convert
             s = p.replaceAll("(零.)*零$", "").replaceAll("^$", "零") + unit[0][i] + s;
         }
         return head + s.replaceAll("(零.)*零元", "元").replaceFirst("(零.)+", "").replaceAll("(零.)+", "零").replaceAll("^整$", "零元整");
+    }
+
+
+    public static String toDateTime(String str) throws ParseException {
+        str = str.substring(1,str.length()-1);
+        str = str.replace("Z", " UTC");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+        Date d = format.parse(str);
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format1.format(d);
     }
 }

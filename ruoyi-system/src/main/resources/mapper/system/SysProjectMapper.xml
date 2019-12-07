@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysProjectMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.SysProject" id="ProjectResult">
+        <result property="projectId"    column="project_id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="status"    column="status"    />
+        <result property="amount"    column="amount"    />
+        <result property="pmUserId"    column="pm_user_id"    />
+        <result property="deliveryDate"    column="delivery_date"    />
+        <result property="dealFlag"    column="deal_flag"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectProjectVo">
+        select project_id, project_name, customer_id, status, amount, pm_user_id, delivery_date, deal_flag, del_flag, create_by, create_time, update_by, update_time, remark from sys_project
+    </sql>
+
+    <resultMap type="com.ruoyi.system.vo.SysProjectVo" id="VoResultMap" extends="ProjectResult">
+        <result column="customer_name" property="customerName"/>
+        <result column="user_name" property="pmUserName"/>
+    </resultMap>
+
+    <sql id="selectProjectMap">
+        select p.project_id, p.project_name, p.customer_id, p.status, p.amount, p.pm_user_id, p.delivery_date, p.deal_flag, p.del_flag, p.create_by, p.create_time, p.update_by, p.update_time, p.remark
+    </sql>
+	
+    <select id="selectSysProjectList" parameterType="com.ruoyi.system.domain.SysProject" resultMap="ProjectResult">
+        <include refid="selectProjectVo"/>
+        <where>  del_flag=0
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+             <if test="projectName != null  and projectName != '' "> and project_name = #{projectName}</if>
+             <if test="customerId != null "> and customer_id = #{customerId}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="amount != null "> and amount = #{amount}</if>
+             <if test="pmUserId != null "> and pm_user_id = #{pmUserId}</if>
+             <if test="deliveryDate != null "> and delivery_date = #{deliveryDate}</if>
+             <if test="dealFlag != null "> and deal_flag = #{dealFlag}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectSysProjectById" parameterType="Long" resultMap="ProjectResult">
+        <include refid="selectProjectVo"/>
+        where project_id = #{projectId}
+    </select>
+
+    <select id="selectSysProjectListWithCustomerName" parameterType="com.ruoyi.system.domain.SysProject" resultMap="VoResultMap">
+        <include refid="selectProjectMap"/>,c.customer_name,u.user_name
+        from sys_project p
+        left join sys_customer c on p.customer_id=c.customer_id
+        left join sys_user u on u.user_id=p.pm_user_id
+        where p.del_flag=0
+            <if test="projectId != null "> and p.project_id = #{projectId}</if>
+            <if test="projectName != null  and projectName != '' "> and p.project_name like concat('%',#{projectName},'%')</if>
+            <if test="customerId != null "> and p.customer_id = #{customerId}</if>
+            <if test="status != null "> and p.status = #{status}</if>
+            <if test="amount != null "> and p.amount = #{amount}</if>
+            <if test="pmUserId != null "> and p.pm_user_id = #{pmUserId}</if>
+            <if test="deliveryDate != null "> and delivery_date = #{deliveryDate}</if>
+            <if test="dealFlag != null "> and deal_flag = #{dealFlag}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(p.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(p.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="remark != null  and remark != '' "> and p.remark = #{remark}</if>
+    </select>
+    <select id="earningReportMonth" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT DATE_FORMAT(create_time, '%Y-%m') AS xaxis,SUM(totalAmount) AS yaxis FROM sys_project where deal_flag = 1 GROUP BY xaxis
+    </select>
+    <select id="earningReportQuarter" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT
+            CONCAT(YEAR(create_time) , '第',QUARTER(create_time),'季度' ) as xaxis,
+            SUM(totalAmount) AS yaxis
+        FROM
+            sys_project where deal_flag = 1
+        GROUP BY YEAR(create_time),QUARTER(create_time)
+    </select>
+    <select id="earningReportYear" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT YEAR(create_time) AS xaxis,SUM(totalAmount) AS yaxis FROM sys_project where deal_flag = 1 GROUP BY xaxis
+    </select>
+    <select id="customerReportAll" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT
+            c.customer_name as xaxis,
+            SUM(p.totalAmount) AS yaxis
+        FROM sys_project p
+                 LEFT JOIN sys_customer c ON p.customer_id=c.customer_id
+        WHERE p.deal_flag=1
+        GROUP BY p.customer_id ORDER BY yaxis DESC
+    </select>
+    <select id="customerReportPreviousYear" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT
+            c.customer_name as xaxis,
+            SUM(p.totalAmount) AS yaxis
+        FROM sys_project p
+                 LEFT JOIN sys_customer c ON p.customer_id=c.customer_id
+        WHERE p.deal_flag=1
+          AND
+            YEAR(p.create_time) = YEAR(NOW())-1
+        GROUP BY p.customer_id ORDER BY yaxis DESC
+    </select>
+    <select id="customerReportThisYear" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT
+            c.customer_name as xaxis,
+            SUM(p.totalAmount) AS yaxis
+        FROM sys_project p
+                 LEFT JOIN sys_customer c ON p.customer_id=c.customer_id
+        WHERE p.deal_flag=1
+          AND
+            YEAR(p.create_time) = YEAR(NOW())
+        GROUP BY p.customer_id ORDER BY yaxis DESC
+    </select>
+    <select id="selectPerformanceCompletionByUser" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT u.operational_indicator AS xaxis,IFNULL(SUM(totalAmount),0) AS yaxis
+        FROM sys_project p
+                 RIGHT JOIN sys_user u ON u.user_id=p.pm_user_id
+        WHERE p.pm_user_id= 103
+          AND DATE_FORMAT(p.create_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+          AND p.deal_flag=1
+    </select>
+
+    <insert id="insertSysProject" parameterType="com.ruoyi.system.domain.SysProject" useGeneratedKeys="true" keyProperty="projectId">
+        insert into sys_project
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="projectName != null  and projectName != ''  ">project_name,</if>
+			<if test="customerId != null  ">customer_id,</if>
+			<if test="status != null  ">status,</if>
+			<if test="amount != null  ">amount,</if>
+			<if test="pmUserId != null  ">pm_user_id,</if>
+            <if test="deliveryDate != null and deliveryDate != '' ">delivery_date,</if>
+            <if test="dealFlag != null ">deal_flag,</if>
+            <if test="delFlag != null ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="projectName != null  and projectName != ''  ">#{projectName},</if>
+			<if test="customerId != null  ">#{customerId},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="amount != null  ">#{amount},</if>
+			<if test="pmUserId != null  ">#{pmUserId},</if>
+            <if test="deliveryDate != null and deliveryDate != '' ">#{deliveryDate},</if>
+            <if test="dealFlag != null ">#{dealFlag},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSysProject" parameterType="com.ruoyi.system.domain.SysProject">
+        update sys_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''  ">project_name = #{projectName},</if>
+            <if test="customerId != null  ">customer_id = #{customerId},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="amount != null  ">amount = #{amount},</if>
+            <if test="pmUserId != null  ">pm_user_id = #{pmUserId},</if>
+            <if test="deliveryDate != null and deliveryDate != '' ">delivery_date = #{deliveryDate},</if>
+            <if test="dealFlag != null ">deal_flag = #{dealFlag},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+
+	<delete id="deleteSysProjectById" parameterType="Long">
+        update sys_project set del_flag=1 where project_id = #{projectId}
+    </delete>
+	
+    <delete id="deleteSysProjectByIds" parameterType="String">
+        update sys_project set del_flag=1 where project_id in
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+    
+</mapper>

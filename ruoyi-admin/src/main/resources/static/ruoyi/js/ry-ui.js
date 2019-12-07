@@ -711,8 +711,8 @@
             	$.operate.submit(url, "post", "json", data, callback);
             },
             // get请求传输
-            get: function(url) {
-            	$.operate.submit(url, "get", "json", "", callback);
+            get: function(url,callback) {
+            	$.operate.submit(url, "get", "json", "",callback);
             },
             // 详细信息
             detail: function(id, width, height) {
@@ -749,7 +749,7 @@
                     	$.operate.get(url);
                     } else {
 	            	    var data = { "ids": id };
-	            	    $.operate.submit(url, "post", "json", data);
+	            	    $.operate.post(url, data);
 	                }
             	});
             	
@@ -806,6 +806,12 @@
             	    $.modal.open("修改" + $.table._option.modalName, $.operate.editUrl(id));
             	}
             },
+			draw:function(id){
+				$.modal.open("修改" + $.table._option.modalName, $.table._option.drawUrl.replace("{id}", id));
+			},
+			scrap:function(id){
+				$.modal.open("修改" + $.table._option.modalName, $.table._option.scrapUrl.replace("{id}", id));
+			},
             // 修改信息，以tab页展现
             editTab: function(id) {
             	$.modal.openTab("修改" + $.table._option.modalName, $.operate.editUrl(id));

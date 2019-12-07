@@ -758,7 +758,7 @@
 .DxdbeCb .oyLWOp {
     height: 33px;
     padding: 11px 10px;
-    margin-right: 330px
+    margin-right: 330px;
 }
 
 .DxdbeCb .oyLWOp .btn {
@@ -1081,7 +1081,6 @@
 
 .KPDwCE .QDDOQB .g-dropdown-button, .KPDwCE .QDDOQB a, .DxdbeCb .QDDOQB .g-dropdown-button, .DxdbeCb .QDDOQB a {
     margin: 0;
-    margin-left: -1px
 }
 
 .DxdbeCb .QDDOQB .g-dropdown-button:hover, .DxdbeCb .QDDOQB a:hover {
@@ -1089,7 +1088,7 @@
 }
 
 .KPDwCE .QDDOQB a, .DxdbeCb .QDDOQB a {
-    border-radius: 0
+    border-radius: 4px
 }
 
 .DxdbeCb .QDDOQB > .g-button:nth-child(2) {
@@ -1231,11 +1230,11 @@
 }
 
 .xGLMIab .zbyDdwb {
-    background: url(/box-static/disk-system/widget/pageModule/list/img/checkbox_8bb5d8c.png) no-repeat
+    background: url(/img/checkbox_8bb5d8c.png) no-repeat
 }
 
 .xGLMIab .EzubGg .zbyDdwb {
-    background: url(/box-static/disk-system/widget/pageModule/list/img/checkbox_8bb5d8c.png) -40px 0 no-repeat
+    background: url(/img/checkbox_8bb5d8c.png) -40px 0 no-repeat
 }
 
 .FcQMwt .QDDOQB {
@@ -1341,7 +1340,7 @@
 }
 
 .xGLMIab .MCGAxG .xEuDywb {
-    background: url(/box-static/disk-system/widget/pageModule/list/img/order-icon-down_ae0af07.png) no-repeat center;
+    background: url(/img/order-icon-down_ae0af07.png) no-repeat center;
     margin-top: -1px
 }
 
