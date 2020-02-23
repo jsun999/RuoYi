@@ -23,7 +23,7 @@
 
 </head>
 
-<body class="gray-bg">
+<body class="gray-bg" onload="weatherSize()">
     <div class="row  border-bottom white-bg dashboard-header">
 		<div class="row">
 			<div class="col-md-12">
@@ -61,7 +61,7 @@
 						</div>
 						<div class="x_content" style="text-align:center;height:280px;">
 							<!-- weather_dingwei -->
-							<div id="weather-view-he"></div>
+							<div id="weather-view-he" style></div>
 							<script>
 								WIDGET = {ID: '1XzyDt2nS2'};
 							</script>
@@ -72,19 +72,19 @@
 				<div class="col-md-4 col-sm-6 col-xs-12">
 					<div class="x_panel">
 						<div class="x_title">
-							<h3>销售目标</h3>
+							<h2>销售目标</h2>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 								</li>
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="#">Settings 1</a>
-										</li>
-										<li><a href="#">Settings 2</a>
-										</li>
-									</ul>
-								</li>
+<!--								<li class="dropdown">-->
+<!--									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>-->
+<!--									<ul class="dropdown-menu" role="menu">-->
+<!--										<li><a href="#">Settings 1</a>-->
+<!--										</li>-->
+<!--										<li><a href="#">Settings 2</a>-->
+<!--										</li>-->
+<!--									</ul>-->
+<!--								</li>-->
 								<li><a class="close-link"><i class="fa fa-close"></i></a>
 								</li>
 							</ul>
@@ -207,6 +207,16 @@
 	        });
 	    });
 
-    </script>
+		function weatherSize(){
+			$("#weather-view-he").css("border","");
+			$("#weather-view-he").width("95%");
+			$("#weather-view-he").height("95%");
+			$("#weather-view-he").css("font-size",  15.6 * $("#weather-view-he").height()/280 );
+			$("#echart_gauge").children().eq(0).width("100%");
+			$("#echart_gauge").children().eq(0).css("margin","0 auto");
+			$("#echart_gauge").children().eq(0).children().eq(0).width("100%")
+		};
+
+	</script>
 </body>
 </html>
