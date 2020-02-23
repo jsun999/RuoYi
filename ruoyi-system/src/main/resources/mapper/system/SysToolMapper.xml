@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysToolMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.SysTool" id="ToolResult">
+        <result property="toolId"    column="tool_id"    />
+        <result property="toolPartNumber"    column="tool_part_number"    />
+        <result property="toolType"    column="tool_type"    />
+        <result property="toolSpecifications"    column="tool_specifications"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="toolPrice"    column="tool_price"    />
+        <result property="toolMaterial"    column="tool_material"    />
+        <result property="manufacturer"    column="manufacturer"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+    <resultMap type="com.ruoyi.system.vo.SysToolVo" id="VoResultMap" extends="ToolResult">
+        <result column="supplier_name" property="manufacturer"/>
+    </resultMap>
+	<sql id="selectToolVo">
+        select tool_id,tool_part_number, tool_type, tool_specifications, quantity, tool_price, tool_material, manufacturer, status, create_by, create_time, update_by, update_time, remark from sys_tool
+    </sql>
+    <sql id="selectToolMap">
+        select t.tool_id,tool_part_number, t.tool_type, t.tool_specifications, t.quantity, t.tool_price, t.tool_material, t.manufacturer, t.status, t.create_by, t.create_time, t.update_by, t.update_time, t.remark
+    </sql>
+	
+    <select id="selectToolList" parameterType="com.ruoyi.system.domain.SysTool" resultMap="ToolResult">
+        <include refid="selectToolVo"/>
+        <where>  
+            <if test="toolId != null "> and tool_id = #{toolId}</if>
+            <if test="toolPartNumber != null "> and tool_part_number = #{toolPartNumber}</if>
+            <if test="toolType != null "> and tool_type = #{toolType}</if>
+            <if test="toolSpecifications != null "> and tool_specifications = #{toolSpecifications}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="toolPrice != null "> and tool_price = #{toolPrice}</if>
+            <if test="toolMaterial != null "> and tool_material = #{toolMaterial}</if>
+            <if test="manufacturer != null  and manufacturer != '' "> and manufacturer = #{manufacturer}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+            <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+        </where>
+    </select>
+    
+    <select id="selectToolById" parameterType="Long" resultMap="ToolResult">
+        <include refid="selectToolVo"/>
+        where tool_id = #{toolId}
+    </select>
+
+    <select id="selectToolVoList" parameterType="com.ruoyi.system.domain.SysTool" resultMap="VoResultMap">
+        <include refid="selectToolMap"/>,s.supplier_name
+        from sys_tool t
+        left join sys_supplier s on s.supplier_id=t.manufacturer
+        <where>
+            <if test="toolId != null "> and t.tool_id = #{toolId}</if>
+            <if test="toolPartNumber != null and toolPartNumber != ''"> and t.tool_part_number = #{toolPartNumber}</if>
+            <if test="toolType != null "> and t.tool_type = #{toolType}</if>
+            <if test="toolSpecifications != null and toolSpecifications != ''"> and t.tool_specifications like concat('%',#{toolSpecifications},'%')</if>
+            <if test="quantity != null "> and t.quantity = #{quantity}</if>
+            <if test="toolPrice != null "> and t.tool_price = #{toolPrice}</if>
+            <if test="toolMaterial != null "> and t.tool_material = #{toolMaterial}</if>
+            <if test="manufacturer != null  and manufacturer != '' "> and t.manufacturer = #{manufacturer}</if>
+            <if test="status != null "> and t.status = #{status}</if>
+            <if test="createBy != null  and createBy != '' "> and t.create_by = #{createBy}</if>
+            <if test="createTime != null "> and t.create_time = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != '' "> and t.update_by = #{updateBy}</if>
+            <if test="updateTime != null "> and t.update_time = #{updateTime}</if>
+            <if test="remark != null  and remark != '' "> and t.remark = #{remark}</if>
+        </where>
+    </select>
+
+    <insert id="insertTool" parameterType="com.ruoyi.system.domain.SysTool" useGeneratedKeys="true" keyProperty="toolId">
+        insert into sys_tool
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="toolType != null  ">tool_type,</if>
+            <if test="toolPartNumber != null  ">tool_part_number,</if>
+            <if test="toolSpecifications != null  ">tool_specifications,</if>
+            <if test="quantity != null  ">quantity,</if>
+			<if test="toolPrice != null  ">tool_price,</if>
+			<if test="toolMaterial != null  ">tool_material,</if>
+			<if test="manufacturer != null  and manufacturer != ''  ">manufacturer,</if>
+			<if test="status != null  ">status,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="toolType != null  ">#{toolType},</if>
+            <if test="toolPartNumber != null  ">#{toolPartNumber},</if>
+            <if test="toolSpecifications != null  ">#{toolSpecifications},</if>
+            <if test="quantity != null  ">#{quantity},</if>
+			<if test="toolPrice != null  ">#{toolPrice},</if>
+			<if test="toolMaterial != null  ">#{toolMaterial},</if>
+			<if test="manufacturer != null  and manufacturer != ''  ">#{manufacturer},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTool" parameterType="com.ruoyi.system.domain.SysTool">
+        update sys_tool
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="toolType != null  ">tool_type = #{toolType},</if>
+            <if test="toolPartNumber != null  ">tool_part_number = #{toolPartNumber},</if>
+            <if test="toolSpecifications != null  ">tool_specifications = #{toolSpecifications},</if>
+            <if test="quantity != null  ">quantity = #{quantity},</if>
+            <if test="toolPrice != null  ">tool_price = #{toolPrice},</if>
+            <if test="toolMaterial != null  ">tool_material = #{toolMaterial},</if>
+            <if test="manufacturer != null  and manufacturer != ''  ">manufacturer = #{manufacturer},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where tool_id = #{toolId}
+    </update>
+
+	<delete id="deleteToolById" parameterType="Long">
+        delete from sys_tool where tool_id = #{toolId}
+    </delete>
+	
+    <delete id="deleteToolByIds" parameterType="String">
+        delete from sys_tool where tool_id in 
+        <foreach item="toolId" collection="array" open="(" separator="," close=")">
+            #{toolId}
+        </foreach>
+    </delete>
+    
+</mapper>

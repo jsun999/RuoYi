@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysOutsourceMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.SysOutsource" id="OutsourceResult">
+        <result property="outsourceId"    column="outsource_id"    />
+        <result property="partId"    column="part_id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="pmUserId"    column="pm_user_id"    />
+        <result property="norms"    column="norms"    />
+        <result property="ourUnitprice"    column="our_unitprice"    />
+        <result property="ourQuantity"    column="our_quantity"    />
+        <result property="ourTotalamount"    column="our_totalamount"    />
+        <result property="ourDeliveryTime"    column="our_delivery_time"    />
+        <result property="outUnitprice"    column="out_unitprice"    />
+        <result property="outQuantity"    column="out_quantity"    />
+        <result property="outTotalamount"    column="out_totalamount"    />
+        <result property="status"    column="status"    />
+        <result property="outDeliveryTime"    column="out_delivery_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+
+    <resultMap type="com.ruoyi.system.vo.SysOutsourceVo" id="VoResultMap" extends="OutsourceResult">
+        <result column="project_name" property="projectName"/>
+        <result column="part_name" property="partName"/>
+        <result column="user_name" property="pmUserName"/>
+    </resultMap>
+
+	<sql id="selectOutsourceVo">
+        select outsource_id, part_id, project_id, pm_user_id, norms, our_unitprice, our_quantity, our_totalamount, our_delivery_time, out_unitprice, out_quantity, out_totalamount, status, out_delivery_time, del_flag, create_by, create_time, update_by, update_time, remark from sys_outsource
+    </sql>
+    <sql id="selectOutsourceMap">
+        select o.outsource_id, o.part_id, o.project_id,o.pm_user_id, o.norms, o.our_unitprice, o.our_quantity, o.our_totalamount, o.our_delivery_time, o.out_unitprice, o.out_quantity, o.out_totalamount, o.status, o.out_delivery_time, o.del_flag, o.create_by, o.create_time, o.update_by, o.update_time, o.remark
+    </sql>
+	
+    <select id="selectOutsourceList" parameterType="com.ruoyi.system.domain.SysOutsource" resultMap="OutsourceResult">
+        <include refid="selectOutsourceVo"/>
+        where del_flag=0
+        <if test="outsourceId != null "> and outsource_id = #{outsourceId}</if>
+        <if test="partId != null "> and part_id = #{partId}</if>
+        <if test="projectId != null "> and project_id = #{projectId}</if>
+        <if test="pmUserId != null "> and pm_user_id = #{pmUserId}</if>
+        <if test="norms != null  and norms != '' "> and norms = #{norms}</if>
+        <if test="ourUnitprice != null "> and our_unitprice = #{ourUnitprice}</if>
+        <if test="ourQuantity != null "> and our_quantity = #{ourQuantity}</if>
+        <if test="ourTotalamount != null "> and our_totalamount = #{ourTotalamount}</if>
+        <if test="ourDeliveryTime != null "> and our_delivery_time = #{ourDeliveryTime}</if>
+        <if test="outUnitprice != null "> and out_unitprice = #{outUnitprice}</if>
+        <if test="outQuantity != null "> and out_quantity = #{outQuantity}</if>
+        <if test="outTotalamount != null "> and out_totalamount = #{outTotalamount}</if>
+        <if test="status != null "> and status = #{status}</if>
+        <if test="outDeliveryTime != null "> and out_delivery_time = #{outDeliveryTime}</if>
+        <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+        <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+        <if test="createTime != null "> and create_time = #{createTime}</if>
+        <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+        <if test="updateTime != null "> and update_time = #{updateTime}</if>
+        <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+    </select>
+    
+    <select id="selectOutsourceById" parameterType="Long" resultMap="OutsourceResult">
+        <include refid="selectOutsourceVo"/>
+        where outsource_id = #{outsourceId}
+    </select>
+    <select id="selectOutsourceVoList" parameterType="com.ruoyi.system.domain.SysOutsource" resultMap="VoResultMap">
+        <include refid="selectOutsourceMap"/>,p.project_name,u.user_name,part.part_name
+        from sys_outsource o
+        left join sys_project p on o.project_id = p.project_id
+        left join sys_part part on part.part_id = o.part_id
+        left join sys_user u on u.user_id = p.pm_user_id
+        where o.del_flag=0
+        <if test="outsourceId != null "> and o.outsource_id = #{outsourceId}</if>
+        <if test="partId != null "> and o.part_id = #{partId}</if>
+        <if test="projectId != null "> and o.project_id = #{projectId}</if>
+        <if test="pmUserId != null "> and o.pm_user_id = #{pmUserId}</if>
+        <if test="norms != null  and norms != '' "> and o.norms = #{norms}</if>
+        <if test="ourUnitprice != null "> and o.our_unitprice = #{ourUnitprice}</if>
+        <if test="ourQuantity != null "> and o.our_quantity = #{ourQuantity}</if>
+        <if test="ourTotalamount != null "> and o.our_totalamount = #{ourTotalamount}</if>
+        <if test="ourDeliveryTime != null "> and o.our_delivery_time = #{ourDeliveryTime}</if>
+        <if test="outUnitprice != null "> and o.out_unitprice = #{outUnitprice}</if>
+        <if test="outQuantity != null "> and o.out_quantity = #{outQuantity}</if>
+        <if test="outTotalamount != null "> and o.out_totalamount = #{outTotalamount}</if>
+        <if test="status != null "> and o.status = #{status}</if>
+        <if test="outDeliveryTime != null "> and o.out_delivery_time = #{outDeliveryTime}</if>
+        <if test="delFlag != null "> and o.del_flag = #{delFlag}</if>
+        <if test="createBy != null  and createBy != '' "> and o.create_by = #{createBy}</if>
+        <if test="createTime != null "> and o.create_time = #{createTime}</if>
+        <if test="updateBy != null  and updateBy != '' "> and o.update_by = #{updateBy}</if>
+        <if test="updateTime != null "> and o.update_time = #{updateTime}</if>
+        <if test="remark != null  and remark != '' "> and o.remark = #{remark}</if>
+    </select>
+
+    <insert id="insertOutsource" parameterType="com.ruoyi.system.domain.SysOutsource" useGeneratedKeys="true" keyProperty="outsourceId">
+        insert into sys_outsource
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="partId != null  ">part_id,</if>
+			<if test="projectId != null  ">project_id,</if>
+            <if test="pmUserId != null  ">pm_user_id,</if>
+			<if test="norms != null  and norms != ''  ">norms,</if>
+			<if test="ourUnitprice != null  ">our_unitprice,</if>
+			<if test="ourQuantity != null  ">our_quantity,</if>
+			<if test="ourTotalamount != null  ">our_totalamount,</if>
+			<if test="ourDeliveryTime != null  ">our_delivery_time,</if>
+			<if test="outUnitprice != null  ">out_unitprice,</if>
+			<if test="outQuantity != null  ">out_quantity,</if>
+			<if test="outTotalamount != null  ">out_totalamount,</if>
+			<if test="status != null  ">status,</if>
+			<if test="outDeliveryTime != null  ">out_delivery_time,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="partId != null  ">#{partId},</if>
+			<if test="projectId != null  ">#{projectId},</if>
+            <if test="pmUserId != null  ">#{pmUserId},</if>
+			<if test="norms != null  and norms != ''  ">#{norms},</if>
+			<if test="ourUnitprice != null  ">#{ourUnitprice},</if>
+			<if test="ourQuantity != null  ">#{ourQuantity},</if>
+			<if test="ourTotalamount != null  ">#{ourTotalamount},</if>
+			<if test="ourDeliveryTime != null  ">#{ourDeliveryTime},</if>
+			<if test="outUnitprice != null  ">#{outUnitprice},</if>
+			<if test="outQuantity != null  ">#{outQuantity},</if>
+			<if test="outTotalamount != null  ">#{outTotalamount},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="outDeliveryTime != null  ">#{outDeliveryTime},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateOutsource" parameterType="com.ruoyi.system.domain.SysOutsource">
+        update sys_outsource
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="partId != null  ">part_id = #{partId},</if>
+            <if test="projectId != null  ">project_id = #{projectId},</if>
+            <if test="pmUserId != null  ">pm_user_id = #{pmUserId},</if>
+            <if test="norms != null  and norms != ''  ">norms = #{norms},</if>
+            <if test="ourUnitprice != null  ">our_unitprice = #{ourUnitprice},</if>
+            <if test="ourQuantity != null  ">our_quantity = #{ourQuantity},</if>
+            <if test="ourTotalamount != null  ">our_totalamount = #{ourTotalamount},</if>
+            <if test="ourDeliveryTime != null  ">our_delivery_time = #{ourDeliveryTime},</if>
+            <if test="outUnitprice != null  ">out_unitprice = #{outUnitprice},</if>
+            <if test="outQuantity != null  ">out_quantity = #{outQuantity},</if>
+            <if test="outTotalamount != null  ">out_totalamount = #{outTotalamount},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="outDeliveryTime != null  ">out_delivery_time = #{outDeliveryTime},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where outsource_id = #{outsourceId}
+    </update>
+
+	<delete id="deleteOutsourceById" parameterType="Long">
+        update sys_outsource set del_flag = 1 where outsource_id = #{outsourceId}
+    </delete>
+	
+    <delete id="deleteOutsourceByIds" parameterType="String">
+        update sys_outsource set del_flag = 1 where outsource_id in
+        <foreach item="outsourceId" collection="array" open="(" separator="," close=")">
+            #{outsourceId}
+        </foreach>
+    </delete>
+    
+</mapper>

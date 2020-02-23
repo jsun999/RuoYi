@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysProductionMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.SysProduction" id="ProductionResult">
+        <result property="productionId"    column="production_id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="projectStatus"    column="project_status"    />
+        <result property="productionSort"    column="production_sort"    />
+        <result property="planBeginTime"    column="plan_begin_time"    />
+        <result property="planEndTime"    column="plan_end_time"    />
+        <result property="planDays"    column="plan_days"    />
+        <result property="actualBeginTime"    column="actual_begin_time"    />
+        <result property="actualEndTime"    column="actual_end_time"    />
+        <result property="actualDays"    column="actual_days"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectProductionVo">
+        select production_id, project_id, project_status, production_sort, plan_begin_time, plan_end_time, plan_days, actual_begin_time, actual_end_time, actual_days, create_by, create_time, update_by, update_time, remark from sys_production
+    </sql>
+	
+    <select id="selectProductionList" parameterType="com.ruoyi.system.domain.SysProduction" resultMap="ProductionResult">
+        <include refid="selectProductionVo"/>
+        <where>  
+            <if test="productionId != null "> and production_id = #{productionId}</if>
+             <if test="projectId != null "> and project_id = #{projectId}</if>
+             <if test="projectStatus != null "> and project_status = #{projectStatus}</if>
+            <if test="productionSort != null "> and production_sort = #{productionSort}</if>
+             <if test="planBeginTime != null "> and plan_begin_time = #{planBeginTime}</if>
+             <if test="planEndTime != null "> and plan_end_time = #{planEndTime}</if>
+             <if test="planDays != null "> and plan_days = #{planDays}</if>
+             <if test="actualBeginTime != null "> and actual_begin_time = #{actualBeginTime}</if>
+             <if test="actualEndTime != null "> and actual_end_time = #{actualEndTime}</if>
+             <if test="actualDays != null "> and actual_days = #{actualDays}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectProductionById" parameterType="Long" resultMap="ProductionResult">
+        <include refid="selectProductionVo"/>
+        where production_id = #{productionId}
+    </select>
+        
+    <insert id="insertProduction" parameterType="com.ruoyi.system.domain.SysProduction" useGeneratedKeys="true" keyProperty="productionId">
+        insert into sys_production
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="projectId != null  ">project_id,</if>
+			<if test="projectStatus != null  ">project_status,</if>
+            <if test="productionSort != null  ">production_sort,</if>
+			<if test="planBeginTime != null  ">plan_begin_time,</if>
+			<if test="planEndTime != null  ">plan_end_time,</if>
+			<if test="planDays != null  ">plan_days,</if>
+			<if test="actualBeginTime != null  ">actual_begin_time,</if>
+			<if test="actualEndTime != null  ">actual_end_time,</if>
+			<if test="actualDays != null  ">actual_days,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="projectId != null  ">#{projectId},</if>
+			<if test="projectStatus != null  ">#{projectStatus},</if>
+            <if test="productionSort != null  ">#{productionSort},</if>
+			<if test="planBeginTime != null  ">#{planBeginTime},</if>
+			<if test="planEndTime != null  ">#{planEndTime},</if>
+			<if test="planDays != null  ">#{planDays},</if>
+			<if test="actualBeginTime != null  ">#{actualBeginTime},</if>
+			<if test="actualEndTime != null  ">#{actualEndTime},</if>
+			<if test="actualDays != null  ">#{actualDays},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateProduction" parameterType="com.ruoyi.system.domain.SysProduction">
+        update sys_production
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectId != null  ">project_id = #{projectId},</if>
+            <if test="projectStatus != null  ">project_status = #{projectStatus},</if>
+            <if test="productionSort != null  ">production_sort = #{productionSort},</if>
+            <if test="planBeginTime != null  ">plan_begin_time = #{planBeginTime},</if>
+            <if test="planEndTime != null  ">plan_end_time = #{planEndTime},</if>
+            <if test="planDays != null  ">plan_days = #{planDays},</if>
+            <if test="actualBeginTime != null  ">actual_begin_time = #{actualBeginTime},</if>
+            <if test="actualEndTime != null  ">actual_end_time = #{actualEndTime},</if>
+            <if test="actualDays != null  ">actual_days = #{actualDays},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where production_id = #{productionId}
+    </update>
+
+	<delete id="deleteProductionById" parameterType="Long">
+        delete from sys_production where production_id = #{productionId}
+    </delete>
+	
+    <delete id="deleteProductionByIds" parameterType="String">
+        delete from sys_production where production_id in 
+        <foreach item="productionId" collection="array" open="(" separator="," close=")">
+            #{productionId}
+        </foreach>
+    </delete>
+    
+</mapper>

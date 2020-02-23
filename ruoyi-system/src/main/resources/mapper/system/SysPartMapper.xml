@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPartMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.SysPart" id="PartResult">
+        <result property="partId"    column="part_id"    />
+        <result property="pmUserId"    column="pm_user_id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="partName"    column="part_name"    />
+        <result property="partNorms"    column="part_norms"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="craftType"    column="craft_type"    />
+        <result property="programUser"    column="program_user"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.system.vo.SysPartVo" id="VoResultMap" extends="PartResult">
+        <result column="project_name" property="projectName"/>
+        <result column="user_name" property="programUserName"/>
+    </resultMap>
+	
+	<sql id="selectPartVo">
+        select part_id,pm_user_id, project_id, part_name, part_norms, quantity, unit_price, delivery_time, craft_type, program_user, del_flag, create_by, create_time, update_by, update_time, remark from sys_part
+    </sql>
+
+    <sql id="selectPartMap">
+        select p.part_id, p.pm_user_id, p.project_id, p.part_name, p.part_norms, p.quantity, p.unit_price, p.delivery_time, p.craft_type, p.program_user, p.del_flag, p.create_by, p.create_time, p.update_by, p.update_time, p.remark
+    </sql>
+	
+    <select id="selectPartList" parameterType="com.ruoyi.system.domain.SysPart" resultMap="PartResult">
+        <include refid="selectPartVo"/>
+        <where>  
+            <if test="partId != null "> and part_id = #{partId}</if>
+            <if test="pmUserId != null "> and pm_user_id = #{pmUserId}</if>
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+             <if test="partName != null  and partName != '' "> and part_name = #{partName}</if>
+             <if test="partNorms != null "> and part_norms = #{partNorms}</if>
+             <if test="quantity != null "> and quantity = #{quantity}</if>
+             <if test="unitPrice != null "> and unit_price = #{unitPrice}</if>
+             <if test="deliveryTime != null "> and delivery_time = #{deliveryTime}</if>
+            <if test="craftType != null "> and craft_type = #{craftType}</if>
+            <if test="programUser != null "> and program_user = #{programUser}</if>
+             <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectPartById" parameterType="Long" resultMap="PartResult">
+        <include refid="selectPartVo"/>
+        where part_id = #{partId}
+    </select>
+
+    <select id="selectPartVoList" parameterType="com.ruoyi.system.domain.SysPart" resultMap="VoResultMap">
+        <include refid="selectPartMap"/>,pro.project_name,u.user_name
+        from sys_part p
+        left join sys_project pro on pro.project_id=p.project_id
+        left join sys_user u on u.user_id=p.program_user
+        where p.del_flag=0
+        <if test="partId != null "> and p.part_id = #{partId}</if>
+        <if test="pmUserId != null  and pmUserId != ''  ">p.pm_user_id = #{pmUserId},</if>
+        <if test="projectId != null "> and p.project_id = #{projectId}</if>
+        <if test="partName != null  and partName != '' "> and p.part_name like concat('%',#{partName},'%') </if>
+        <if test="partNorms != null and partNorms != '' "> and p.part_norms = #{partNorms}</if>
+        <if test="quantity != null "> and p.quantity = #{quantity}</if>
+        <if test="unitPrice != null "> and p.unit_price = #{unitPrice}</if>
+        <if test="deliveryTime != null "> and p.delivery_time = #{deliveryTime}</if>
+        <if test="craftType != null "> and p.craft_type = #{craftType}</if>
+        <if test="programUser != null "> and p.program_user = #{programUser}</if>
+        <if test="delFlag != null "> and p.del_flag = #{delFlag}</if>
+        <if test="createBy != null  and createBy != '' "> and p.create_by = #{createBy}</if>
+        <if test="createTime != null "> and p.create_time = #{createTime}</if>
+        <if test="updateBy != null  and updateBy != '' "> and p.update_by = #{updateBy}</if>
+        <if test="updateTime != null "> and p.update_time = #{updateTime}</if>
+        <if test="remark != null  and remark != '' "> and p.remark = #{remark}</if>
+    </select>
+
+    <insert id="insertPart" parameterType="com.ruoyi.system.domain.SysPart" useGeneratedKeys="true" keyProperty="partId">
+        insert into sys_part
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null  and projectId != ''  ">project_id,</if>
+            <if test="pmUserId != null  and pmUserId != ''  ">pm_user_id,</if>
+			<if test="partName != null  and partName != ''  ">part_name,</if>
+			<if test="partNorms != null  ">part_norms,</if>
+			<if test="quantity != null  ">quantity,</if>
+			<if test="unitPrice != null  ">unit_price,</if>
+			<if test="deliveryTime != null and deliveryTime != '' ">delivery_time,</if>
+            <if test="craftType != null  ">craft_type,</if>
+            <if test="programUser != null  ">program_user,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null  and projectId != ''  ">#{projectId},</if>
+            <if test="pmUserId != null  and pmUserId != ''  ">#{pmUserId},</if>
+			<if test="partName != null  and partName != ''  ">#{partName},</if>
+			<if test="partNorms != null  ">#{partNorms},</if>
+			<if test="quantity != null  ">#{quantity},</if>
+			<if test="unitPrice != null  ">#{unitPrice},</if>
+			<if test="deliveryTime != null and deliveryTime != '' ">#{deliveryTime},</if>
+            <if test="craftType != null  ">#{craftType},</if>
+            <if test="programUser != null  ">#{programUser},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updatePart" parameterType="com.ruoyi.system.domain.SysPart">
+        update sys_part
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectId != null  and projectId != ''  ">project_id = #{projectId},</if>
+            <if test="pmUserId != null  and pmUserId != ''  ">pm_user_id = #{pmUserId},</if>
+            <if test="partName != null  and partName != ''  ">part_name = #{partName},</if>
+            <if test="partNorms != null  ">part_norms = #{partNorms},</if>
+            <if test="quantity != null  ">quantity = #{quantity},</if>
+            <if test="unitPrice != null  ">unit_price = #{unitPrice},</if>
+            <if test="deliveryTime != null and deliveryTime != '' ">delivery_time = #{deliveryTime},</if>
+            <if test="craftType != null  ">craft_type = #{craftType},</if>
+            <if test="programUser != null  ">program_user = #{programUser},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where part_id = #{partId}
+    </update>
+
+	<delete id="deletePartById" parameterType="Long">
+        delete from sys_part where part_id = #{partId}
+    </delete>
+	
+    <delete id="deletePartByIds" parameterType="String">
+        delete from sys_part where part_id in 
+        <foreach item="partId" collection="array" open="(" separator="," close=")">
+            #{partId}
+        </foreach>
+    </delete>
+    
+</mapper>

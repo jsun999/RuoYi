@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CalendarMapper">
+    
+    <resultMap type="Calendar" id="CalendarResult">
+        <result property="calendarId"    column="calendar_id"    />
+        <result property="content"    column="content"    />
+        <result property="userId"    column="user_id"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectCalendarVo">
+        select calendar_id, content, user_id, start_time, end_time, create_by, create_time, update_by, update_time, remark from sys_calendar
+    </sql>
+	
+    <select id="selectCalendarList" parameterType="Calendar" resultMap="CalendarResult">
+        <include refid="selectCalendarVo"/>
+        <where>  
+            <if test="calendarId != null "> and calendar_id = #{calendarId}</if>
+             <if test="content != null  and content != '' "> and content = #{content}</if>
+             <if test="userId != null "> and user_id = #{userId}</if>
+             <if test="startTime != null "> and start_time = #{startTime}</if>
+             <if test="endTime != null "> and end_time = #{endTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectCalendarById" parameterType="Long" resultMap="CalendarResult">
+        <include refid="selectCalendarVo"/>
+        where calendar_id = #{calendarId}
+    </select>
+        
+    <insert id="insertCalendar" parameterType="Calendar" useGeneratedKeys="true" keyProperty="calendarId">
+        insert into sys_calendar
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="content != null  and content != ''  ">content,</if>
+			<if test="userId != null  ">user_id,</if>
+			<if test="startTime != null  ">start_time,</if>
+			<if test="endTime != null  ">end_time,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="content != null  and content != ''  ">#{content},</if>
+			<if test="userId != null  ">#{userId},</if>
+			<if test="startTime != null  ">#{startTime},</if>
+			<if test="endTime != null  ">#{endTime},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateCalendar" parameterType="Calendar">
+        update sys_calendar
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null  and content != ''  ">content = #{content},</if>
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="startTime != null  ">start_time = #{startTime},</if>
+            <if test="endTime != null  ">end_time = #{endTime},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where calendar_id = #{calendarId}
+    </update>
+
+	<delete id="deleteCalendarById" parameterType="Long">
+        delete from sys_calendar where calendar_id = #{calendarId}
+    </delete>
+	
+    <delete id="deleteCalendarByIds" parameterType="String">
+        delete from sys_calendar where calendar_id in 
+        <foreach item="calendarId" collection="array" open="(" separator="," close=")">
+            #{calendarId}
+        </foreach>
+    </delete>
+    
+</mapper>

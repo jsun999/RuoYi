@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysToolRecordMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.SysToolRecord" id="ToolRecordResult">
+        <result property="toolRecordId"    column="tool_record_id"    />
+        <result property="toolPartNumber"    column="tool_id"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="changeBy"    column="change_by"    />
+        <result property="changeTime"    column="change_time"    />
+        <result property="changeType"    column="change_type"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.system.vo.SysToolRecordVo" id="VoResultMap" extends="ToolRecordResult">
+        <result column="tool_type" property="toolType"/>
+        <result column="tool_specifications" property="toolSpecifications"/>
+        <result column="tool_price" property="toolPrice"/>
+        <result column="tool_material" property="toolMaterial"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_id" property="userId"/>
+        <result column="supplier_name" property="manufacturer"/>
+    </resultMap>
+	<sql id="selectToolRecordVo">
+        select tool_record_id, tool_part_number, quantity, change_by, change_time, change_type, create_by, create_time, update_by, update_time, remark from sys_tool_record
+    </sql>
+    <sql id="selectPartMap">
+        select r.tool_record_id, r.tool_part_number,r.quantity, r.change_by, r.change_time, r.change_type, r.create_by, r.create_time, r.update_by, r.update_time, r.remark
+    </sql>
+    <select id="selectToolRecordList" parameterType="com.ruoyi.system.vo.SysToolRecordVo" resultMap="VoResultMap">
+        <include refid="selectPartMap"/>, t.tool_type, t.tool_specifications, t.tool_price, t.tool_material ,u.user_name,s.supplier_name
+        from sys_tool_record r
+        left join sys_tool t on t.tool_part_number = r.tool_part_number
+        left join sys_user u on u.user_id = r.change_by
+        left join sys_supplier s on s.supplier_id=t.manufacturer
+        <where>  
+            <if test="toolRecordId != null "> and r.tool_record_id = #{toolRecordId}</if>
+             <if test="toolPartNumber != null "> and r.tool_part_number = #{toolPartNumber}</if>
+             <if test="quantity != null "> and r.quantity = #{quantity}</if>
+             <if test="changeBy != null "> and r.change_by = #{changeBy}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(r.change_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(r.change_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+             <if test="changeType != null "> and r.change_type = #{changeType}</if>
+             <if test="createBy != null  and createBy != '' "> and r.create_by = #{createBy}</if>
+             <if test="createTime != null "> and r.create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and r.update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and r.update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and r.remark = #{remark}</if>
+            <if test="toolType != null "> and t.tool_type = #{toolType}</if>
+            <if test="toolSpecifications != null  and toolSpecifications != '' "> and t.tool_specifications = #{toolSpecifications}</if>
+            <if test="toolPrice != null  and toolPrice != '' "> and t.tool_price = #{toolPrice}</if>
+            <if test="toolMaterial != null  and toolMaterial != '' "> and t.tool_material = #{toolMaterial}</if>
+            <if test="manufacturer != null  and manufacturer != '' "> and t.manufacturer = #{manufacturer}</if>
+            <if test="userId != null  and userId != '' "> and u.user_id = #{userId}</if>
+         </where>
+        GROUP BY r.`tool_record_id`
+    </select>
+    
+    <select id="selectToolRecordById" parameterType="Long" resultMap="ToolRecordResult">
+        <include refid="selectToolRecordVo"/>
+        where tool_record_id = #{toolRecordId}
+    </select>
+    <select id="toolCostReportMonth" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT
+            DATE_FORMAT(a.change_time, '%Y-%m') AS xaxis,
+            change_type,
+            SUM(a.`tool_price` * a.`quantity`) AS yaxis
+        FROM
+            (SELECT
+                 r.change_time,
+                 r.`quantity`,
+                 r.`change_type`,
+                 t.`tool_price`
+             FROM
+                 sys_tool_record r
+                     INNER JOIN sys_tool t
+                                ON t.tool_part_number = r.`tool_part_number`
+             GROUP BY r.tool_record_id) a
+        GROUP BY a.change_type,
+                 xaxis
+    </select>
+    <select id="toolCostReportQuarter" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT
+            CONCAT(YEAR(a.change_time) , '第',QUARTER(a.change_time),'季度' ) as xaxis,
+            change_type,
+            SUM(a.`tool_price` * a.`quantity`) AS yaxis
+        FROM
+            (SELECT
+                 r.change_time,
+                 r.`quantity`,
+                 r.`change_type`,
+                 t.`tool_price`
+             FROM
+                 sys_tool_record r
+                     INNER JOIN sys_tool t
+                                ON t.tool_part_number = r.`tool_part_number`
+             GROUP BY r.tool_record_id) a
+        GROUP BY YEAR(a.change_time),QUARTER(a.change_time),a.change_type
+    </select>
+    <select id="toolCostReportYear" resultType="com.ruoyi.common.core.domain.Echart">
+        SELECT
+            YEAR(a.change_time) AS xaxis,
+            change_type,
+            SUM(a.`tool_price` * a.`quantity`) AS yaxis
+        FROM
+            (SELECT
+                 r.change_time,
+                 r.`quantity`,
+                 r.`change_type`,
+                 t.`tool_price`
+             FROM
+                 sys_tool_record r
+                     INNER JOIN sys_tool t
+                                ON t.tool_part_number = r.`tool_part_number`
+             GROUP BY r.tool_record_id) a
+        GROUP BY a.change_type,
+                 xaxis
+    </select>
+
+    <insert id="insertToolRecord" parameterType="com.ruoyi.system.domain.SysToolRecord">
+        insert into sys_tool_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="toolRecordId != null  ">tool_record_id,</if>
+			<if test="toolPartNumber != null  ">tool_part_number,</if>
+			<if test="quantity != null  ">quantity,</if>
+			<if test="changeBy != null  ">change_by,</if>
+			<if test="changeTime != null  ">change_time,</if>
+			<if test="changeType != null  ">change_type,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="toolRecordId != null  ">#{toolRecordId},</if>
+			<if test="toolPartNumber != null  ">#{toolPartNumber},</if>
+			<if test="quantity != null  ">#{quantity},</if>
+			<if test="changeBy != null  ">#{changeBy},</if>
+			<if test="changeTime != null  ">#{changeTime},</if>
+			<if test="changeType != null  ">#{changeType},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateToolRecord" parameterType="com.ruoyi.system.domain.SysToolRecord">
+        update sys_tool_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="toolPartNumber != null  ">tool_part_number = #{toolPartNumber},</if>
+            <if test="quantity != null  ">quantity = #{quantity},</if>
+            <if test="changeBy != null  ">change_by = #{changeBy},</if>
+            <if test="changeTime != null  ">change_time = #{changeTime},</if>
+            <if test="changeType != null  ">change_type = #{changeType},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where tool_record_id = #{toolRecordId}
+    </update>
+
+	<delete id="deleteToolRecordById" parameterType="Long">
+        delete from sys_tool_record where tool_record_id = #{toolRecordId}
+    </delete>
+	
+    <delete id="deleteToolRecordByIds" parameterType="String">
+        delete from sys_tool_record where tool_record_id in 
+        <foreach item="toolRecordId" collection="array" open="(" separator="," close=")">
+            #{toolRecordId}
+        </foreach>
+    </delete>
+    
+</mapper>
