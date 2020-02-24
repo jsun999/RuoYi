@@ -151,4 +151,11 @@
     <script th:src="@{/ajax/libs/jsonview/jquery.jsonview.js}"></script>
 </div>
 
-
+<!-- 表格行内编辑插件 -->
+<div th:fragment="bootstrap-editable-css">
+	<link th:href="@{/ajax/libs/bootstrap-table/extensions/editable/bootstrap-editable.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="bootstrap-table-editable-js">
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/editable/bootstrap-editable.min.js}"></script>
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/editable/bootstrap-table-editable.js}"></script>
+</div>
