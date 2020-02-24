@@ -61,6 +61,7 @@ public class SysProjectController extends BaseController
 	@ResponseBody
 	public AjaxResult export(SysProject project)
 	{
+		project.setDelFlag(false);
 		List<SysProject> list = projectService.selectSysProjectList(project);
 		ExcelUtil<SysProject> util = new ExcelUtil<SysProject>(SysProject.class);
 		return util.exportExcel(list, "project");

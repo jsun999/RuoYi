@@ -36,7 +36,7 @@ public class SysProjectServiceImpl implements ISysProjectService
     @Override
 	public SysProject selectSysProjectById(Long projectId)
 	{
-	    return projectMapper.selectSysProjectById(projectId);
+	    return projectMapper.selectByPrimaryKey(projectId);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class SysProjectServiceImpl implements ISysProjectService
 	@Override
 	public List<SysProject> selectSysProjectList(SysProject project)
 	{
-	    return projectMapper.selectSysProjectList(project);
+	    return projectMapper.select(project);
 	}
 	
     /**
@@ -60,7 +60,7 @@ public class SysProjectServiceImpl implements ISysProjectService
 	@Override
 	public int insertSysProject(SysProject project)
 	{
-	    return projectMapper.insertSysProject(project);
+	    return projectMapper.insertSelective(project);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class SysProjectServiceImpl implements ISysProjectService
 	@Override
 	public int updateSysProject(SysProject project)
 	{
-	    return projectMapper.updateSysProject(project);
+	    return projectMapper.updateByPrimaryKeySelective(project);
 	}
 
 	/**

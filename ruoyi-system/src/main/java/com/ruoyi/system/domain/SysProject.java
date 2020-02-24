@@ -3,6 +3,7 @@ package com.ruoyi.system.domain;
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.Data;
 
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import java.util.Date;
  * @date 2019-07-01
  */
 @Data
+@Table(name="sys_project")
 public class SysProject extends BaseEntity
 {
 	private static final long serialVersionUID = 1L;

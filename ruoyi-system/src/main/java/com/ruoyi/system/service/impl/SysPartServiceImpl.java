@@ -105,10 +105,10 @@ public class SysPartServiceImpl implements ISysPartService
 	}
 
 	private SysPart updateProjectAmount(SysPart part) {
-		SysProject sysProject = sysProjectMapper.selectSysProjectById(part.getProjectId());
+		SysProject sysProject = sysProjectMapper.selectByPrimaryKey(part.getProjectId());
 		if (part.getUnitPrice() != null) {
 			sysProject.setAmount(sysProject.getAmount().add(part.getUnitPrice().multiply(new BigDecimal(part.getQuantity()))));
-			sysProjectMapper.updateSysProject(sysProject);
+			sysProjectMapper.updateByPrimaryKey(sysProject);
 		}
 		part.setPmUserId(sysProject.getPmUserId());
 		return part;
