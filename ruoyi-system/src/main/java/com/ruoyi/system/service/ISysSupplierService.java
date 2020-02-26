@@ -1,6 +1,7 @@
 package com.ruoyi.system.service;
 
 import com.ruoyi.system.domain.SysSupplier;
+import com.ruoyi.system.domain.SysUser;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-07-03
  */
-public interface ISysSupplierService
+public interface ISysSupplierService extends BaseService<SysSupplier>
 {
 	/**
      * 查询供应商信息

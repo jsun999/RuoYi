@@ -8,17 +8,14 @@ import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.system.domain.Calendar;
+import com.ruoyi.system.domain.SysCalendar;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ICalendarService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,12 +38,12 @@ public class CalendarController extends BaseController
 	 */
 	@PostMapping("/list")
 	@ResponseBody
-	public TableDataInfo list(Calendar calendar)
+	public TableDataInfo list(SysCalendar calendar)
 	{
 		startPage();
 		SysUser sysUser = ShiroUtils.getSysUser();
 		calendar.setUserId(sysUser.getUserId());
-        List<Calendar> list = calendarService.selectCalendarList(calendar);
+        List<SysCalendar> list = calendarService.selectCalendarList(calendar);
 		return getDataTable(list);
 	}
 	
@@ -56,10 +53,10 @@ public class CalendarController extends BaseController
 	 */
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(Calendar calendar)
+    public AjaxResult export(SysCalendar calendar)
     {
-    	List<Calendar> list = calendarService.selectCalendarList(calendar);
-        ExcelUtil<Calendar> util = new ExcelUtil<Calendar>(Calendar.class);
+    	List<SysCalendar> list = calendarService.selectCalendarList(calendar);
+        ExcelUtil<SysCalendar> util = new ExcelUtil<SysCalendar>(SysCalendar.class);
         return util.exportExcel(list, "calendar");
     }
 	
@@ -70,7 +67,7 @@ public class CalendarController extends BaseController
 	@Log(title = "日历", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
-	public AjaxResult addSave(Calendar calendar)
+	public AjaxResult addSave(SysCalendar calendar)
 	{
 		SysUser sysUser = ShiroUtils.getSysUser();
 		calendar.setUserId(sysUser.getUserId());
@@ -85,7 +82,7 @@ public class CalendarController extends BaseController
 	@Log(title = "日历", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
-	public AjaxResult editSave(Calendar calendar)
+	public AjaxResult editSave(SysCalendar calendar)
 	{
 		try {
 			calendar.setStartTime(Convert.toDateTime(calendar.getStartTime()));

@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.SysCustomer;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-07-03
  */
-public interface SysCustomerMapper
+public interface SysCustomerMapper extends BaseMapper<SysCustomer>
 {
 	/**
      * 查询客户信息

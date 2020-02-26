@@ -1,16 +1,21 @@
 package com.ruoyi.system.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.Date;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Table;
+
 /**
- * 操作日志记录表 oper_log
+ * 操作日志记录表 sys_oper_log
  * 
  * @author ruoyi
  */
+@Data
+@Table(name="sys_oper_log")
 public class SysOperLog extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

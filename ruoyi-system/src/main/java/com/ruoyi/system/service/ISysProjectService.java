@@ -14,7 +14,7 @@ import java.util.Map;
  * @author ruoyi
  * @date 2019-07-01
  */
-public interface ISysProjectService
+public interface ISysProjectService extends BaseService<SysProject>
 {
 	/**
      * 查询项目信息

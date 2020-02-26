@@ -1,13 +1,18 @@
 package com.ruoyi.system.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.persistence.Table;
 
 /**
  * 用户和角色关联 sys_user_role
  * 
  * @author ruoyi
  */
+@Data
+@Table(name="sys_user_role")
 public class SysUserRole
 {
     /** 用户ID */

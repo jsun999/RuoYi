@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
@@ -18,13 +20,18 @@ import com.ruoyi.system.service.ISysPostService;
  * @author ruoyi
  */
 @Service
-public class SysPostServiceImpl implements ISysPostService
+public class SysPostServiceImpl extends BaseServiceImpl<SysPost>  implements ISysPostService
 {
     @Autowired
     private SysPostMapper postMapper;
 
     @Autowired
     private SysUserPostMapper userPostMapper;
+
+    @Override
+    public BaseMapper<SysPost> getBaseMapper() {
+        return postMapper;
+    }
 
     /**
      * 查询岗位信息集合

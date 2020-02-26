@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import com.ruoyi.common.core.domain.Echart;
 import com.ruoyi.system.domain.SysTool;
+import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.vo.SysToolVo;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-07-01
  */
-public interface ISysToolService {
+public interface ISysToolService extends BaseService<SysTool> {
 	/**
 	 * 查询刀具信息
 	 *

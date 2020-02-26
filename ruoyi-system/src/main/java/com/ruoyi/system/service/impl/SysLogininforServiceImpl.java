@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.text.Convert;
@@ -14,11 +16,16 @@ import com.ruoyi.system.service.ISysLogininforService;
  * @author ruoyi
  */
 @Service
-public class SysLogininforServiceImpl implements ISysLogininforService
+public class SysLogininforServiceImpl extends BaseServiceImpl<SysLogininfor>  implements ISysLogininforService
 {
 
     @Autowired
     private SysLogininforMapper logininforMapper;
+
+    @Override
+    public BaseMapper<SysLogininfor> getBaseMapper() {
+        return logininforMapper;
+    }
 
     /**
      * 新增系统登录日志

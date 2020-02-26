@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CalendarMapper">
     
-    <resultMap type="Calendar" id="CalendarResult">
+    <resultMap type="SysCalendar" id="CalendarResult">
         <result property="calendarId"    column="calendar_id"    />
         <result property="content"    column="content"    />
         <result property="userId"    column="user_id"    />
@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select calendar_id, content, user_id, start_time, end_time, create_by, create_time, update_by, update_time, remark from sys_calendar
     </sql>
 	
-    <select id="selectCalendarList" parameterType="Calendar" resultMap="CalendarResult">
+    <select id="selectCalendarList" parameterType="SysCalendar" resultMap="CalendarResult">
         <include refid="selectCalendarVo"/>
         <where>  
             <if test="calendarId != null "> and calendar_id = #{calendarId}</if>
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where calendar_id = #{calendarId}
     </select>
         
-    <insert id="insertCalendar" parameterType="Calendar" useGeneratedKeys="true" keyProperty="calendarId">
+    <insert id="insertCalendar" parameterType="SysCalendar" useGeneratedKeys="true" keyProperty="calendarId">
         insert into sys_calendar
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="content != null  and content != ''  ">content,</if>
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 	 
-    <update id="updateCalendar" parameterType="Calendar">
+    <update id="updateCalendar" parameterType="SysCalendar">
         update sys_calendar
         <trim prefix="SET" suffixOverrides=",">
             <if test="content != null  and content != ''  ">content = #{content},</if>

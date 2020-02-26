@@ -2,13 +2,14 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.SysConfig;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 参数配置 服务层
  * 
  * @author ruoyi
  */
-public interface ISysConfigService
+public interface ISysConfigService extends BaseService<SysConfig>
 {
     /**
      * 查询参数配置信息

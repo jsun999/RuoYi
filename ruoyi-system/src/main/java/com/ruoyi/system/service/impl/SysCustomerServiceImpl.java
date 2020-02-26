@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.system.domain.SysCustomer;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysCustomerMapper;
 import com.ruoyi.system.service.ISysCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,15 @@ import java.util.List;
  * @date 2019-07-03
  */
 @Service
-public class SysCustomerServiceImpl implements ISysCustomerService
+public class SysCustomerServiceImpl extends BaseServiceImpl<SysCustomer>  implements ISysCustomerService
 {
 	@Autowired
 	private SysCustomerMapper customerMapper;
+
+	@Override
+	public BaseMapper<SysCustomer> getBaseMapper() {
+		return customerMapper;
+	}
 
 	/**
      * 查询客户信息

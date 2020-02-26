@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysProductionMapper;
@@ -15,10 +17,15 @@ import com.ruoyi.common.core.text.Convert;
  * @date 2019-08-28
  */
 @Service
-public class ProductionServiceImpl implements ISysProductionService
+public class ProductionServiceImpl extends BaseServiceImpl<SysProduction>  implements ISysProductionService
 {
 	@Autowired
 	private SysProductionMapper productionMapper;
+
+	@Override
+	public BaseMapper<SysProduction> getBaseMapper() {
+		return productionMapper;
+	}
 
 	/**
      * 查询生产排程信息

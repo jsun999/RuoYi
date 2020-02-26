@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.SysPart;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysPartVo;
 
 import java.util.List;	
@@ -11,7 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-07-09
  */
-public interface SysPartMapper
+public interface SysPartMapper extends BaseMapper<SysPart>
 {
 	/**
      * 查询零件信息

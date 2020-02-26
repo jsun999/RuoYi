@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.SysOutsource;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysOutsourceVo;
 
 import java.util.List;	
@@ -11,7 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-07-15
  */
-public interface SysOutsourceMapper
+public interface SysOutsourceMapper extends BaseMapper<SysOutsource>
 {
 	/**
      * 查询外发记录信息

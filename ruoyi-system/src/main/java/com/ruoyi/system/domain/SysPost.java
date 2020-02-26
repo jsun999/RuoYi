@@ -1,15 +1,20 @@
 package com.ruoyi.system.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.persistence.Table;
 
 /**
  * 岗位表 sys_post
  * 
  * @author ruoyi
  */
+@Data
+@Table(name="sys_post")
 public class SysPost extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -37,79 +42,4 @@ public class SysPost extends BaseEntity
     /** 用户是否存在此岗位标识 默认不存在 */
     private boolean flag = false;
 
-    public Long getPostId()
-    {
-        return postId;
-    }
-
-    public void setPostId(Long postId)
-    {
-        this.postId = postId;
-    }
-
-    public String getPostCode()
-    {
-        return postCode;
-    }
-
-    public void setPostCode(String postCode)
-    {
-        this.postCode = postCode;
-    }
-
-    public String getPostName()
-    {
-        return postName;
-    }
-
-    public void setPostName(String postName)
-    {
-        this.postName = postName;
-    }
-
-    public String getPostSort()
-    {
-        return postSort;
-    }
-
-    public void setPostSort(String postSort)
-    {
-        this.postSort = postSort;
-    }
-
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
-
-    public boolean isFlag()
-    {
-        return flag;
-    }
-
-    public void setFlag(boolean flag)
-    {
-        this.flag = flag;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("postId", getPostId())
-            .append("postCode", getPostCode())
-            .append("postName", getPostName())
-            .append("postSort", getPostSort())
-            .append("status", getStatus())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .toString();
-    }
 }

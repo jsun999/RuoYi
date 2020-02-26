@@ -1,8 +1,11 @@
 package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.persistence.Table;
 
 /**
  * 供应商表 sys_supplier
@@ -10,6 +13,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author ruoyi
  * @date 2019-07-03
  */
+@Data
+@Table(name="sys_supplier")
 public class SysSupplier extends BaseEntity
 {
 	private static final long serialVersionUID = 1L;

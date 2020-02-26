@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import com.ruoyi.system.domain.SysProduction;
+import com.ruoyi.system.domain.SysUser;
+
 import java.util.List;
 
 /**
@@ -9,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-08-28
  */
-public interface ISysProductionService
+public interface ISysProductionService extends BaseService<SysProduction>
 {
 	/**
      * 查询生产排程信息

@@ -3,18 +3,16 @@ package com.ruoyi.system.mapper;
 import com.ruoyi.common.core.domain.Echart;
 import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysProjectVo;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 项目 数据层
  * 
  * @date 2019-07-01
  */
-@Mapper
 public interface SysProjectMapper extends BaseMapper<SysProject>
 {
 

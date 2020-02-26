@@ -3,6 +3,7 @@ package com.ruoyi.system.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysOutsourceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,15 @@ import com.ruoyi.common.core.text.Convert;
  * @date 2019-07-15
  */
 @Service
-public class SysOutsourceServiceImpl implements ISysOutsourceService
+public class SysOutsourceServiceImpl extends BaseServiceImpl<SysOutsource>  implements ISysOutsourceService
 {
 	@Autowired
 	private SysOutsourceMapper outsourceMapper;
+
+	@Override
+	public BaseMapper<SysOutsource> getBaseMapper() {
+		return outsourceMapper;
+	}
 
 	/**
      * 查询外发记录信息

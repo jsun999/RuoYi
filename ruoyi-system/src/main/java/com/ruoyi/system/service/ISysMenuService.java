@@ -13,7 +13,7 @@ import com.ruoyi.system.domain.SysUser;
  * 
  * @author ruoyi
  */
-public interface ISysMenuService
+public interface ISysMenuService extends BaseService<SysMenu>
 {
     /**
      * 根据用户ID查询菜单

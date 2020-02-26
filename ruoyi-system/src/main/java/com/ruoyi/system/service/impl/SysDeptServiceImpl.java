@@ -2,6 +2,8 @@ package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +23,15 @@ import com.ruoyi.system.service.ISysDeptService;
  * @author ruoyi
  */
 @Service
-public class SysDeptServiceImpl implements ISysDeptService
+public class SysDeptServiceImpl extends BaseServiceImpl<SysDept>  implements ISysDeptService
 {
     @Autowired
     private SysDeptMapper deptMapper;
+
+    @Override
+    public BaseMapper<SysDept> getBaseMapper() {
+        return deptMapper;
+    }
 
     /**
      * 查询部门管理数据

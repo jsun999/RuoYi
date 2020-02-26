@@ -2,6 +2,8 @@ package com.ruoyi.system.service.impl;
 
 import java.util.Date;
 import java.util.List;
+
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.DateUtils;
@@ -16,10 +18,15 @@ import com.ruoyi.system.service.ISysUserOnlineService;
  * @author ruoyi
  */
 @Service
-public class SysUserOnlineServiceImpl implements ISysUserOnlineService
+public class SysUserOnlineServiceImpl extends BaseServiceImpl<SysUserOnline>  implements ISysUserOnlineService
 {
     @Autowired
     private SysUserOnlineMapper userOnlineDao;
+
+    @Override
+    public BaseMapper<SysUserOnline> getBaseMapper() {
+        return userOnlineDao;
+    }
 
     /**
      * 通过会话序号查询信息

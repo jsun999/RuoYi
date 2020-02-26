@@ -2,13 +2,14 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.SysLogininfor;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 系统访问日志情况信息 服务层
  * 
  * @author ruoyi
  */
-public interface ISysLogininforService
+public interface ISysLogininforService extends BaseService<SysLogininfor>
 {
     /**
      * 新增系统登录日志

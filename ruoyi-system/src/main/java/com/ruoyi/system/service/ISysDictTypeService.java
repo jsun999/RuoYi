@@ -2,13 +2,14 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.SysDictType;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 字典 业务层
  * 
  * @author ruoyi
  */
-public interface ISysDictTypeService
+public interface ISysDictTypeService extends BaseService<SysDictType>
 {
     /**
      * 根据条件分页查询字典类型

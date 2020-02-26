@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ruoyi.system.domain.SysOutsource;
 import com.ruoyi.system.domain.SysProject;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysOutsourceMapper;
 import com.ruoyi.system.mapper.SysProjectMapper;
 import com.ruoyi.system.vo.SysPartVo;
@@ -22,7 +23,7 @@ import com.ruoyi.common.core.text.Convert;
  * @date 2019-07-09
  */
 @Service
-public class SysPartServiceImpl implements ISysPartService
+public class SysPartServiceImpl extends BaseServiceImpl<SysPart>  implements ISysPartService
 {
 	@Autowired
 	private SysPartMapper partMapper;
@@ -30,6 +31,12 @@ public class SysPartServiceImpl implements ISysPartService
 	private SysProjectMapper sysProjectMapper;
 	@Autowired
 	private SysOutsourceMapper sysOutsourceMapper;
+
+	@Override
+	public BaseMapper<SysPart> getBaseMapper() {
+		return partMapper;
+	}
+
 	/**
      * 查询零件信息
      * 

@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import com.ruoyi.common.core.domain.Echart;
 import com.ruoyi.system.domain.SysToolRecord;
+import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.vo.SysToolRecordVo;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-08-20
  */
-public interface ISysToolRecordService
+public interface ISysToolRecordService extends BaseService<SysToolRecord>
 {
 	/**
      * 查询刀具变更信息

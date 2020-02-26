@@ -1,16 +1,22 @@
 package com.ruoyi.system.domain;
 
 import java.util.Date;
+
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.OnlineStatus;
+
+import javax.persistence.Table;
 
 /**
  * 当前在线会话 sys_user_online
  * 
  * @author ruoyi
  */
+@Data
+@Table(name="sys_user_online")
 public class SysUserOnline extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

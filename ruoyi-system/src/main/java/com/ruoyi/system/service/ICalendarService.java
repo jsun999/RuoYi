@@ -1,6 +1,7 @@
 package com.ruoyi.system.service;
 
-import com.ruoyi.system.domain.Calendar;
+import com.ruoyi.system.domain.SysCalendar;
+
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-08-07
  */
-public interface ICalendarService 
+public interface ICalendarService extends BaseService<SysCalendar>
 {
 	/**
      * 查询日历信息
@@ -17,7 +18,7 @@ public interface ICalendarService
      * @param calendarId 日历ID
      * @return 日历信息
      */
-	public Calendar selectCalendarById(Long calendarId);
+	public SysCalendar selectCalendarById(Long calendarId);
 	
 	/**
      * 查询日历列表
@@ -25,7 +26,7 @@ public interface ICalendarService
      * @param calendar 日历信息
      * @return 日历集合
      */
-	public List<Calendar> selectCalendarList(Calendar calendar);
+	public List<SysCalendar> selectCalendarList(SysCalendar calendar);
 	
 	/**
      * 新增日历
@@ -33,7 +34,7 @@ public interface ICalendarService
      * @param calendar 日历信息
      * @return 结果
      */
-	public int insertCalendar(Calendar calendar);
+	public int insertCalendar(SysCalendar calendar);
 	
 	/**
      * 修改日历
@@ -41,7 +42,7 @@ public interface ICalendarService
      * @param calendar 日历信息
      * @return 结果
      */
-	public int updateCalendar(Calendar calendar);
+	public int updateCalendar(SysCalendar calendar);
 		
 	/**
      * 删除日历信息

@@ -1,15 +1,20 @@
 package com.ruoyi.system.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.persistence.Table;
 
 /**
  * 字典类型表 sys_dict_type
  * 
  * @author ruoyi
  */
+@Data
+@Table(name="sys_dict_type")
 public class SysDictType extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

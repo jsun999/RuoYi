@@ -1,11 +1,11 @@
 package com.ruoyi.system.service.impl;
 
-import com.ruoyi.common.core.domain.Echart;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.OrderNumberUtils;
 import com.ruoyi.system.domain.SysTool;
 import com.ruoyi.system.domain.SysToolRecord;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysToolMapper;
 import com.ruoyi.system.mapper.SysToolRecordMapper;
 import com.ruoyi.system.service.ISysToolService;
@@ -23,12 +23,18 @@ import java.util.List;
  * @date 2019-07-01
  */
 @Service
-public class SysToolServiceImpl implements ISysToolService
+public class SysToolServiceImpl extends BaseServiceImpl<SysTool>  implements ISysToolService
 {
 	@Autowired
 	private SysToolMapper toolMapper;
 	@Autowired
 	private SysToolRecordMapper sysToolRecordMapper;
+
+	@Override
+	public BaseMapper<SysTool> getBaseMapper() {
+		return toolMapper;
+	}
+
 	/**
      * 查询刀具信息
      * 

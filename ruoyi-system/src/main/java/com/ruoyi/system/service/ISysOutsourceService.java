@@ -1,6 +1,7 @@
 package com.ruoyi.system.service;
 
 import com.ruoyi.system.domain.SysOutsource;
+import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.vo.SysOutsourceVo;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-07-15
  */
-public interface ISysOutsourceService
+public interface ISysOutsourceService extends BaseService<SysOutsource>
 {
 	/**
      * 查询外发记录信息

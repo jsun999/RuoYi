@@ -1,7 +1,7 @@
 package com.ruoyi.system.mapper;
 
-import com.ruoyi.common.core.domain.Echart;
 import com.ruoyi.system.domain.SysTool;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysToolVo;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-07-01
  */
-public interface SysToolMapper
+public interface SysToolMapper extends BaseMapper<SysTool>
 {
 	/**
      * 查询刀具信息

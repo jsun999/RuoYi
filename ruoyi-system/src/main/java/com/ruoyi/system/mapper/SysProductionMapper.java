@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.SysProduction;
-import java.util.List;	
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * 生产排程 数据层
@@ -9,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-08-28
  */
-public interface SysProductionMapper
+public interface SysProductionMapper extends BaseMapper<SysProduction>
 {
 	/**
      * 查询生产排程信息

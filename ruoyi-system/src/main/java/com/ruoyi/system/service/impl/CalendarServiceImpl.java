@@ -2,11 +2,11 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
-import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CalendarMapper;
-import com.ruoyi.system.domain.Calendar;
+import com.ruoyi.system.domain.SysCalendar;
 import com.ruoyi.system.service.ICalendarService;
 import com.ruoyi.common.core.text.Convert;
 
@@ -17,10 +17,15 @@ import com.ruoyi.common.core.text.Convert;
  * @date 2019-08-07
  */
 @Service
-public class CalendarServiceImpl implements ICalendarService 
+public class CalendarServiceImpl extends BaseServiceImpl<SysCalendar>  implements ICalendarService
 {
 	@Autowired
 	private CalendarMapper calendarMapper;
+
+	@Override
+	public BaseMapper<SysCalendar> getBaseMapper() {
+		return calendarMapper;
+	}
 
 	/**
      * 查询日历信息
@@ -29,7 +34,7 @@ public class CalendarServiceImpl implements ICalendarService
      * @return 日历信息
      */
     @Override
-	public Calendar selectCalendarById(Long calendarId)
+	public SysCalendar selectCalendarById(Long calendarId)
 	{
 	    return calendarMapper.selectCalendarById(calendarId);
 	}
@@ -41,7 +46,7 @@ public class CalendarServiceImpl implements ICalendarService
      * @return 日历集合
      */
 	@Override
-	public List<Calendar> selectCalendarList(Calendar calendar)
+	public List<SysCalendar> selectCalendarList(SysCalendar calendar)
 	{
 	    return calendarMapper.selectCalendarList(calendar);
 	}
@@ -53,7 +58,7 @@ public class CalendarServiceImpl implements ICalendarService
      * @return 结果
      */
 	@Override
-	public int insertCalendar(Calendar calendar)
+	public int insertCalendar(SysCalendar calendar)
 	{
 	    return calendarMapper.insertCalendar(calendar);
 	}
@@ -65,7 +70,7 @@ public class CalendarServiceImpl implements ICalendarService
      * @return 结果
      */
 	@Override
-	public int updateCalendar(Calendar calendar)
+	public int updateCalendar(SysCalendar calendar)
 	{
 	    return calendarMapper.updateCalendar(calendar);
 	}

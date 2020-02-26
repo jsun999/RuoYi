@@ -3,9 +3,8 @@ package com.ruoyi.system.service.impl;
 import com.ruoyi.common.core.domain.Echart;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.system.domain.SysProject;
-import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.mapper.SysProjectMapper;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysProjectMapper;
 import com.ruoyi.system.service.ISysProjectService;
 import com.ruoyi.system.vo.SysProjectVo;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 项目 服务层实现
@@ -22,10 +20,15 @@ import java.util.Map;
  * @date 2019-07-01
  */
 @Service
-public class SysProjectServiceImpl implements ISysProjectService
+public class SysProjectServiceImpl extends BaseServiceImpl<SysProject> implements ISysProjectService
 {
 	@Autowired
 	private SysProjectMapper projectMapper;
+
+	@Override
+	public BaseMapper<SysProject> getBaseMapper() {
+		return projectMapper;
+	}
 
 	/**
      * 查询项目信息
@@ -135,4 +138,6 @@ public class SysProjectServiceImpl implements ISysProjectService
 		echarts = projectMapper.selectPerformanceCompletionByUser(sysUser);
 		return echarts;
 	}
+
+
 }

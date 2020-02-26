@@ -1,14 +1,19 @@
 package com.ruoyi.system.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.persistence.Table;
 
 /**
  * 通知公告表 sys_notice
  * 
  * @author ruoyi
  */
+@Data
+@Table(name="sys_notice")
 public class SysNotice extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

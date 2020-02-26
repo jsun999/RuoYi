@@ -32,6 +32,7 @@
 		<poi.version>3.17</poi.version>
 		<velocity.version>1.7</velocity.version>
 		<lombok.version>1.16.18</lombok.version>
+		<tk.mybatis.version>2.1.5</tk.mybatis.version>
 	</properties>
 	
     <!-- 依赖声明 -->
@@ -208,6 +209,13 @@
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
 				<version>${lombok.version}</version>
+			</dependency>
+
+			<!-- 通用 Mapper -->
+			<dependency>
+				<groupId>tk.mybatis</groupId>
+				<artifactId>mapper-spring-boot-starter</artifactId>
+				<version>${tk.mybatis.version}</version>
 			</dependency>
 
         </dependencies>

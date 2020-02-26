@@ -1,14 +1,19 @@
 package com.ruoyi.system.domain;
 
+import com.ruoyi.common.core.domain.BaseEntity;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.persistence.Table;
 
 /**
  * 部门表 sys_dept
  * 
  * @author ruoyi
  */
+@Data
+@Table(name = "sys_dept")
 public class SysDept extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

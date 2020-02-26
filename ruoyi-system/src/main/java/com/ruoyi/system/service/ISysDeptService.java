@@ -4,13 +4,14 @@ import java.util.List;
 import com.ruoyi.common.core.domain.Ztree;
 import com.ruoyi.system.domain.SysDept;
 import com.ruoyi.system.domain.SysRole;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 部门管理 服务层
  * 
  * @author ruoyi
  */
-public interface ISysDeptService
+public interface ISysDeptService extends BaseService<SysDept>
 {
     /**
      * 查询部门管理数据

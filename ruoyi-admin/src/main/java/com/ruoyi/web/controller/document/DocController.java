@@ -2,7 +2,6 @@ package com.ruoyi.web.controller.document;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.system.service.IDocService;
 import com.ruoyi.system.service.ISysParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +19,6 @@ public class DocController extends BaseController
 {
     private String prefix = "document";
 
-    @Autowired
-    private IDocService docService;
     @Autowired
     private ISysParamService sysParamService;
 

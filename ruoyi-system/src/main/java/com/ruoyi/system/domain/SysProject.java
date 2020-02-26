@@ -2,6 +2,7 @@ package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -12,8 +13,10 @@ import java.util.Date;
  * 
  * @author ruoyi
  * @date 2019-07-01
+ *
  */
 @Data
+@Accessors(chain = true)
 @Table(name="sys_project")
 public class SysProject extends BaseEntity
 {

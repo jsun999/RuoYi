@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
@@ -16,10 +18,15 @@ import com.ruoyi.system.service.ISysConfigService;
  * @author ruoyi
  */
 @Service
-public class SysConfigServiceImpl implements ISysConfigService
+public class SysConfigServiceImpl extends BaseServiceImpl<SysConfig>  implements ISysConfigService
 {
     @Autowired
     private SysConfigMapper configMapper;
+
+    @Override
+    public BaseMapper<SysConfig> getBaseMapper() {
+        return configMapper;
+    }
 
     /**
      * 查询参数配置信息

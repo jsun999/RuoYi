@@ -1,14 +1,16 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysConfig;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 
 /**
  * 参数配置 数据层
  * 
  * @author ruoyi
  */
-public interface SysConfigMapper
+public interface SysConfigMapper extends BaseMapper<SysConfig>
 {
     /**
      * 查询参数配置信息

@@ -1,14 +1,16 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysRoleMenu;
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 
 /**
  * 角色与菜单关联表 数据层
  * 
  * @author ruoyi
  */
-public interface SysRoleMenuMapper
+public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu>
 {
     /**
      * 通过角色ID删除角色和菜单关联

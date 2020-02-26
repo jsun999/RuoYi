@@ -1,9 +1,11 @@
 package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.persistence.Table;
 import java.math.BigDecimal;
 
 /**
@@ -12,6 +14,8 @@ import java.math.BigDecimal;
  * @author ruoyi
  * @date 2019-07-01
  */
+@Data
+@Table(name="sys_tool")
 public class SysTool extends BaseEntity
 {
 	private static final long serialVersionUID = 1L;

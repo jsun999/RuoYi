@@ -1,6 +1,8 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
+import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import com.ruoyi.system.domain.SysDept;
 
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.SysDept;
  * 
  * @author ruoyi
  */
-public interface SysDeptMapper
+public interface SysDeptMapper extends BaseMapper<SysDept>
 {
     /**
      * 查询部门人数
