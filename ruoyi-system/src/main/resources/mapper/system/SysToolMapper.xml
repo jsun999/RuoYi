@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select tool_id,tool_part_number, tool_type, tool_specifications, quantity, tool_price, tool_material, manufacturer, status, create_by, create_time, update_by, update_time, remark from sys_tool
     </sql>
     <sql id="selectToolMap">
-        select t.tool_id,tool_part_number, t.tool_type, t.tool_specifications, t.quantity, t.tool_price, t.tool_material, t.manufacturer, t.status, t.create_by, t.create_time, t.update_by, t.update_time, t.remark
+        select t.tool_id,t.tool_part_number, t.tool_type, t.tool_specifications, t.quantity, t.tool_price, t.tool_material, t.manufacturer, t.status, t.create_by, t.create_time, t.update_by, t.update_time, t.remark
     </sql>
 	
     <select id="selectToolList" parameterType="com.ruoyi.system.domain.SysTool" resultMap="ToolResult">

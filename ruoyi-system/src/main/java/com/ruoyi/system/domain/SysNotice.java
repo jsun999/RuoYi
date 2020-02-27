@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -19,6 +20,7 @@ public class SysNotice extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 公告ID */
+    @Id
     private Long noticeId;
     
     /** 公告标题 */

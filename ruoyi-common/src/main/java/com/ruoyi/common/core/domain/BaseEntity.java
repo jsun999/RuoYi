@@ -18,7 +18,7 @@ public class BaseEntity implements Serializable
     private static final long serialVersionUID = 1L;
 
     /** 搜索值 */
-    private String searchValue;
+//    private String searchValue;
 
     /** 创建者 */
     private String createBy;

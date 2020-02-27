@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.mapper.*;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
+import com.ruoyi.system.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

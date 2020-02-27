@@ -1,8 +1,8 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.common.core.domain.Echart;
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.domain.SysToolRecord;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysToolRecordVo;
 
 import java.util.List;

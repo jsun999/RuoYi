@@ -5,6 +5,7 @@ import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -20,6 +21,7 @@ public class SysCustomer extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/** 客户ID */
+	@Id
 	private Long customerId;
 	/** 客户姓名 */
 	private String customerName;

@@ -4,7 +4,7 @@ import com.ruoyi.common.core.domain.Echart;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysProjectMapper;
 import com.ruoyi.system.service.ISysProjectService;
 import com.ruoyi.system.vo.SysProjectVo;

@@ -7,6 +7,7 @@ import java.util.Date;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -21,6 +22,7 @@ public class SysOperLog extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 日志主键 */
+    @Id
     @Excel(name = "操作序号")
     private Long operId;
 

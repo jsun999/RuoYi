@@ -5,6 +5,7 @@ import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 
@@ -21,6 +22,7 @@ public class SysTool extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/** 刀具ID */
+	@Id
 	private Long toolId;
 	/** 料号 */
 	private String toolPartNumber;

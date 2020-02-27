@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.OnlineStatus;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -22,6 +23,7 @@ public class SysUserOnline extends BaseEntity
     private static final long serialVersionUID = 1L;
     
     /** 用户会话id */
+    @Id
     private String sessionId;
 
     /** 部门名称 */

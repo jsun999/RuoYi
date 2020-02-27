@@ -3,30 +3,13 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.quartz.mapper.SysJobMapper">
-
-	<resultMap type="SysJob" id="SysJobResult">
-		<id     property="jobId"          column="job_id"          />
-		<result property="jobName"        column="job_name"        />
-		<result property="jobGroup"       column="job_group"       />
-		<result property="methodName"     column="method_name"     />
-		<result property="methodParams"   column="method_params"   />
-		<result property="cronExpression" column="cron_expression" />
-		<result property="misfirePolicy"  column="misfire_policy"  />
-		<result property="concurrent"     column="concurrent"      />
-		<result property="status"         column="status"          />
-		<result property="createBy"       column="create_by"       />
-		<result property="createTime"     column="create_time"     />
-		<result property="updateBy"       column="update_by"       />
-		<result property="updateTime"     column="update_time"     />
-		<result property="remark"         column="remark"          />
-	</resultMap>
 	
 	<sql id="selectJobVo">
         select job_id, job_name, job_group, method_name, method_params, cron_expression, misfire_policy, concurrent, status, create_by, create_time, remark 
 		from sys_job
     </sql>
 	
-	<select id="selectJobList" parameterType="SysJob" resultMap="SysJobResult">
+	<select id="selectJobList" parameterType="com.ruoyi.quartz.domain.SysJob" resultType="com.ruoyi.quartz.domain.SysJob">
 		<include refid="selectJobVo"/>
 		<where>
 			<if test="jobName != null and jobName != ''">
@@ -41,11 +24,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	
-	<select id="selectJobAll" resultMap="SysJobResult">
+	<select id="selectJobAll" resultType="com.ruoyi.quartz.domain.SysJob">
 		<include refid="selectJobVo"/>
 	</select>
 	
-	<select id="selectJobById" parameterType="Long" resultMap="SysJobResult">
+	<select id="selectJobById" parameterType="Long" resultType="com.ruoyi.quartz.domain.SysJob">
 		<include refid="selectJobVo"/>
 		where job_id = #{jobId}
 	</select>
@@ -61,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach> 
  	</delete>
  	
- 	<update id="updateJob" parameterType="SysJob">
+ 	<update id="updateJob" parameterType="com.ruoyi.quartz.domain.SysJob">
  		update sys_job
  		<set>
  			<if test="jobName != null and jobName != ''">job_name = #{jobName},</if>
@@ -79,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		where job_id = #{jobId}
 	</update>
  	
- 	<insert id="insertJob" parameterType="SysJob" useGeneratedKeys="true" keyProperty="jobId">
+ 	<insert id="insertJob" parameterType="com.ruoyi.quartz.domain.SysJob" useGeneratedKeys="true" keyProperty="jobId">
  		insert into sys_job(
  			<if test="jobId != null and jobId != 0">job_id,</if>
  			<if test="jobName != null and jobName != ''">job_name,</if>

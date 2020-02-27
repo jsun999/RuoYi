@@ -3,27 +3,11 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysSupplierMapper">
-    
-    <resultMap type="com.ruoyi.system.domain.SysSupplier" id="SupplierResult">
-        <result property="supplierId"    column="supplier_id"    />
-        <result property="supplierName"    column="supplier_name"    />
-        <result property="supplierCompanyName"    column="supplier_company_name"    />
-        <result property="supplierAddress"    column="supplier_address"    />
-        <result property="supplierTelephone"    column="supplier_telephone"    />
-        <result property="supplierEmail"    column="supplier_email"    />
-        <result property="delFlag"    column="del_flag"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="remark"    column="remark"    />
-    </resultMap>
-	
 	<sql id="selectSupplierVo">
         select supplier_id, supplier_name, supplier_address, supplier_telephone,supplier_email,del_flag, create_by, create_time, update_by, update_time, remark from sys_supplier
     </sql>
 	
-    <select id="selectSupplierList" parameterType="com.ruoyi.system.domain.SysSupplier" resultMap="SupplierResult">
+    <select id="selectSupplierList" parameterType="com.ruoyi.system.domain.SysSupplier" resultType="com.ruoyi.system.domain.SysSupplier">
         <include refid="selectSupplierVo"/>
         <where>  del_flag=0
             <if test="supplierId != null "> and supplier_id = #{supplierId}</if>
@@ -41,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </where>
     </select>
     
-    <select id="selectSupplierById" parameterType="Long" resultMap="SupplierResult">
+    <select id="selectSupplierById" parameterType="Long" resultType="com.ruoyi.system.domain.SysSupplier">
         <include refid="selectSupplierVo"/>
         where supplier_id = #{supplierId} and del_flag=0
     </select>

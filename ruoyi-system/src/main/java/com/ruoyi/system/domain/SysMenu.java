@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class SysMenu extends BaseEntity
     private static final long serialVersionUID = 1L;
     
     /** 菜单ID */
+    @Id
     private Long menuId;
     
     /** 菜单名称 */

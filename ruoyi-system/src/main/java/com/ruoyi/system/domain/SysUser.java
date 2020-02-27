@@ -7,6 +7,7 @@ import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ public class SysUser extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 用户ID */
+    @Id
     @Excel(name = "用户序号", prompt = "用户编号")
     private Long userId;
 

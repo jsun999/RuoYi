@@ -1,7 +1,7 @@
 package com.ruoyi.system.mapper;
 
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.domain.SysTool;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysToolVo;
 
 import java.util.List;

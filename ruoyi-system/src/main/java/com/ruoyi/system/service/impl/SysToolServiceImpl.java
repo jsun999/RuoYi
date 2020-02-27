@@ -5,7 +5,7 @@ import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.OrderNumberUtils;
 import com.ruoyi.system.domain.SysTool;
 import com.ruoyi.system.domain.SysToolRecord;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysToolMapper;
 import com.ruoyi.system.mapper.SysToolRecordMapper;
 import com.ruoyi.system.service.ISysToolService;

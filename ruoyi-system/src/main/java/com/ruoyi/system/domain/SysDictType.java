@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -20,6 +21,7 @@ public class SysDictType extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 字典主键 */
+    @Id
     @Excel(name = "字典主键")
     private Long dictId;
 

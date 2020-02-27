@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ public class SysOutsource extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/** 外发ID */
+	@Id
 	private Long outsourceId;
 	/** 零件ID */
 	private Long partId;

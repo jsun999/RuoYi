@@ -1,9 +1,9 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.common.core.domain.Echart;
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysProjectVo;
 
 import java.util.List;

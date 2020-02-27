@@ -1,4 +1,4 @@
-package com.ruoyi.system.mapper.basemapper;
+package com.ruoyi.system.basemapper;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;

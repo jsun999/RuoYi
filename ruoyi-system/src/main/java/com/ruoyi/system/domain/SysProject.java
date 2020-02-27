@@ -4,6 +4,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -23,6 +24,7 @@ public class SysProject extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/** 项目ID */
+	@Id
 	private Long projectId;
 	/** 项目编号 */
 	private String projectNumber;

@@ -2,10 +2,10 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
+import com.ruoyi.system.basemapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.CalendarMapper;
+import com.ruoyi.system.mapper.SysCalendarMapper;
 import com.ruoyi.system.domain.SysCalendar;
 import com.ruoyi.system.service.ICalendarService;
 import com.ruoyi.common.core.text.Convert;
@@ -20,7 +20,7 @@ import com.ruoyi.common.core.text.Convert;
 public class CalendarServiceImpl extends BaseServiceImpl<SysCalendar>  implements ICalendarService
 {
 	@Autowired
-	private CalendarMapper calendarMapper;
+	private SysCalendarMapper calendarMapper;
 
 	@Override
 	public BaseMapper<SysCalendar> getBaseMapper() {
@@ -36,7 +36,7 @@ public class CalendarServiceImpl extends BaseServiceImpl<SysCalendar>  implement
     @Override
 	public SysCalendar selectCalendarById(Long calendarId)
 	{
-	    return calendarMapper.selectCalendarById(calendarId);
+	    return calendarMapper.selectByPrimaryKey(calendarId);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class CalendarServiceImpl extends BaseServiceImpl<SysCalendar>  implement
 	@Override
 	public List<SysCalendar> selectCalendarList(SysCalendar calendar)
 	{
-	    return calendarMapper.selectCalendarList(calendar);
+	    return calendarMapper.select(calendar);
 	}
 	
     /**
@@ -60,7 +60,7 @@ public class CalendarServiceImpl extends BaseServiceImpl<SysCalendar>  implement
 	@Override
 	public int insertCalendar(SysCalendar calendar)
 	{
-	    return calendarMapper.insertCalendar(calendar);
+	    return calendarMapper.insert(calendar);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class CalendarServiceImpl extends BaseServiceImpl<SysCalendar>  implement
 	@Override
 	public int updateCalendar(SysCalendar calendar)
 	{
-	    return calendarMapper.updateCalendar(calendar);
+	    return calendarMapper.updateByPrimaryKeySelective(calendar);
 	}
 
 	/**

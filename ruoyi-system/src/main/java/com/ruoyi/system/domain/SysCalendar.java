@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -21,6 +22,7 @@ public class SysCalendar extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/** id */
+	@Id
 	private Long calendarId;
 	/** 内容 */
 	private String content;

@@ -2,7 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.system.domain.SysSupplier;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysSupplierMapper;
 import com.ruoyi.system.service.ISysSupplierService;
 import org.springframework.beans.factory.annotation.Autowired;

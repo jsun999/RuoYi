@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.mapper.*;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
+import com.ruoyi.system.basemapper.BaseMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

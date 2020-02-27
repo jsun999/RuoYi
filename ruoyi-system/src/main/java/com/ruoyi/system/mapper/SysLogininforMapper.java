@@ -2,8 +2,8 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.domain.SysLogininfor;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
 
 /**
  * 系统访问日志情况信息 数据层

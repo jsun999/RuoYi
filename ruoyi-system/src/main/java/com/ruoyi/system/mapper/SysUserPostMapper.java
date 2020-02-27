@@ -2,8 +2,8 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.domain.SysUserPost;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
 
 /**
  * 用户与岗位 表 数据层

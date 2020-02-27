@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.ruoyi.system.domain.SysOutsource;
 import com.ruoyi.system.domain.SysProject;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysOutsourceMapper;
 import com.ruoyi.system.mapper.SysProjectMapper;
 import com.ruoyi.system.vo.SysPartVo;

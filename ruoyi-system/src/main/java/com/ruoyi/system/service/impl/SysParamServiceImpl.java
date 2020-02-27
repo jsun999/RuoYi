@@ -1,7 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import com.ruoyi.system.domain.SysParam;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysParamMapper;
 import com.ruoyi.system.service.ISysParamService;
 import org.springframework.beans.factory.annotation.Autowired;

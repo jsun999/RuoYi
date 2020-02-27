@@ -1,7 +1,7 @@
 package com.ruoyi.system.mapper;
 
+import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.domain.SysOutsource;
-import com.ruoyi.system.mapper.basemapper.BaseMapper;
 import com.ruoyi.system.vo.SysOutsourceVo;
 
 import java.util.List;	
