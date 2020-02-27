@@ -3,14 +3,18 @@ package com.ruoyi.system.service.impl;
 import com.ruoyi.common.core.domain.Echart;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.system.domain.SysProject;
+import com.ruoyi.system.domain.SysSequence;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.mapper.SysProjectMapper;
+import com.ruoyi.system.mapper.SysSequenceMapper;
 import com.ruoyi.system.service.ISysProjectService;
 import com.ruoyi.system.vo.SysProjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +28,9 @@ public class SysProjectServiceImpl extends BaseServiceImpl<SysProject> implement
 {
 	@Autowired
 	private SysProjectMapper projectMapper;
+
+	@Autowired
+	private SysSequenceMapper sequenceMapper;
 
 	@Override
 	public BaseMapper<SysProject> getBaseMapper() {
@@ -63,9 +70,23 @@ public class SysProjectServiceImpl extends BaseServiceImpl<SysProject> implement
 	@Override
 	public int insertSysProject(SysProject project)
 	{
-	    return projectMapper.insertSelective(project);
+		String str = getSeqBuilder("OrderSeq");
+		project.setProjectNumber(str);
+		return projectMapper.insertSelective(project);
 	}
-	
+
+	private String getSeqBuilder(String type) {
+		Integer orderSeq = sequenceMapper.nextVal(type);
+		StringBuilder builder = new StringBuilder();
+		builder.append("PNO");
+		builder.append(new SimpleDateFormat("yyyyMMdd").format(new Date()));
+		for (int i = 0; i < 8-orderSeq.toString().length(); i++) {
+			builder.append("0");
+		}
+		builder.append(orderSeq);
+		return builder.toString();
+	}
+
 	/**
      * 修改项目
      * 

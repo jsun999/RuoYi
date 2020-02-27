@@ -7,6 +7,7 @@ public class SysToolVo extends SysTool {
 
     private String manufacturer;
 
+    @Override
     public String getManufacturer() {
         return manufacturer;
     }
