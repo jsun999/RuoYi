@@ -36,7 +36,7 @@ public class ProductionServiceImpl extends BaseServiceImpl<SysProduction>  imple
     @Override
 	public SysProduction selectProductionById(Long productionId)
 	{
-	    return productionMapper.selectProductionById(productionId);
+	    return productionMapper.selectByPrimaryKey(productionId);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class ProductionServiceImpl extends BaseServiceImpl<SysProduction>  imple
 	@Override
 	public List<SysProduction> selectProductionList(SysProduction production)
 	{
-	    return productionMapper.selectProductionList(production);
+	    return productionMapper.select(production);
 	}
 	
     /**
@@ -60,7 +60,7 @@ public class ProductionServiceImpl extends BaseServiceImpl<SysProduction>  imple
 	@Override
 	public int insertProduction(SysProduction production)
 	{
-	    return productionMapper.insertProduction(production);
+	    return productionMapper.insertSelective(production);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class ProductionServiceImpl extends BaseServiceImpl<SysProduction>  imple
 	@Override
 	public int updateProduction(SysProduction production)
 	{
-	    return productionMapper.updateProduction(production);
+	    return productionMapper.updateByPrimaryKeySelective(production);
 	}
 
 	/**

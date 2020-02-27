@@ -61,4 +61,8 @@ public interface SysProjectMapper extends BaseMapper<SysProject>
 	List<Echart> customerReportAll();
 
     List<Echart> selectPerformanceCompletionByUser(SysUser sysUser);
+
+    SysProject selectSysProjectByNumber(String projectNumber);
+
+    List<SysProject> selectSysProjectListOn();
 }

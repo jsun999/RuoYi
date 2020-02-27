@@ -58,7 +58,7 @@
         var editFlag = [[${@permission.hasPermi('project:production:edit')}]];
         var removeFlag = [[${@permission.hasPermi('project:production:remove')}]];
         var prefix = ctx + "project/production";
-		var datas = [[${@dict.getType('sys_project_status')}]];
+		var datas = [[${@dict.getType('sys_process_type')}]];
 
         $(function() {
             var options = {
@@ -78,12 +78,17 @@
 					visible: false
 				},
 				{
-					field : 'projectId', 
+					field : 'projectNumber',
 					title : '项目编号',
 					sortable: true
 				},
 				{
-					field : 'projectStatus', 
+					field : 'projectName',
+					title : '项目名称',
+					sortable: true
+				},
+				{
+					field : 'productionSort',
 					title : '工序',
 					sortable: true,
 					align: 'center',

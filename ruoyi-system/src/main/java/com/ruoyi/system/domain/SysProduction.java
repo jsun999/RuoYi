@@ -25,131 +25,20 @@ public class SysProduction extends BaseEntity
 	@Id
 	private Long productionId;
 	/** 项目编号 */
-	private Long projectId;
-	/** dict_code */
-	private Long projectStatus;
+	private String projectNumber;
 	/** 工序 */
 	private Integer productionSort;
 	/** 计划开始时间 */
-	private Date planBeginTime;
+	private String planBeginTime;
 	/** 计划结束时间 */
-	private Date planEndTime;
+	private String planEndTime;
 	/** 计划天数 */
 	private Integer planDays;
 	/** 实际开始时间 */
-	private Date actualBeginTime;
+	private String actualBeginTime;
 	/** 计划开始时间 */
-	private Date actualEndTime;
+	private String actualEndTime;
 	/** 实际天数 */
 	private Integer actualDays;
 
-	public Integer getProductionSort() {
-		return productionSort;
-	}
-
-	public void setProductionSort(Integer productionSort) {
-		this.productionSort = productionSort;
-	}
-
-	public void setProductionId(Long productionId)
-	{
-		this.productionId = productionId;
-	}
-
-	public Long getProductionId() 
-	{
-		return productionId;
-	}
-	public void setProjectId(Long projectId) 
-	{
-		this.projectId = projectId;
-	}
-
-	public Long getProjectId() 
-	{
-		return projectId;
-	}
-	public void setProjectStatus(Long projectStatus) 
-	{
-		this.projectStatus = projectStatus;
-	}
-
-	public Long getProjectStatus() 
-	{
-		return projectStatus;
-	}
-	public void setPlanBeginTime(Date planBeginTime) 
-	{
-		this.planBeginTime = planBeginTime;
-	}
-
-	public Date getPlanBeginTime() 
-	{
-		return planBeginTime;
-	}
-	public void setPlanEndTime(Date planEndTime) 
-	{
-		this.planEndTime = planEndTime;
-	}
-
-	public Date getPlanEndTime() 
-	{
-		return planEndTime;
-	}
-	public void setPlanDays(Integer planDays) 
-	{
-		this.planDays = planDays;
-	}
-
-	public Integer getPlanDays() 
-	{
-		return planDays;
-	}
-	public void setActualBeginTime(Date actualBeginTime) 
-	{
-		this.actualBeginTime = actualBeginTime;
-	}
-
-	public Date getActualBeginTime() 
-	{
-		return actualBeginTime;
-	}
-	public void setActualEndTime(Date actualEndTime) 
-	{
-		this.actualEndTime = actualEndTime;
-	}
-
-	public Date getActualEndTime() 
-	{
-		return actualEndTime;
-	}
-	public void setActualDays(Integer actualDays) 
-	{
-		this.actualDays = actualDays;
-	}
-
-	public Integer getActualDays() 
-	{
-		return actualDays;
-	}
-
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("productionId", getProductionId())
-            .append("projectId", getProjectId())
-            .append("projectStatus", getProjectStatus())
-			.append("productionSort",getProductionSort())
-            .append("planBeginTime", getPlanBeginTime())
-            .append("planEndTime", getPlanEndTime())
-            .append("planDays", getPlanDays())
-            .append("actualBeginTime", getActualBeginTime())
-            .append("actualEndTime", getActualEndTime())
-            .append("actualDays", getActualDays())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .toString();
-    }
 }

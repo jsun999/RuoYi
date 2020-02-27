@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
 
 	<sql id="selectProjectVo">
-        select project_id, project_name, customer_id, status, amount, pm_user_id, delivery_date, deal_flag, del_flag, create_by, create_time, update_by, update_time, remark from sys_project
+        select project_id,project_number, project_name, customer_id, status, amount, pm_user_id, delivery_date, deal_flag, del_flag, create_by, create_time, update_by, update_time, remark from sys_project
     </sql>
 
     <select id="selectSysProjectListWithCustomerName" parameterType="com.ruoyi.system.domain.SysProject" resultType="com.ruoyi.system.vo.SysProjectVo">
@@ -85,8 +85,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           AND p.deal_flag=1
     </select>
 
+    <select id="selectSysProjectByNumber" resultType="com.ruoyi.system.domain.SysProject">
+        <include refid="selectProjectVo"/>
+        <where>
+            project_number = #{projectNumber}
+        </where>
+    </select>
 
-	<delete id="deleteSysProjectById" parameterType="Long">
+    <select id="selectSysProjectListOn" resultType="com.ruoyi.system.domain.SysProject">
+        <include refid="selectProjectVo"/>
+        <where>
+            deal_flag=1 and shipping_time is null and del_flag=0
+        </where>
+    </select>
+
+
+    <delete id="deleteSysProjectById" parameterType="Long">
         update sys_project set del_flag=1 where project_id = #{projectId}
     </delete>
 	

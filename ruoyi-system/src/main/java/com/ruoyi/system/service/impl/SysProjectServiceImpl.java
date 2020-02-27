@@ -160,5 +160,13 @@ public class SysProjectServiceImpl extends BaseServiceImpl<SysProject> implement
 		return echarts;
 	}
 
+	@Override
+	public SysProject selectSysProjectByNumber(String projectNumber) {
+		return projectMapper.selectSysProjectByNumber(projectNumber);
+	}
 
+	@Override
+	public List<SysProject> selectSysProjectListOn() {
+		return projectMapper.selectSysProjectListOn();
+	}
 }

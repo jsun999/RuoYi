@@ -39,13 +39,13 @@ public class SysProductionController extends BaseController
 	 * 查询排程
 	 */
 	@RequiresPermissions("project:production:view")
-	@GetMapping("/production/{projectId}")
-	public String detail(@PathVariable("projectId") Long projectId, ModelMap mmap)
+	@GetMapping("/production/{projectNumber}")
+	public String detail(@PathVariable("projectNumber") String projectNumber, ModelMap mmap)
 	{
 		SysProduction sysProduction = new SysProduction();
-		sysProduction.setProjectId(projectId);
+		sysProduction.setProjectNumber(projectNumber);
 		mmap.put("productionList", productionService.selectProductionList(sysProduction));
-		mmap.put("project",projectService.selectSysProjectById(projectId));
+		mmap.put("project",projectService.selectSysProjectByNumber(projectNumber));
 		return prefix + "/production";
 	}
 

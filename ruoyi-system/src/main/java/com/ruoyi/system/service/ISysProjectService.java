@@ -80,4 +80,8 @@ public interface ISysProjectService extends BaseService<SysProject>
 	 * @return
 	 */
 	List<Echart> performanceCompletion(SysUser sysUser);
+
+	SysProject selectSysProjectByNumber(String projectNumber);
+
+    List<SysProject> selectSysProjectListOn();
 }
