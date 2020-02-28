@@ -59,8 +59,6 @@
         var removeFlag = [[${@permission.hasPermi('project:production:remove')}]];
         var prefix = ctx + "project/production";
 		var datas = [[${@dict.getType('sys_process_type')}]];
-
-
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -107,11 +105,11 @@
 					title : '计划结束时间',
 					sortable: true
 				},
-				{
-					field : 'planDays', 
-					title : '计划天数',
-					sortable: true
-				},
+				// {
+				// 	field : 'planDays',
+				// 	title : '计划天数',
+				// 	sortable: true
+				// },
 				{
 					field : 'actualBeginTime', 
 					title : '实际开始时间',
@@ -122,11 +120,11 @@
 					title : '计划开始时间',
 					sortable: true
 				},
-				{
-					field : 'actualDays', 
-					title : '实际天数',
-					sortable: true
-				},
+				// {
+				// 	field : 'actualDays',
+				// 	title : '实际天数',
+				// 	sortable: true
+				// },
 				{
 					field : 'remark', 
 					title : '备注',

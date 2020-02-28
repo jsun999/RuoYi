@@ -9,6 +9,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.domain.SysProduction;
 import com.ruoyi.system.service.ISysProductionService;
 import com.ruoyi.system.service.ISysProjectService;
+import com.ruoyi.system.vo.SysProductionVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,7 +66,7 @@ public class SysProductionController extends BaseController
 	public TableDataInfo list(SysProduction production)
 	{
 		startPage();
-        List<SysProduction> list = productionService.selectProductionList(production);
+        List<SysProductionVo> list = productionService.selectProductionList(production);
 		return getDataTable(list);
 	}
 	
@@ -78,8 +79,8 @@ public class SysProductionController extends BaseController
     @ResponseBody
     public AjaxResult export(SysProduction production)
     {
-    	List<SysProduction> list = productionService.selectProductionList(production);
-        ExcelUtil<SysProduction> util = new ExcelUtil<SysProduction>(SysProduction.class);
+    	List<SysProductionVo> list = productionService.selectProductionList(production);
+        ExcelUtil<SysProductionVo> util = new ExcelUtil<SysProductionVo>(SysProductionVo.class);
         return util.exportExcel(list, "production");
     }
 	

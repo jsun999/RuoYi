@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.domain.SysProduction;
+import com.ruoyi.system.vo.SysProductionVo;
 
 import java.util.List;
 
@@ -20,5 +21,6 @@ public interface SysProductionMapper extends BaseMapper<SysProduction>
      * @return 结果
      */
 	public int deleteProductionByIds(String[] productionIds);
-	
+
+    List<SysProductionVo> selectProductionVo(SysProduction production);
 }

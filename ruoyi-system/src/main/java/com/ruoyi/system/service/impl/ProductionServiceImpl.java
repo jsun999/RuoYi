@@ -3,6 +3,7 @@ package com.ruoyi.system.service.impl;
 import java.util.List;
 
 import com.ruoyi.system.basemapper.BaseMapper;
+import com.ruoyi.system.vo.SysProductionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysProductionMapper;
@@ -46,9 +47,9 @@ public class ProductionServiceImpl extends BaseServiceImpl<SysProduction>  imple
      * @return 生产排程集合
      */
 	@Override
-	public List<SysProduction> selectProductionList(SysProduction production)
+	public List<SysProductionVo> selectProductionList(SysProduction production)
 	{
-	    return productionMapper.select(production);
+	    return productionMapper.selectProductionVo(production);
 	}
 	
     /**

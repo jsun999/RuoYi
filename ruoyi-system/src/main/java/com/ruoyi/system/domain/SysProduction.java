@@ -36,7 +36,7 @@ public class SysProduction extends BaseEntity
 	private Integer planDays;
 	/** 实际开始时间 */
 	private String actualBeginTime;
-	/** 计划开始时间 */
+	/** 实际结束时间 */
 	private String actualEndTime;
 	/** 实际天数 */
 	private Integer actualDays;

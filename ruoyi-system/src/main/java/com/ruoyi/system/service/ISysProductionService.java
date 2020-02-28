@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import com.ruoyi.system.domain.SysProduction;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.vo.SysProductionVo;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface ISysProductionService extends BaseService<SysProduction>
      * @param production 生产排程信息
      * @return 生产排程集合
      */
-	public List<SysProduction> selectProductionList(SysProduction production);
+	public List<SysProductionVo> selectProductionList(SysProduction production);
 	
 	/**
      * 新增生产排程

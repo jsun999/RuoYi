@@ -10,76 +10,64 @@
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">项目编号：</label>
 				<div class="col-sm-8">
-					<input id="projectId" name="projectId" th:field="*{projectId}" class="form-control" type="text">
+					<select name="projectNumber" class="form-control" th:with="projects=${@project.getProjectsOnRecord()}">
+						<option th:each="project:${projects}" th:value="${project.projectNumber}" th:text="${project.projectName}"  th:field="*{projectNumber}"></option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">工序：</label>
 				<div class="col-sm-8">
-					<input id="projectStatus" name="projectStatus" th:field="*{projectStatus}" class="form-control" type="text">
+					<select name="productionSort" th:with="type=${@dict.getType('sys_process_type')}" class="form-control">
+						<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{productionSort}"></option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">计划开始时间：</label>
 				<div class="col-sm-8">
-					<input id="planBeginTime" name="planBeginTime" th:field="*{planBeginTime}" class="form-control" type="text">
+					<div class="input-group date"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="planBeginTime" name="planBeginTime" data-type="datetime" type="text" th:field="*{planBeginTime}" class="time-input form-control">
+					</div>
 				</div>
 			</div>
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">计划结束时间：</label>
 				<div class="col-sm-8">
-					<input id="planEndTime" name="planEndTime" th:field="*{planEndTime}" class="form-control" type="text">
+					<div class="input-group date"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="planEndTime" name="planEndTime" data-type="datetime" type="text" th:field="*{planEndTime}" class="time-input form-control">
+					</div>
 				</div>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">计划天数：</label>
-				<div class="col-sm-8">
-					<input id="planDays" name="planDays" th:field="*{planDays}" class="form-control" type="text">
-				</div>
-			</div>
+<!--			<div class="form-group">	-->
+<!--				<label class="col-sm-3 control-label">计划天数：</label>-->
+<!--				<div class="col-sm-8">-->
+<!--					<input id="planDays" name="planDays" th:field="*{planDays}" class="form-control" type="text">-->
+<!--				</div>-->
+<!--			</div>-->
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">实际开始时间：</label>
 				<div class="col-sm-8">
-					<input id="actualBeginTime" name="actualBeginTime" th:field="*{actualBeginTime}" class="form-control" type="text">
+					<div class="input-group date"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="actualBeginTime" name="actualBeginTime" data-type="datetime" type="text" th:field="*{actualBeginTime}" class="time-input form-control">
+					</div>
 				</div>
 			</div>
 			<div class="form-group">	
-				<label class="col-sm-3 control-label">计划开始时间：</label>
+				<label class="col-sm-3 control-label">实际结束时间：</label>
 				<div class="col-sm-8">
-					<input id="actualEndTime" name="actualEndTime" th:field="*{actualEndTime}" class="form-control" type="text">
+					<div class="input-group date"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="actualEndTime" name="actualEndTime" data-type="datetime" type="text" th:field="*{actualEndTime}" class="time-input form-control">
+					</div>
 				</div>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">实际天数：</label>
-				<div class="col-sm-8">
-					<input id="actualDays" name="actualDays" th:field="*{actualDays}" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">创建者：</label>
-				<div class="col-sm-8">
-					<input id="createBy" name="createBy" th:field="*{createBy}" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">创建时间：</label>
-				<div class="col-sm-8">
-					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">更新者：</label>
-				<div class="col-sm-8">
-					<input id="updateBy" name="updateBy" th:field="*{updateBy}" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">更新时间：</label>
-				<div class="col-sm-8">
-					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
+<!--			<div class="form-group">	-->
+<!--				<label class="col-sm-3 control-label">实际天数：</label>-->
+<!--				<div class="col-sm-8">-->
+<!--					<input id="actualDays" name="actualDays" th:field="*{actualDays}" class="form-control" type="text">-->
+<!--				</div>-->
+<!--			</div>-->
+			<div class="form-group">
 				<label class="col-sm-3 control-label">备注：</label>
 				<div class="col-sm-8">
 					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
