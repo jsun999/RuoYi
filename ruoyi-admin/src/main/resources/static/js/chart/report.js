@@ -440,6 +440,7 @@ function init_echarts() {
         echartGauge.showLoading();
         performanceCompletion(1);
     }
+
     if ($('#echart_bar2').length) {
         echartBar2 = echarts.init(document.getElementById('echart_bar2'), theme);
         echartBar2.setOption({
@@ -522,9 +523,9 @@ function toolCostTimeType(type) {
             var yaxis2 = new Array();
             for(var i=0;i<data.length;i++){
                 xaxis.push(data[i].xaxis);
-                if(data[i].change_type==1){
+                if(data[i].changeType==1){
                     yaxis1.push(data[i].yaxis);
-                }else if(data[i].change_type==2){
+                }else if(data[i].changeType==2){
                     yaxis2.push(data[i].yaxis);
                 }
             }

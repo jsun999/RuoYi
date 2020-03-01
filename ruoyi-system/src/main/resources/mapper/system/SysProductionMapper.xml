@@ -10,8 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{productionId}
         </foreach>
     </delete>
-    <select id="selectProductionVo" resultType="com.ruoyi.system.vo.SysProductionVo">
-        select t.*,p.project_name from sys_production t left join sys_project p on t.project_number = p.project_number
+    <select id="selectProductionVo" parameterType="com.ruoyi.system.vo.SysProductionVo" resultType="com.ruoyi.system.vo.SysProductionVo">
+        select t.*,p.project_name from sys_production t left join sys_project p on t.project_number = p.project_number where t.project_number = #{projectNumber} order by t.process_sort
     </select>
 
 </mapper>

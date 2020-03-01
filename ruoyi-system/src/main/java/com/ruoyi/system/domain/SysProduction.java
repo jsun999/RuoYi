@@ -27,7 +27,9 @@ public class SysProduction extends BaseEntity
 	/** 项目编号 */
 	private String projectNumber;
 	/** 工序 */
-	private Integer productionSort;
+	private Integer processType;
+	/** 排序 */
+	private Integer processSort;
 	/** 计划开始时间 */
 	private String planBeginTime;
 	/** 计划结束时间 */
