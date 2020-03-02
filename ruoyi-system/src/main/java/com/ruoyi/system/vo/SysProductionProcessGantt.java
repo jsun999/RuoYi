@@ -7,4 +7,5 @@ import java.util.List;
 public class SysProductionProcessGantt {
     private String[] processType;
     private List<SysProductionGantt> gantts;
+    private String projectName;
 }

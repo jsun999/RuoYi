@@ -49,10 +49,7 @@ public class SysProductionController extends BaseController {
     @RequiresPermissions("project:production:view")
     @GetMapping("/production/{projectNumber}")
     public String detail(@PathVariable("projectNumber") String projectNumber, ModelMap mmap) {
-        SysProduction sysProduction = new SysProduction();
-        sysProduction.setProjectNumber(projectNumber);
-        mmap.put("productionList", productionService.selectProductionList(sysProduction));
-        mmap.put("project", projectService.selectSysProjectByNumber(projectNumber));
+        mmap.put("projectNumber", projectNumber);
         return prefix + "/production";
     }
 
@@ -198,6 +195,7 @@ public class SysProductionController extends BaseController {
         gantt3.setData(actualBegin);
         gantts.add(gantt3);
 
+        result.setProjectName(projectService.selectSysProjectByNumber(projectNumber).getProjectName());
         return result;
     }
 }

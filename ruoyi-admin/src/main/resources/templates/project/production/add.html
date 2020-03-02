@@ -85,25 +85,20 @@
 		var prefix = ctx + "project/production"
 		$("#form-production-add").validate({
 			rules:{
-				"planBeginTime":{
+				planBeginTime:{
 					required:true,
 				},
-				"planEndTime":{
+				planEndTime:{
 					required:true,
-					compareDate: "#planBeginTime",
+					compareTime: "#planBeginTime",
 				},
-				"processSort":{
+				processSort:{
 					required:true,
 				}
-
 			},
 			messages:{
-				"planBeginTime":{
-					required:true,
-				},
-				"planEndTime":{
-					required:true,
-					compareDate: "结束日期必须大于开始日期",
+				planEndTime:{
+					compareTime: "结束日期必须大于开始日期",
 				},
 			},
 			focusCleanup: true

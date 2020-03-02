@@ -4,7 +4,16 @@ $(document).ready(function(){
 		  submitHandler: function(form) {    
 		 		form.submit();    
 		}       
-	});  
+	});
+	jQuery.validator.methods.compareTime = function(value, element, param) {
+		//var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+		//value = value + ":00";
+		var startDate = jQuery(param).val();
+		var date1 = new Date(startDate);
+		var date2 = new Date(value);
+		return date1 < date2;
+	};
+
 	//手机号码验证身份证正则合并：(^\d{15}$)|(^\d{17}([0-9]|X)$)
 	jQuery.validator.addMethod("isPhone",function(value,element){
 		var length = value.length;

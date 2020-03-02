@@ -100,6 +100,7 @@
 		var removeFlag = [[${@permission.hasPermi('project:production:remove')}]];
 		var prefix = ctx + "project/production";
 		var datas = [[${@dict.getType('sys_process_type')}]];
+		var projectNumber = [[${projectNumber}]];
 		$(function () {
 			var options = {
 				url: prefix + "/list",
@@ -107,6 +108,7 @@
 				updateUrl: prefix + "/edit/{id}",
 				removeUrl: prefix + "/remove",
 				exportUrl: prefix + "/export",
+				queryParams: {projectNumber:projectNumber},
 				modalName: "生产排程",
 				showExport: true,
 				columns: [{

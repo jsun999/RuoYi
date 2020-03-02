@@ -1,11 +1,9 @@
 var series = [];
 var data = [];
 
-
 var option = {
     backgroundColor: "#fff",
     title: {
-        text: "生产排程",
         left: 'center',
         padding: 20,
         position: 'center',
@@ -102,7 +100,7 @@ if ($('#echart_process_gantt').length) {
     var processCharts = echarts.init(document.getElementById('echart_process_gantt'));
     processCharts.setOption(option);
     processCharts.showLoading();
-    getProcess($('#projectNumberSelect').val());
+    getProcess(projectNumber);
 }
 
 function ganttRefresh(){
@@ -173,7 +171,10 @@ function getProcess(projectNumber) {
                 yAxis: {
                     data: dataQuery.processType
                 },
-                series: series
+                series: series,
+                title: {
+                    text: dataQuery.projectName + "生产排程"
+                }
             })
         }
     });
