@@ -100,7 +100,7 @@ if ($('#echart_process_gantt').length) {
     var processCharts = echarts.init(document.getElementById('echart_process_gantt'));
     processCharts.setOption(option);
     processCharts.showLoading();
-    getProcess(projectNumber);
+    getProcess($('#projectNumberSelect').val());
 }
 
 function ganttRefresh(){

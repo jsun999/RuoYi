@@ -9,8 +9,11 @@ $(function () {
         });
     };
     thisIframe= thisFrame();*/
-
-    listObjects();
+    if(filePath!=null&&filePath.length>0){
+        goDetail(filePath);
+    }else{
+        listObjects();
+    }
 })
 var currentPath = "";
 var obs = (function getObsClient(){
@@ -170,7 +173,11 @@ function addfolderTxt(param,searchType){
     arr.push("<div class=\"button-box-mark\" style=\"display:inline-block;*display:inline;*zoom:1;width:1px;height:1px;line-height:0;\"></div>\n");
     arr.push("<div class=\"x-button-box\" style=\"position: absolute; top: 0px; line-height: normal; visibility: visible; width: 0px; padding-left: 0px; display: block;\">\n");
     arr.push("<div style=\"display:none;width:100%;height:100%;z-index:30;position:absolute;top:0;left:0;\"></div>\n");
-    arr.push("<a class=\"g-button\" data-button-id=\"b9\" data-button-index=\"1\" href=\"javascript:share(\'"+param['Prefix']+"\','2');\" title=\"分享\" style=\"display: inline-block;\">\n");
+    if(param==undefined||param==null){
+        arr.push("<a class=\"g-button\" data-button-id=\"b9\" data-button-index=\"1\" href=\"javascript:;\" title=\"分享\" style=\"display: inline-block;\">\n");
+    }else{
+        arr.push("<a class=\"g-button\" data-button-id=\"b9\" data-button-index=\"1\" href=\"javascript:share(\'"+param['Prefix']+"\','2');\" title=\"分享\" style=\"display: inline-block;\">\n");
+    }
     arr.push("<span class=\"g-button-right\">\n");
     arr.push("<em class=\"icon icon-share\" title=\"分享\"></em>\n");
     arr.push("<span class=\"text\" style=\"width: auto;\">分享</span>\n");
@@ -909,6 +916,14 @@ $("span.fvdQMx").on("click",function () {
     var folderName="";
     if(neworrename==1){
         folderName = currentPath + $(this).prev().val()+"/";
+        if(projectId!=null&&projectId.length>0){
+            $.post("/project/project/edit",{projectId:projectId,filePath:folderName},function(result){
+                if(result.code==0){
+                    projectId=null;
+                }
+                console.log(result);
+            });
+        }
         obs.putObject({
             Bucket : 'guidang1',
             Key : folderName

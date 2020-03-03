@@ -220,7 +220,7 @@
                         if(row.filePath!=null&&row.filePath.length>0){
                             actions.push('<a class="btn btn-info btn-xs ' + productionFlag + '" href="javascript:void(0)" onclick="gotoDocument(\'' + row.filePath + '\')"><i class="fa fa-list-ul"></i>项目图档</a> ');
                         }else{
-                            actions.push('<a class="btn btn-info btn-xs ' + productionFlag + '" href="javascript:void(0)" onclick="uploadFile()"><i class="fa fa-list-ul"></i>上传图档</a> ');
+                            actions.push('<a class="btn btn-info btn-xs ' + productionFlag + '" href="javascript:void(0)" onclick="uploadFile(\'' + row.projectId + '\')"><i class="fa fa-list-ul"></i>上传图档</a> ');
                         }
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.projectId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
@@ -234,6 +234,17 @@
     function productionLine(projectNumber) {
         var url = ctx + "project/production" + '/production/' + projectNumber;
         createMenuItem(url, "生产排程");
+    }
+
+    /*上传文件*/
+    function uploadFile(projectId) {
+        var url = ctx + "document/upload/" +projectId;
+        createMenuItem(url, "图档管理");
+    }
+
+    function gotoDocument(path){
+        var url = ctx + "document/goto?" + "path="+path;
+        createMenuItem(url, "图档管理");
     }
 
     function onEditableSave(field, row, oldValue, $el) {
