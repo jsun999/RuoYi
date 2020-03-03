@@ -117,7 +117,6 @@ function getProcess(projectNumber) {
         "async": false,
         "success": function (dataQuery) {
             processCharts.hideLoading();
-            var xaxis = new Array();
             data = dataQuery.gantts;
             for (var i in data) {
                 var dates = data[i].data;
@@ -130,7 +129,11 @@ function getProcess(projectNumber) {
                         name: data[i].name,
                         type: "bar",
                         stack: data[i].stack,
-
+                        markLine : {
+                            data : [
+                                {xAxis : new Date().toLocaleDateString()}
+                            ]
+                        },
                         label: {
                             normal: {
                                 show: true,

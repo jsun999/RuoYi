@@ -24,15 +24,6 @@
 							</li>
 
 							<li>
-								工序：
-								<select name="processType" th:with="type=${@dict.getType('sys_process_type')}">
-									<option value="">所有</option>
-									<option th:each="process : ${type}" th:text="${process.dictLabel}"
-											th:value="${process.dictValue}"></option>
-								</select>
-							</li>
-
-							<li>
 								<a class="btn btn-primary btn-rounded btn-sm" onclick="refresh()"><i
 										class="fa fa-search"></i>&nbsp;搜索</a>
 								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i

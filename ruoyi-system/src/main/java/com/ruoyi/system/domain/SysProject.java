@@ -32,6 +32,8 @@ public class SysProject extends BaseEntity
 	private String projectName;
 	/** 客户ID */
 	private Long customerId;
+	/** 图档位置 */
+	private String filePath;
 	/** 项目状态 */
 	private Integer status;
 	/** 金额 */
