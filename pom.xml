@@ -218,8 +218,18 @@
 				<groupId>tk.mybatis</groupId>
 				<artifactId>mapper-spring-boot-starter</artifactId>
 				<version>${tk.mybatis.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>persistence-api</artifactId>
+						<groupId>javax.persistence</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
-
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-spring-boot-starter-jpa</artifactId>
+				<version>${activiti.starter.version}</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 

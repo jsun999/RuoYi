@@ -33,8 +33,8 @@ public class ProcessServiceImpl implements IProcessService {
     @Autowired
     private SysUserMapper userMapper;
 
-    @Autowired
-    private ProcessMapper processMapper;
+//    @Autowired
+//    private ProcessMapper processMapper;
 
     @Override
     public List<HistoricActivity> selectHistoryList(String processInstanceId, HistoricActivity historicActivity) {

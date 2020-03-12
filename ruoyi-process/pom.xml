@@ -19,6 +19,8 @@
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
             <version>${activiti.starter.version}</version>
         </dependency>
+
+
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-framework</artifactId>

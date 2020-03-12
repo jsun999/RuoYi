@@ -1,6 +1,8 @@
 package com.ruoyi.process.group.mapper;
 
 import com.ruoyi.process.group.domain.ActIdGroup;
+import com.ruoyi.system.basemapper.BaseMapper;
+
 import java.util.List;
 
 /**
@@ -9,7 +11,7 @@ import java.util.List;
  * @author Xianlu Tech
  * @date 2019-10-02
  */
-public interface ActIdGroupMapper 
+public interface ActIdGroupMapper extends BaseMapper<ActIdGroup>
 {
     /**
      * 查询流程用户组

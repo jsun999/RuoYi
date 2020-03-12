@@ -16,7 +16,13 @@
 	</description>
 	
     <dependencies>
-    
+
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring-boot-starter-jpa</artifactId>
+            <version>${activiti.starter.version}</version>
+        </dependency>
+
     	 <!-- Mysql驱动包 -->
         <dependency>
             <groupId>mysql</groupId>
