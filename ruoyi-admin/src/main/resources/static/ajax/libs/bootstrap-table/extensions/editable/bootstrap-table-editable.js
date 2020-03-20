@@ -79,7 +79,20 @@
 
                 var _dont_edit_formatter = false;
                 if (column.editable.hasOwnProperty('noeditFormatter')) {
-                    _dont_edit_formatter = column.editable.noeditFormatter(value, row, index);
+                    var process = column.editable.noeditFormatter(value, row, index);
+                    if(!process.hasOwnProperty('class')){
+                        process.class = '';
+                    }
+                    if(!process.hasOwnProperty('style')){
+                        process.style = '';
+                    }
+                    _dont_edit_formatter = ['<a href="javascript:void(0)"',
+                        ' data-name="' + column.field + '"',
+                        ' data-pk="' + row[that.options.idField] + '"',
+                        ' data-value="' + result + '"',
+                        ' class="'+process.class+'" style="'+process.style+'"',
+                        '>' + process.value + '</a>'
+                    ].join('');
                 }
 
                 if (_dont_edit_formatter === false) {

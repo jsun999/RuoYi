@@ -34,7 +34,6 @@
                                             th:text="${customer.customerName}"></option>
                                 </select>
                             </div>
-
                         </li>
                         <li>
                             项目进度：
@@ -158,13 +157,24 @@
                     title: '项目进度',
                     sortable: true,
                     align: 'center',
-                    // formatter: function(value, row, index) {
-                    // 	return $.table.selectDictLabel(datas, value);
-                    // }
                     editable: {
                         type: 'select',
                         title: '项目进度',
-                        source: datasInfo
+                        source: datasInfo,
+                        noeditFormatter: function (value,row,index) {
+                            var listClass;
+                            var label;
+                            $.each(datas, function(index, dict) {
+                                if (dict.dictValue == ('' + value)) {
+                                    listClass = $.common.equals("default", dict.listClass) ? "" : "badge badge-" + dict.listClass;
+                                    label = dict.dictLabel;
+                                }
+                            })
+                            var result={filed:"status",value:label,class:listClass
+                                // ,style:"background:#333;padding:5px 10px;"
+                            };
+                            return result;
+                        }
                     },
                 },
                 {
