@@ -5,6 +5,7 @@ import com.ruoyi.system.basemapper.BaseMapper;
 import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.vo.SysProjectVo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ import java.util.List;
  * 
  * @date 2019-07-01
  */
+
+@Repository
 public interface SysProjectMapper extends BaseMapper<SysProject>
 {
 

@@ -78,11 +78,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectPerformanceCompletionByUser" resultType="com.ruoyi.common.core.domain.Echart">
         SELECT u.operational_indicator AS xaxis,IFNULL(SUM(totalAmount),0) AS yaxis
+--         SELECT u.user_name AS xaxis,IFNULL(SUM(totalAmount),0) AS yaxis
         FROM sys_project p
                  RIGHT JOIN sys_user u ON u.user_id=p.pm_user_id
-        WHERE p.pm_user_id= 103
+        WHERE p.pm_user_id= #{userId}
           AND DATE_FORMAT(p.create_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
           AND p.deal_flag=1
+          AND p.del_flag=0
     </select>
 
     <select id="selectSysProjectByNumber" resultType="com.ruoyi.system.domain.SysProject">

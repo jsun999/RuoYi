@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改项目')" />
+	<th:block th:include="include :: select2-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content form-content">
+        <form class="form-horizontal m" id="form-performance-edit" th:object="${user}">
+            <input id="userId" name="userId" th:field="*{userId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">业绩目标：</label>
+				<div class="col-sm-8">
+					<input id="operationalIndicator" name="operationalIndicator" th:field="*{operationalIndicator}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: select2-js" />
+    <script type="text/javascript">
+		var prefix = ctx + "/system/user";
+		$("#form-performance-edit").validate({
+			rules:{
+				operationalIndicator:{
+					required:true,
+					number:true
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-performance-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>
