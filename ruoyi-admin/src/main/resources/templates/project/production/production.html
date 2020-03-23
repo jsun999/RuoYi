@@ -90,7 +90,7 @@
 		var editFlag = [[${@permission.hasPermi('project:production:edit')}]];
 		var removeFlag = [[${@permission.hasPermi('project:production:remove')}]];
 		var prefix = ctx + "project/production";
-		var datas = [[${@dict.getType('sys_process_type')}]];
+		var datas = [[${@dict.getType('production_process')}]];
 		var projectNumber = [[${projectNumber}]];
 		$(function () {
 			var options = {

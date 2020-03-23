@@ -163,7 +163,7 @@ public class SysProductionController extends BaseController {
             planEnd[i] = sysProductionVo.getPlanEndTime();
             actualBegin[i]=sysProductionVo.getActualBeginTime();
             actualEnd[i]=sysProductionVo.getActualEndTime();
-            processType[i] = sysDictDataService.selectDictLabel("sys_process_type",sysProductionVo.getProcessType().toString());
+            processType[i] = sysDictDataService.selectDictLabel("production_process",sysProductionVo.getProcessType().toString());
         }
         SysProductionGantt gantt2 = new SysProductionGantt();
         gantt2.setName("计划时间");

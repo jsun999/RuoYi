@@ -17,7 +17,7 @@
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">工序：</label>
 				<div class="col-sm-8">
-					<select name="processType" th:with="type=${@dict.getType('sys_process_type')}" class="form-control">
+					<select name="processType" th:with="type=${@dict.getType('production_process')}" class="form-control">
 						<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 					</select>
 				</div>
