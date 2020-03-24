@@ -72,6 +72,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser>  implements ISy
      * @param user 用户信息
      * @return 用户信息集合信息
      */
+    @Override
     @DataScope(tableAlias = "u")
     public List<SysUser> selectAllocatedList(SysUser user)
     {
@@ -84,6 +85,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser>  implements ISy
      * @param user 用户信息
      * @return 用户信息集合信息
      */
+    @Override
     @DataScope(tableAlias = "u")
     public List<SysUser> selectUnallocatedList(SysUser user)
     {
@@ -212,7 +214,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser>  implements ISy
         userPostMapper.deleteUserPostByUserId(userId);
         // 新增用户与岗位管理
         insertUserPost(user);
-        return userMapper.updateUser(user);
+        return userMapper.updateByPrimaryKey(user);
     }
 
     /**
@@ -224,7 +226,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser>  implements ISy
     @Override
     public int updateUserInfo(SysUser user)
     {
-        return userMapper.updateUser(user);
+        return userMapper.updateByPrimaryKey(user);
     }
 
     /**
@@ -468,7 +470,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser>  implements ISy
         {
             throw new BusinessException("不允许修改超级管理员用户");
         }
-        return userMapper.updateUser(user);
+        return userMapper.updateByPrimaryKey(user);
     }
 
 }

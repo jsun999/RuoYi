@@ -177,6 +177,30 @@ public class SysUserController extends BaseController
         return toAjax(userService.resetUserPwd(user));
     }
 
+
+    @RequiresPermissions("system:user:performance")
+    @Log(title = "业绩设定", businessType = BusinessType.UPDATE)
+    @GetMapping("/performance/{userId}")
+    public String performance(@PathVariable("userId") Long userId, ModelMap mmap)
+    {
+        mmap.put("user", userService.selectUserById(userId));
+        return prefix + "/performance";
+    }
+
+    @RequiresPermissions("system:user:performance")
+    @Log(title = "业绩设定", businessType = BusinessType.UPDATE)
+    @PostMapping("/performance")
+    @ResponseBody
+    public AjaxResult performanceSave(SysUser user)
+    {
+        if (StringUtils.isNotNull(user.getUserId()) && SysUser.isAdmin(user.getUserId()))
+        {
+            return error("不允许修改超级管理员用户");
+        }
+        user.setUpdateBy(ShiroUtils.getLoginName());
+        return toAjax(userService.updateUserInfo(user));
+    }
+
     @RequiresPermissions("system:user:remove")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
