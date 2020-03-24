@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateBy"     column="update_by"    />
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
+		<result property="operationalIndicator"       column="operational_indicator"       />
 		<association property="dept"    column="dept_id" javaType="com.ruoyi.system.domain.SysDept" resultMap="deptResult" />
 		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
 	</resultMap>
@@ -47,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<sql id="selectUserVo">
         select  u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.phonenumber, u.sex, u.avatar, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
-       		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.status as dept_status,
+       		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.status as dept_status,u.operational_indicator,
        		    r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
 		from sys_user u
 			 left join sys_dept d on u.dept_id = d.dept_id
@@ -176,6 +177,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="loginDate != null">login_date = #{loginDate},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
  			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="operationalIndicator != null and operationalIndicator != ''">operational_indicator = #{operationalIndicator},</if>
  			update_time = sysdate()
  		</set>
  		where user_id = #{userId}
