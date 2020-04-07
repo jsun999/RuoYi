@@ -169,4 +169,9 @@ public class SysProjectServiceImpl extends BaseServiceImpl<SysProject> implement
 	public List<SysProject> selectSysProjectListOn() {
 		return projectMapper.selectSysProjectListOn();
 	}
+
+	@Override
+	public void submitApply(SysProject sysProject, String applyUserId) {
+
+	}
 }

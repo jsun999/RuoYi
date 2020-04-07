@@ -84,4 +84,6 @@ public interface ISysProjectService extends BaseService<SysProject>
 	SysProject selectSysProjectByNumber(String projectNumber);
 
     List<SysProject> selectSysProjectListOn();
+
+    void submitApply(SysProject sysProject, String applyUserId);
 }

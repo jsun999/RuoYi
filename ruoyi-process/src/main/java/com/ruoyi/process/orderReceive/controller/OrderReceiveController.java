@@ -10,6 +10,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.process.leave.domain.BizLeaveVo;
 import com.ruoyi.process.leave.service.IBizLeaveService;
+import com.ruoyi.process.orderReceive.service.IOrderReceiveService;
 import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysProjectService;
@@ -54,6 +55,9 @@ public class OrderReceiveController extends BaseController {
     @Autowired
     private ISysProjectService projectService;
 
+    @Autowired
+    private IOrderReceiveService orderReceiveService;
+
     @RequiresPermissions("process:orderReceive:view")
     @GetMapping()
     public String leave(ModelMap mmap) {
@@ -69,7 +73,7 @@ public class OrderReceiveController extends BaseController {
     @ResponseBody
     public TableDataInfo list(SysProject project) {
         if (!SysUser.isAdmin(ShiroUtils.getUserId())) {
-            project.setCreateBy(ShiroUtils.getLoginName());
+            project.setPmUserId(ShiroUtils.getUserId());
         }
         startPage();
         List<SysProjectVo> list = projectService.selectSysProjectListWithCustomerName(project);
@@ -77,60 +81,16 @@ public class OrderReceiveController extends BaseController {
     }
 
     /**
-     * 导出请假业务列表
+     * 提交评审
      */
-    @RequiresPermissions("process:orderReceive:export")
-    @PostMapping("/export")
-    @ResponseBody
-    public AjaxResult export(BizLeaveVo bizLeave) {
-        List<BizLeaveVo> list = bizLeaveService.selectBizLeaveList(bizLeave);
-        ExcelUtil<BizLeaveVo> util = new ExcelUtil<BizLeaveVo>(BizLeaveVo.class);
-        return util.exportExcel(list, "leave");
-    }
-
-
-    /**
-     * 修改请假业务
-     */
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
-        BizLeaveVo bizLeave = bizLeaveService.selectBizLeaveById(id);
-        mmap.put("bizLeave", bizLeave);
-        return prefix + "/edit";
-    }
-
-    /**
-     * 修改保存请假业务
-     */
-    @RequiresPermissions("process:leave:edit")
-    @Log(title = "请假业务", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
-    @ResponseBody
-    public AjaxResult editSave(BizLeaveVo bizLeave) {
-        return toAjax(bizLeaveService.updateBizLeave(bizLeave));
-    }
-
-    /**
-     * 删除请假业务
-     */
-    @RequiresPermissions("process:leave:remove")
-    @Log(title = "请假业务", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
-    @ResponseBody
-    public AjaxResult remove(String ids) {
-        return toAjax(bizLeaveService.deleteBizLeaveByIds(ids));
-    }
-
-    /**
-     * 提交申请
-     */
-    @Log(title = "请假业务", businessType = BusinessType.UPDATE)
+    @Log(title = "提交评审", businessType = BusinessType.UPDATE)
     @PostMapping( "/submitApply")
     @ResponseBody
-    public AjaxResult submitApply(Long id) {
-        BizLeaveVo leave = bizLeaveService.selectBizLeaveById(id);
-        String applyUserId = ShiroUtils.getLoginName();
-        bizLeaveService.submitApply(leave, applyUserId);
+    public AjaxResult submitApply(Long projectId) {
+        SysProject sysProject = projectService.selectSysProjectById(projectId);
+//        BizLeaveVo leave = bizLeaveService.selectBizLeaveById(id);
+        long userId = ShiroUtils.getUserId();
+        orderReceiveService.submitApply(sysProject, userId);
         return success();
     }
 

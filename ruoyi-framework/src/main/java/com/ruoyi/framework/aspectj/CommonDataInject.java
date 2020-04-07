@@ -2,7 +2,6 @@ package com.ruoyi.framework.aspectj;
 
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.framework.util.ShiroUtils;
-import org.apache.ibatis.mapping.SqlCommandType;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -31,10 +30,9 @@ public class CommonDataInject {
     public Object doInsertAround(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
         for (Object arg : args) {
-            logger.debug("[insert]"+arg);
             if(arg instanceof BaseEntity){
                 ((BaseEntity) arg).setCreateTime(new Date());
-                if(!"insertLogininfor".equals(pjp.getSignature().getName())){
+                if(!"insertLogininfor".equals(pjp.getSignature().getName())&&!("insertOperlog".equals(pjp.getSignature().getName()))){
                     if(ShiroUtils.getSysUser()!=null){
                         ((BaseEntity) arg).setCreateBy(ShiroUtils.getSysUser().getUserName());
                     }
@@ -49,7 +47,6 @@ public class CommonDataInject {
     public Object doUpdateAround(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
         for (Object arg : args) {
-            logger.debug("[update]"+arg);
             if(arg instanceof BaseEntity){
                 ((BaseEntity) arg).setUpdateTime(new Date());
                 if(ShiroUtils.getSysUser()!=null){

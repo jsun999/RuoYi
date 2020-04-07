@@ -46,5 +46,12 @@ public class SysProject extends BaseEntity
 	private Byte dealFlag;
 	/** 是否删除 */
 	private Boolean delFlag;
-
+	/** 实际交货时间 */
+	private Date shippingTime;
+	/**
+	 * activiti实例Id
+	 */
+	private String instanceId;
+	/** 评审时间 */
+	private Date inspectionDate;
 }

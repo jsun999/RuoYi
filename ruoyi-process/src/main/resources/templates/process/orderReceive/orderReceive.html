@@ -125,7 +125,6 @@
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
-            onEditableSave: onEditableSave,
             modalName: "项目",
             showExport: true,
             showFooter: true,  //开启底部
@@ -160,25 +159,9 @@
                     title: '项目进度',
                     sortable: true,
                     align: 'center',
-                    editable: {
-                        type: 'select',
-                        title: '项目进度',
-                        source: datasInfo,
-                        noeditFormatter: function (value,row,index) {
-                            var listClass;
-                            var label;
-                            $.each(datas, function(index, dict) {
-                                if (dict.dictValue == ('' + value)) {
-                                    listClass = $.common.equals("default", dict.listClass) ? "" : "badge badge-" + dict.listClass;
-                                    label = dict.dictLabel;
-                                }
-                            })
-                            var result={filed:"status",value:label,class:listClass
-                                // ,style:"background:#333;padding:5px 10px;"
-                            };
-                            return result;
-                        }
-                    },
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(datas, value);
+                    }
                 },
                 {
                     field: 'amount',
@@ -200,10 +183,8 @@
                 {
                     field: 'dealFlag',
                     title: '接单状态',
-                    editable: {
-                        type: 'select',
-                        title: '接单状态',
-                        source: dealDatasInfo
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(dealDatas, value);
                     },
                     sortable: true,
                     align: 'center',
@@ -228,26 +209,18 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.projectId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-info btn-xs ' + productionFlag + '" href="javascript:void(0)" onclick="productionLine(\'' + row.projectNumber + '\')"><i class="fa fa-list-ul"></i>生产排程</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="submitApply(\'' + row.projectId + '\')"><i class="fa fa-edit"></i>发起评审</a> ');
                         if(row.filePath!=null&&row.filePath.length>0){
                             actions.push('<a class="btn btn-info btn-xs ' + productionFlag + '" href="javascript:void(0)" onclick="gotoDocument(\'' + row.filePath + '\')"><i class="fa fa-list-ul"></i>项目图档</a> ');
                         }else{
                             actions.push('<a class="btn btn-info btn-xs ' + productionFlag + '" href="javascript:void(0)" onclick="uploadFile(\'' + row.projectId + '\')"><i class="fa fa-list-ul"></i>上传图档</a> ');
                         }
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.projectId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]
         };
         $.table.init(options);
     });
-
-    /*生产排程*/
-    function productionLine(projectNumber) {
-        var url = ctx + "project/production" + '/production/' + projectNumber;
-        createMenuItem(url, "生产排程");
-    }
 
     /*上传文件*/
     function uploadFile(projectId) {
@@ -260,8 +233,8 @@
         createMenuItem(url, "图档管理");
     }
 
-    function onEditableSave(field, row, oldValue, $el) {
-        $.operate.post(prefix + "/edit", {"projectId": row["projectId"], [field]: row[field]});
+    function submitApply(projectId) {
+        $.operate.post(prefix + "/submitApply", {"projectId": projectId});
     }
 </script>
 </body>
