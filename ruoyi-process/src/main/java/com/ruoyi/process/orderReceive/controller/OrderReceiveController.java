@@ -6,10 +6,10 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.process.leave.domain.BizLeaveVo;
 import com.ruoyi.process.leave.service.IBizLeaveService;
+import com.ruoyi.process.orderReceive.domain.ProcessProjectVo;
 import com.ruoyi.process.orderReceive.service.IOrderReceiveService;
 import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
@@ -72,9 +72,6 @@ public class OrderReceiveController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(SysProject project) {
-        if (!SysUser.isAdmin(ShiroUtils.getUserId())) {
-            project.setPmUserId(ShiroUtils.getUserId());
-        }
         startPage();
         List<SysProjectVo> list = projectService.selectSysProjectListWithCustomerName(project);
         return getDataTable(list);
@@ -88,29 +85,28 @@ public class OrderReceiveController extends BaseController {
     @ResponseBody
     public AjaxResult submitApply(Long projectId) {
         SysProject sysProject = projectService.selectSysProjectById(projectId);
-//        BizLeaveVo leave = bizLeaveService.selectBizLeaveById(id);
         long userId = ShiroUtils.getUserId();
         orderReceiveService.submitApply(sysProject, userId);
         return success();
     }
 
-    @RequiresPermissions("process:leave:todoView")
-    @GetMapping("/leaveTodo")
+    @RequiresPermissions("process:orderReceive:todoView")
+    @GetMapping("/todo")
     public String todoView() {
-        return prefix + "/leaveTodo";
+        return prefix + "/orderReceiveTodo";
     }
 
     /**
      * 我的待办列表
-     * @param bizLeave
+     * @param processProjectVo
      * @return
      */
-    @RequiresPermissions("process:leave:taskList")
+    @RequiresPermissions("process:orderReceive:taskList")
     @PostMapping("/taskList")
     @ResponseBody
-    public TableDataInfo taskList(BizLeaveVo bizLeave) {
+    public TableDataInfo taskList(ProcessProjectVo processProjectVo) {
         startPage();
-        List<BizLeaveVo> list = bizLeaveService.findTodoTasks(bizLeave, ShiroUtils.getLoginName());
+        List<ProcessProjectVo> list = orderReceiveService.findProjectTodoTasks(processProjectVo, ShiroUtils.getLoginName());
         return getDataTable(list);
     }
 
@@ -125,8 +121,8 @@ public class OrderReceiveController extends BaseController {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-        BizLeaveVo bizLeave = bizLeaveService.selectBizLeaveById(new Long(processInstance.getBusinessKey()));
-        mmap.put("bizLeave", bizLeave);
+        SysProject sysProject = orderReceiveService.selectById(new Long(processInstance.getBusinessKey()));
+        mmap.put("project", sysProject);
         mmap.put("taskId", taskId);
         String verifyName = task.getTaskDefinitionKey().substring(0, 1).toUpperCase() + task.getTaskDefinitionKey().substring(1);
         return prefix + "/task" + verifyName;
@@ -139,9 +135,8 @@ public class OrderReceiveController extends BaseController {
      */
     @RequestMapping(value = "/complete/{taskId}", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public AjaxResult complete(@PathVariable("taskId") String taskId, @RequestParam(value = "saveEntity", required = false) String saveEntity,
-                               @ModelAttribute("preloadLeave") BizLeaveVo leave, HttpServletRequest request) {
-        boolean saveEntityBoolean = BooleanUtils.toBoolean(saveEntity);
+    public AjaxResult complete(@PathVariable("taskId") String taskId,
+                               @ModelAttribute("preloadProject") SysProject project, HttpServletRequest request) {
         Map<String, Object> variables = new HashMap<String, Object>();
         Enumeration<String> parameterNames = request.getParameterNames();
         String comment = null;          // 批注
@@ -156,9 +151,6 @@ public class OrderReceiveController extends BaseController {
                         Object value = paramValue;
                         if (parameter[1].equals("B")) {
                             value = BooleanUtils.toBoolean(paramValue);
-                        } else if (parameter[1].equals("DT")) {
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                            value = sdf.parse(paramValue);
                         } else if (parameter[1].equals("COM")) {
                             comment = paramValue;
                         }
@@ -170,9 +162,9 @@ public class OrderReceiveController extends BaseController {
             }
             if (StringUtils.isNotEmpty(comment)) {
                 identityService.setAuthenticatedUserId(ShiroUtils.getLoginName());
-                taskService.addComment(taskId, leave.getInstanceId(), comment);
+                taskService.addComment(taskId, project.getInstanceId(), comment);
             }
-            bizLeaveService.complete(leave, saveEntityBoolean, taskId, variables);
+            orderReceiveService.complete(project, taskId, variables);
 
             return success("任务已完成");
         } catch (Exception e) {
@@ -184,18 +176,18 @@ public class OrderReceiveController extends BaseController {
     /**
      * 自动绑定页面字段
      */
-    @ModelAttribute("preloadLeave")
-    public BizLeaveVo getLeave(@RequestParam(value = "id", required = false) Long id, HttpSession session) {
+    @ModelAttribute("preloadProject")
+    public SysProject getProject(@RequestParam(value = "id", required = false) Long id, HttpSession session) {
         if (id != null) {
-            return bizLeaveService.selectBizLeaveById(id);
+            return orderReceiveService.selectById(id);
         }
-        return new BizLeaveVo();
+        return new SysProject();
     }
 
-    @RequiresPermissions("process:leave:doneView")
-    @GetMapping("/leaveDone")
+    @RequiresPermissions("process:orderReceive:doneView")
+    @GetMapping("/done")
     public String doneView() {
-        return prefix + "/leaveDone";
+        return prefix + "/orderReceiveDone";
     }
 
     /**
@@ -203,7 +195,7 @@ public class OrderReceiveController extends BaseController {
      * @param bizLeave
      * @return
      */
-    @RequiresPermissions("process:leave:taskDoneList")
+    @RequiresPermissions("process:orderReceive:taskDoneList")
     @PostMapping("/taskDoneList")
     @ResponseBody
     public TableDataInfo taskDoneList(BizLeaveVo bizLeave) {

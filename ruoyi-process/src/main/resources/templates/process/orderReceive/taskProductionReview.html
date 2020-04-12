@@ -66,12 +66,28 @@
 					<textarea name="remark" autocomplete="off" maxlength="500" class="form-control" rows="3">[[*{remark}]]</textarea>
 				</div>
 			</div>
+			<hr />
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="factoryApproved">审核意见：</label>
+				<div class="col-sm-8">
+					<select name="p_B_factoryApproved" id="factoryApproved" class="form-control m-b">
+						<option value="true">可以加工</option>
+						<option value="false">无法加工</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">审核备注：</label>
+				<div class="col-sm-8">
+					<textarea name="comment" class="form-control"></textarea>
+				</div>
+			</div>
 		</form>
     </div>
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: select2-js" />
     <script type="text/javascript">
-		var prefix = ctx + "project/project";
+		var prefix = ctx + "process/orderReceive";
 		$("#form-project-edit").validate({
 			rules:{
 				projectName:{
@@ -83,12 +99,17 @@
 			},
 			focusCleanup: true
 		});
-		
+
 		function submitHandler() {
-	        if ($.validate.form()) {
-	            $.operate.save(prefix + "/edit", $('#form-project-edit').serialize());
-	        }
-	    }
+			if ($.validate.form()) {
+				if ($('textarea[name="comment"]').val()) {
+					$('input[name="p_COM_comment"]').val($('textarea[name="comment"]').val());
+				}
+				var taskId = [[${taskId}]];
+				$.operate.save(prefix + "/complete/" + taskId, $('#form-project-edit').serialize());
+			}
+		}
+
 	</script>
 </body>
 </html>

@@ -8,5 +8,5 @@ public class SysProjectVo extends SysProject {
 
     private String customerName;
     private String pmUserName;
-
+    private String taskId;
 }

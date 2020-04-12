@@ -8,6 +8,7 @@ import com.ruoyi.process.leave.domain.BizLeaveVo;
 import com.ruoyi.process.todoitem.domain.BizTodoItem;
 import com.ruoyi.process.todoitem.mapper.BizTodoItemMapper;
 import com.ruoyi.process.todoitem.service.IBizTodoItemService;
+import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.mapper.SysUserMapper;
 import org.activiti.engine.TaskService;
@@ -119,6 +120,48 @@ public class BizTodoItemServiceImpl implements IBizTodoItemService {
         int counter = 0;
         for (Task task: taskList) {
 
+            // todoitem 去重
+            BizTodoItem bizTodoItem = bizTodoItemMapper.selectTodoItemByTaskId(task.getId());
+            if (bizTodoItem != null) continue;
+
+            BizTodoItem newItem = new BizTodoItem();
+            BeanUtils.copyProperties(todoItem, newItem);
+            newItem.setTaskId(task.getId());
+            newItem.setTaskName("task" + task.getTaskDefinitionKey().substring(0, 1).toUpperCase() + task.getTaskDefinitionKey().substring(1));
+            newItem.setNodeName(task.getName());
+            String assignee = task.getAssignee();
+            if (StringUtils.isNotBlank(assignee)) {
+                newItem.setTodoUserId(assignee);
+                SysUser user = userMapper.selectUserByLoginName(assignee);
+                newItem.setTodoUserName(user.getUserName());
+                bizTodoItemMapper.insertBizTodoItem(newItem);
+                counter++;
+            } else {
+                List<String> todoUserIdList = processMapper.selectTodoUserListByTaskId(task.getId());
+                for (String todoUserId: todoUserIdList) {
+                    SysUser todoUser = userMapper.selectUserByLoginName(todoUserId);
+                    newItem.setTodoUserId(todoUser.getLoginName());
+                    newItem.setTodoUserName(todoUser.getUserName());
+                    bizTodoItemMapper.insertBizTodoItem(newItem);
+                    counter++;
+                }
+            }
+        }
+        return counter;
+    }
+
+    @Override
+    public int insertProjectTodoItem(String instanceId, SysProject sysProject, String module) {
+        BizTodoItem todoItem = new BizTodoItem();
+        todoItem.setItemName(sysProject.getProjectName());
+//        todoItem.setItemContent(sysProject.getReason());
+        todoItem.setIsView("0");
+        todoItem.setIsHandle("0");
+        todoItem.setModule(module);
+        todoItem.setTodoTime(DateUtils.getNowDate());
+        List<Task> taskList = taskService.createTaskQuery().processInstanceId(instanceId).active().list();
+        int counter = 0;
+        for (Task task: taskList) {
             // todoitem 去重
             BizTodoItem bizTodoItem = bizTodoItemMapper.selectTodoItemByTaskId(task.getId());
             if (bizTodoItem != null) continue;

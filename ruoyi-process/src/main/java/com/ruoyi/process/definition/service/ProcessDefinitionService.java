@@ -133,7 +133,7 @@ public class ProcessDefinitionService {
             List<ProcessInstance> instanceList = runtimeService.createProcessInstanceQuery()
                     .deploymentId(deploymentId)
                     .list();
-            if (!CollectionUtils.isEmpty(instanceList)) continue;   // 跳过存在流程实例的流程定义
+//            if (!CollectionUtils.isEmpty(instanceList)) continue;   // 跳过存在流程实例的流程定义
             repositoryService.deleteDeployment(deploymentId, true); // true 表示级联删除引用，比如 act_ru_execution 数据
             counter++;
         }

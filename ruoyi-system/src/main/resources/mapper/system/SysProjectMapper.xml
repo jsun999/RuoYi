@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
 
 	<sql id="selectProjectVo">
-        select project_id,project_number, project_name, customer_id, status, amount, pm_user_id, delivery_date, deal_flag, del_flag, create_by, create_time, update_by, update_time, remark from sys_project
+        select project_id,project_number, project_name, customer_id, project_status, amount, pm_user_id, delivery_date, deal_flag, del_flag, create_by, create_time, update_by, update_time, remark from sys_project
     </sql>
 
     <select id="selectSysProjectListWithCustomerName" parameterType="com.ruoyi.system.domain.SysProject" resultType="com.ruoyi.system.vo.SysProjectVo">
@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectId != null "> and p.project_id = #{projectId}</if>
             <if test="projectName != null  and projectName != '' "> and p.project_name like concat('%',#{projectName},'%')</if>
             <if test="customerId != null "> and p.customer_id = #{customerId}</if>
-            <if test="status != null "> and p.status = #{status}</if>
+            <if test="projectStatus != null "> and p.project_status = #{projectStatus}</if>
             <if test="amount != null "> and p.amount = #{amount}</if>
             <if test="pmUserId != null "> and p.pm_user_id = #{pmUserId}</if>
             <if test="deliveryDate != null "> and delivery_date = #{deliveryDate}</if>

@@ -35,14 +35,14 @@ public class SysProject extends BaseEntity
 	/** 图档位置 */
 	private String filePath;
 	/** 项目状态 */
-	private Integer status;
+	private Integer projectStatus;
 	/** 金额 */
 	private BigDecimal amount;
 	/** 负责人（user_id） */
 	private Long pmUserId;
 	/** 交期 */
 	private String deliveryDate;
-	/** 是否接单 */
+	/** 接单状态 */
 	private Byte dealFlag;
 	/** 是否删除 */
 	private Boolean delFlag;
@@ -53,5 +53,5 @@ public class SysProject extends BaseEntity
 	 */
 	private String instanceId;
 	/** 评审时间 */
-	private Date inspectionDate;
+	private Date inspectionTime;
 }

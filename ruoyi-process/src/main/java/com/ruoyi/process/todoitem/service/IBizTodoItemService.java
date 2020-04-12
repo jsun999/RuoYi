@@ -2,6 +2,7 @@ package com.ruoyi.process.todoitem.service;
 
 import com.ruoyi.process.leave.domain.BizLeaveVo;
 import com.ruoyi.process.todoitem.domain.BizTodoItem;
+import com.ruoyi.system.domain.SysProject;
 
 import java.util.List;
 
@@ -61,4 +62,6 @@ public interface IBizTodoItemService {
     public int deleteBizTodoItemById(Long id);
 
     int insertTodoItem(String instanceId, BizLeaveVo leave, String module);
+
+    int insertProjectTodoItem(String processInstanceId, SysProject sysProject, String orderReceive);
 }
