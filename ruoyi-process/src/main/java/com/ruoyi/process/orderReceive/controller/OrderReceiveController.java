@@ -13,6 +13,7 @@ import com.ruoyi.process.orderReceive.domain.ProcessProjectVo;
 import com.ruoyi.process.orderReceive.service.IOrderReceiveService;
 import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysDictDataService;
 import com.ruoyi.system.service.ISysProjectService;
 import com.ruoyi.system.vo.SysProjectVo;
 import org.activiti.engine.IdentityService;
@@ -58,6 +59,9 @@ public class OrderReceiveController extends BaseController {
     @Autowired
     private IOrderReceiveService orderReceiveService;
 
+    @Autowired
+    private ISysDictDataService dictDataService;
+
     @RequiresPermissions("process:orderReceive:view")
     @GetMapping()
     public String leave(ModelMap mmap) {
@@ -85,6 +89,9 @@ public class OrderReceiveController extends BaseController {
     @ResponseBody
     public AjaxResult submitApply(Long projectId) {
         SysProject sysProject = projectService.selectSysProjectById(projectId);
+        if(sysProject.getProjectStatus()!=0){
+            return error(dictDataService.selectDictLabel("sys_project_status",sysProject.getProjectStatus().toString())+",不可发起评审。");
+        }
         long userId = ShiroUtils.getUserId();
         orderReceiveService.submitApply(sysProject, userId);
         return success();
@@ -106,7 +113,7 @@ public class OrderReceiveController extends BaseController {
     @ResponseBody
     public TableDataInfo taskList(ProcessProjectVo processProjectVo) {
         startPage();
-        List<ProcessProjectVo> list = orderReceiveService.findProjectTodoTasks(processProjectVo, ShiroUtils.getLoginName());
+        List<ProcessProjectVo> list = orderReceiveService.findProjectTodoTasks(processProjectVo, ShiroUtils.getUserId());
         return getDataTable(list);
     }
 

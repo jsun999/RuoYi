@@ -4,6 +4,8 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -25,6 +27,8 @@ public class SysProject extends BaseEntity
 	
 	/** 项目ID */
 	@Id
+	//主键则由数据库自动维护
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long projectId;
 	/** 项目编号 */
 	private String projectNumber;

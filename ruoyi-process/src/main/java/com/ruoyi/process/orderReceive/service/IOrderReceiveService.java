@@ -13,7 +13,7 @@ public interface IOrderReceiveService {
 
     ProcessInstance submitApply(SysProject sysProject, long applyUserId);
 
-    List<ProcessProjectVo> findProjectTodoTasks(ProcessProjectVo processProjectVo, String loginName);
+    List<ProcessProjectVo> findProjectTodoTasks(ProcessProjectVo processProjectVo, Long userId);
 
     SysProject selectById(Long id);
 

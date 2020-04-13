@@ -174,7 +174,7 @@ public class BizTodoItemServiceImpl implements IBizTodoItemService {
             String assignee = task.getAssignee();
             if (StringUtils.isNotBlank(assignee)) {
                 newItem.setTodoUserId(assignee);
-                SysUser user = userMapper.selectUserByLoginName(assignee);
+                SysUser user = userMapper.selectUserById(Long.valueOf(assignee));
                 newItem.setTodoUserName(user.getUserName());
                 bizTodoItemMapper.insertBizTodoItem(newItem);
                 counter++;

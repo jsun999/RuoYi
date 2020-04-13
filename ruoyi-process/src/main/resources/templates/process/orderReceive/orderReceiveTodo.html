@@ -145,9 +145,9 @@
                         formatter: function (value, row, index) {
                             var actions = [];
 
-                            if (row.taskName.indexOf('生产审核') !== -1) {
-                                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="showVerifyDialog(\'' + row.taskId + '\', \'' + row.taskName + '\')"><i class="fa fa-edit"></i>生产审核</a> ');
-                            } else {
+                            if (row.taskName!== null) {
+                                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="showVerifyDialog(\'' + row.taskId + '\', \'' + row.taskName + '\')"><i class="fa fa-edit"></i>'+row.taskName+'</a> ');
+                            }else {
                                 actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="submitApply(\'' + row.projectId + '\')"><i class="fa fa-edit"></i>发起评审</a> ');
                             }
                             if(row.filePath!=null&&row.filePath.length>0){

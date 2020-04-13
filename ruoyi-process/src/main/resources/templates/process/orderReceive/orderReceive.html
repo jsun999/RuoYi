@@ -41,7 +41,7 @@
                         </li>
                         <li>
                             项目进度：
-                            <select name="status" th:with="type=${@dict.getType('sys_project_status')}">
+                            <select name="projectStatus" th:with="type=${@dict.getType('sys_project_status')}">
                                 <option value="">所有</option>
                                 <option th:each="status : ${type}" th:text="${status.dictLabel}"
                                         th:value="${status.dictValue}"></option>
@@ -154,7 +154,7 @@
                     sortable: true
                 },
                 {
-                    field: 'status',
+                    field: 'projectStatus',
                     title: '项目进度',
                     sortable: true,
                     align: 'center',

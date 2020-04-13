@@ -68,6 +68,7 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
         ProcessInstance processInstance = runtimeService // 启动流程时设置业务 key
                 .startProcessInstanceByKey("orderReceive", businessKey);
         String processInstanceId = processInstance.getId();
+
         sysProject.setProjectStatus(ProjectStatus.evaluation.getCode());
         sysProject.setDealFlag(ProjectStatus.evaluation.getCode().byteValue());
         sysProject.setInstanceId(processInstanceId); // 建立双向关系
@@ -82,13 +83,13 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProcessProjectVo> findProjectTodoTasks(ProcessProjectVo processProjectVo, String loginName) {
+    public List<ProcessProjectVo> findProjectTodoTasks(ProcessProjectVo processProjectVo, Long userId) {
         List<ProcessProjectVo> results = new ArrayList<>();
         List<Task> tasks = new ArrayList<Task>();
         // 根据当前人的ID查询
-        List<Task> todoList = taskService.createTaskQuery().processDefinitionKey("orderReceive").taskAssignee(loginName).list();
+        List<Task> todoList = taskService.createTaskQuery().processDefinitionKey("orderReceive").taskAssignee(userId.toString()).list();
         // 根据当前人未签收的任务
-        List<Task> unsignedTasks = taskService.createTaskQuery().processDefinitionKey("orderReceive").taskCandidateUser(loginName).list();
+        List<Task> unsignedTasks = taskService.createTaskQuery().processDefinitionKey("orderReceive").taskCandidateUser(userId.toString()).list();
         // 合并
         tasks.addAll(todoList);
         tasks.addAll(unsignedTasks);
