@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -92,8 +93,9 @@ public class OrderReceiveController extends BaseController {
         if(sysProject.getProjectStatus()!=0){
             return error(dictDataService.selectDictLabel("sys_project_status",sysProject.getProjectStatus().toString())+",不可发起评审。");
         }
-        long userId = ShiroUtils.getUserId();
-        orderReceiveService.submitApply(sysProject, userId);
+        String loginName = ShiroUtils.getLoginName();
+        sysProject.setPmUserId(ShiroUtils.getUserId());
+        orderReceiveService.submitApply(sysProject, loginName);
         return success();
     }
 
@@ -113,7 +115,7 @@ public class OrderReceiveController extends BaseController {
     @ResponseBody
     public TableDataInfo taskList(ProcessProjectVo processProjectVo) {
         startPage();
-        List<ProcessProjectVo> list = orderReceiveService.findProjectTodoTasks(processProjectVo, ShiroUtils.getUserId());
+        List<ProcessProjectVo> list = orderReceiveService.findProjectTodoTasks(processProjectVo, ShiroUtils.getLoginName());
         return getDataTable(list);
     }
 
@@ -144,12 +146,12 @@ public class OrderReceiveController extends BaseController {
     @ResponseBody
     public AjaxResult complete(@PathVariable("taskId") String taskId,
                                @ModelAttribute("preloadProject") SysProject project, HttpServletRequest request) {
-        Map<String, Object> variables = new HashMap<String, Object>();
+        Map<String, Object> variables = new HashMap<>();
         Enumeration<String> parameterNames = request.getParameterNames();
         String comment = null;          // 批注
         try {
             while (parameterNames.hasMoreElements()) {
-                String parameterName = (String) parameterNames.nextElement();
+                String parameterName = parameterNames.nextElement();
                 if (parameterName.startsWith("p_")) {
                     // 参数结构：p_B_name，p为参数的前缀，B为类型，name为属性名称
                     String[] parameter = parameterName.split("_");
@@ -165,10 +167,16 @@ public class OrderReceiveController extends BaseController {
                     } else {
                         throw new RuntimeException("invalid parameter for activiti variable: " + parameterName);
                     }
+                }else if("suggestQuotation".equals(parameterName)){
+                    String suggestQuotation = request.getParameter(parameterName);
+                    project.setSuggestQuotation(new BigDecimal(suggestQuotation));
+                }else if("lowestQuotation".equals(parameterName)){
+                    String lowestQuotation = request.getParameter(parameterName);
+                    project.setLowestQuotation(new BigDecimal(lowestQuotation));
                 }
             }
             if (StringUtils.isNotEmpty(comment)) {
-                identityService.setAuthenticatedUserId(ShiroUtils.getLoginName());
+                identityService.setAuthenticatedUserId(String.valueOf(ShiroUtils.getUserId()));
                 taskService.addComment(taskId, project.getInstanceId(), comment);
             }
             orderReceiveService.complete(project, taskId, variables);
@@ -184,9 +192,9 @@ public class OrderReceiveController extends BaseController {
      * 自动绑定页面字段
      */
     @ModelAttribute("preloadProject")
-    public SysProject getProject(@RequestParam(value = "id", required = false) Long id, HttpSession session) {
-        if (id != null) {
-            return orderReceiveService.selectById(id);
+    public SysProject getProject(@RequestParam(value = "projectId", required = false) Long projectId, HttpSession session) {
+        if (projectId != null) {
+            return orderReceiveService.selectById(projectId);
         }
         return new SysProject();
     }

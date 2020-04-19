@@ -5,20 +5,14 @@ import com.ruoyi.common.enums.ProjectStatus;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.process.leave.domain.BizLeaveVo;
 import com.ruoyi.process.orderReceive.domain.ProcessProjectVo;
 import com.ruoyi.process.orderReceive.service.IOrderReceiveService;
 import com.ruoyi.process.todoitem.domain.BizTodoItem;
 import com.ruoyi.process.todoitem.service.IBizTodoItemService;
-import com.ruoyi.system.domain.SysDictData;
-import com.ruoyi.system.domain.SysDictType;
 import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.mapper.SysDictDataMapper;
-import com.ruoyi.system.mapper.SysDictTypeMapper;
 import com.ruoyi.system.mapper.SysProjectMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
-import com.ruoyi.system.vo.SysProjectVo;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -57,8 +51,7 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
     private SysUserMapper userMapper;
 
     @Override
-    public ProcessInstance submitApply(SysProject sysProject, long applyUserId) {
-        sysProject.setPmUserId(applyUserId);
+    public ProcessInstance submitApply(SysProject sysProject, String applyUserId) {
         sysProject.setInspectionTime(DateUtils.getNowDate());
         String businessKey = sysProject.getProjectId().toString(); // 实体类 ID，作为流程的业务 key
 
@@ -83,13 +76,13 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProcessProjectVo> findProjectTodoTasks(ProcessProjectVo processProjectVo, Long userId) {
+    public List<ProcessProjectVo> findProjectTodoTasks(ProcessProjectVo processProjectVo, String userId) {
         List<ProcessProjectVo> results = new ArrayList<>();
         List<Task> tasks = new ArrayList<Task>();
         // 根据当前人的ID查询
-        List<Task> todoList = taskService.createTaskQuery().processDefinitionKey("orderReceive").taskAssignee(userId.toString()).list();
+        List<Task> todoList = taskService.createTaskQuery().processDefinitionKey("orderReceive").taskAssignee(String.valueOf(userId)).list();
         // 根据当前人未签收的任务
-        List<Task> unsignedTasks = taskService.createTaskQuery().processDefinitionKey("orderReceive").taskCandidateUser(userId.toString()).list();
+        List<Task> unsignedTasks = taskService.createTaskQuery().processDefinitionKey("orderReceive").taskCandidateUser(userId).list();
         // 合并
         tasks.addAll(todoList);
         tasks.addAll(unsignedTasks);
@@ -122,6 +115,7 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
 
     @Override
     public void complete(SysProject project, String taskId, Map<String, Object> variables) {
+        projectMapper.updateByPrimaryKeySelective(project);
         // 只有签收任务，act_hi_taskinst 表的 assignee 字段才不为 null
         taskService.claim(taskId, ShiroUtils.getLoginName());
         taskService.complete(taskId, variables);

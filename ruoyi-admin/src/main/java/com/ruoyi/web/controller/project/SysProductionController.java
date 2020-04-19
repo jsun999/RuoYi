@@ -19,12 +19,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * 生产排程 信息操作处理
@@ -69,6 +67,9 @@ public class SysProductionController extends BaseController {
         startPage();
         if(StringUtils.isEmpty(production.getProjectNumber())){
             List<SysProject> sysProjects = projectService.selectSysProjectListOn();
+            if(CollectionUtils.isEmpty(sysProjects)){
+                return getDataTable(new LinkedList<SysProductionVo>());
+            }
             production.setProjectNumber(sysProjects.get(0).getProjectNumber());
         }
         List<SysProductionVo> list = productionService.selectProductionList(production);
@@ -147,55 +148,59 @@ public class SysProductionController extends BaseController {
     @GetMapping("/gantt/{projectNumber}")
     @ResponseBody
     public SysProductionProcessGantt processGantt(@PathVariable("projectNumber") String projectNumber) {
-        SysProductionProcessGantt result = new SysProductionProcessGantt();
-        SysProduction sysProduction = new SysProduction();
-        sysProduction.setProjectNumber(projectNumber);
-        List<SysProductionVo> sysProductionVos = productionService.selectProductionList(sysProduction);
-        List<SysProductionGantt> gantts = new LinkedList<>();
-        String[] planBegin = new String[sysProductionVos.size()];
-        String[] planEnd = new String[sysProductionVos.size()];
-        String[] actualBegin = new String[sysProductionVos.size()];
-        String[] actualEnd = new String[sysProductionVos.size()];
-        String[] processType = new String[sysProductionVos.size()];
-        for (int i = 0; i < sysProductionVos.size(); i++) {
-            SysProductionVo sysProductionVo =  sysProductionVos.get(i);
-            planBegin[i]=sysProductionVo.getPlanBeginTime();
-            planEnd[i] = sysProductionVo.getPlanEndTime();
-            actualBegin[i]=sysProductionVo.getActualBeginTime();
-            actualEnd[i]=sysProductionVo.getActualEndTime();
-            processType[i] = sysDictDataService.selectDictLabel("production_process",sysProductionVo.getProcessType().toString());
+        if(!"null".equals(projectNumber)){
+            SysProductionProcessGantt result = new SysProductionProcessGantt();
+            SysProduction sysProduction = new SysProduction();
+            sysProduction.setProjectNumber(projectNumber);
+            List<SysProductionVo> sysProductionVos = productionService.selectProductionList(sysProduction);
+            List<SysProductionGantt> gantts = new LinkedList<>();
+            String[] planBegin = new String[sysProductionVos.size()];
+            String[] planEnd = new String[sysProductionVos.size()];
+            String[] actualBegin = new String[sysProductionVos.size()];
+            String[] actualEnd = new String[sysProductionVos.size()];
+            String[] processType = new String[sysProductionVos.size()];
+            for (int i = 0; i < sysProductionVos.size(); i++) {
+                SysProductionVo sysProductionVo =  sysProductionVos.get(i);
+                planBegin[i]=sysProductionVo.getPlanBeginTime();
+                planEnd[i] = sysProductionVo.getPlanEndTime();
+                actualBegin[i]=sysProductionVo.getActualBeginTime();
+                actualEnd[i]=sysProductionVo.getActualEndTime();
+                processType[i] = sysDictDataService.selectDictLabel("production_process",sysProductionVo.getProcessType().toString());
+            }
+            SysProductionGantt gantt2 = new SysProductionGantt();
+            gantt2.setName("计划时间");
+            gantt2.setType(1);
+            gantt2.setStack("plan");
+            gantt2.setData(planEnd);
+            gantts.add(gantt2);
+
+            SysProductionGantt gantt1 = new SysProductionGantt();
+            gantt1.setName("计划时间");
+            gantt1.setType(0);
+            gantt1.setStack("plan");
+            gantt1.setData(planBegin);
+            gantts.add(gantt1);
+
+            SysProductionGantt gantt4 = new SysProductionGantt();
+            gantt4.setName("实际时间");
+            gantt4.setType(1);
+            gantt4.setStack("actual");
+            gantt4.setData(actualEnd);
+            gantts.add(gantt4);
+            result.setGantts(gantts);
+            result.setProcessType(processType);
+
+            SysProductionGantt gantt3 = new SysProductionGantt();
+            gantt3.setName("实际时间");
+            gantt3.setType(0);
+            gantt3.setStack("actual");
+            gantt3.setData(actualBegin);
+            gantts.add(gantt3);
+
+            result.setProjectName(projectService.selectSysProjectByNumber(projectNumber).getProjectName());
+            return result;
+        }else{
+            return null;
         }
-        SysProductionGantt gantt2 = new SysProductionGantt();
-        gantt2.setName("计划时间");
-        gantt2.setType(1);
-        gantt2.setStack("plan");
-        gantt2.setData(planEnd);
-        gantts.add(gantt2);
-
-        SysProductionGantt gantt1 = new SysProductionGantt();
-        gantt1.setName("计划时间");
-        gantt1.setType(0);
-        gantt1.setStack("plan");
-        gantt1.setData(planBegin);
-        gantts.add(gantt1);
-
-        SysProductionGantt gantt4 = new SysProductionGantt();
-        gantt4.setName("实际时间");
-        gantt4.setType(1);
-        gantt4.setStack("actual");
-        gantt4.setData(actualEnd);
-        gantts.add(gantt4);
-        result.setGantts(gantts);
-        result.setProcessType(processType);
-
-        SysProductionGantt gantt3 = new SysProductionGantt();
-        gantt3.setName("实际时间");
-        gantt3.setType(0);
-        gantt3.setStack("actual");
-        gantt3.setData(actualBegin);
-        gantts.add(gantt3);
-
-        result.setProjectName(projectService.selectSysProjectByNumber(projectNumber).getProjectName());
-        return result;
     }
 }

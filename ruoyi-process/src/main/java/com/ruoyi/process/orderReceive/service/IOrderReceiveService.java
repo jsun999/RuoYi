@@ -11,9 +11,9 @@ import java.util.Map;
 
 public interface IOrderReceiveService {
 
-    ProcessInstance submitApply(SysProject sysProject, long applyUserId);
+    ProcessInstance submitApply(SysProject sysProject, String applyUserId);
 
-    List<ProcessProjectVo> findProjectTodoTasks(ProcessProjectVo processProjectVo, Long userId);
+    List<ProcessProjectVo> findProjectTodoTasks(ProcessProjectVo processProjectVo, String userId);
 
     SysProject selectById(Long id);
 

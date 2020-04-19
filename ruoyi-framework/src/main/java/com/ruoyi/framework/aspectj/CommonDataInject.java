@@ -34,7 +34,9 @@ public class CommonDataInject {
                 ((BaseEntity) arg).setCreateTime(new Date());
                 if(!"insertLogininfor".equals(pjp.getSignature().getName())&&!("insertOperlog".equals(pjp.getSignature().getName()))){
                     if(ShiroUtils.getSysUser()!=null){
-                        ((BaseEntity) arg).setCreateBy(ShiroUtils.getSysUser().getUserName());
+                        if(((BaseEntity) arg).getCreateBy()==null){
+                            ((BaseEntity) arg).setCreateBy(ShiroUtils.getSysUser().getLoginName());
+                        }
                     }
                 }
             }
@@ -50,7 +52,9 @@ public class CommonDataInject {
             if(arg instanceof BaseEntity){
                 ((BaseEntity) arg).setUpdateTime(new Date());
                 if(ShiroUtils.getSysUser()!=null){
-                    ((BaseEntity) arg).setUpdateBy(ShiroUtils.getSysUser().getUserName());
+                    if(((BaseEntity) arg).getUpdateBy()==null){
+                        ((BaseEntity) arg).setUpdateBy(ShiroUtils.getSysUser().getLoginName());
+                    }
                 }
             }
         }

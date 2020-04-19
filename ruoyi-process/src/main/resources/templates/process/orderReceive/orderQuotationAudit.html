@@ -8,7 +8,6 @@
     <div class="wrapper wrapper-content animated fadeInRight ibox-content form-content">
         <form class="form-horizontal m" id="form-project-edit" th:object="${project}">
             <input id="projectId" name="projectId" th:field="*{projectId}"  type="hidden">
-			<input type="hidden" name="p_COM_comment" />
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">项目名称：</label>
 				<div class="col-sm-8">
@@ -67,9 +66,8 @@
 					<textarea name="remark" autocomplete="off" maxlength="500" class="form-control" rows="3" disabled>[[*{remark}]]</textarea>
 				</div>
 			</div>
-			<hr />
 			<div class="form-group">
-				<label class="col-sm-3 control-label" for="factoryApproved">审核意见：</label>
+				<label class="col-sm-3 control-label" for="factoryApproved">生产审核意见：</label>
 				<div class="col-sm-8">
 					<select name="p_B_factoryApproved" id="factoryApproved" class="form-control m-b">
 						<option value="true">可以加工</option>
@@ -116,7 +114,7 @@
 		function submitHandler() {
 			if ($.validate.form()) {
 				if ($('textarea[name="comment"]').val()) {
-					$('input[name="p_COM_productionComment"]').val($('textarea[name="comment"]').val());
+					$('input[name="p_COM_comment"]').val($('textarea[name="comment"]').val());
 				}
 				var taskId = [[${taskId}]];
 				$.operate.save(prefix + "/complete/" + taskId, $('#form-project-edit').serialize());

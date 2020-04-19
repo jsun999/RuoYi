@@ -40,6 +40,12 @@ public class SysProject extends BaseEntity
 	private String filePath;
 	/** 项目状态 */
 	private Integer projectStatus;
+	/** 建议报价 */
+	private BigDecimal suggestQuotation;
+	/** 最低报价 */
+	private BigDecimal lowestQuotation;
+	/** 实际报价 */
+	private BigDecimal actualQuotation;
 	/** 金额 */
 	private BigDecimal amount;
 	/** 负责人（user_id） */
