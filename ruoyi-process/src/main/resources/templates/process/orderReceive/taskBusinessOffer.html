@@ -8,7 +8,7 @@
     <div class="wrapper wrapper-content animated fadeInRight ibox-content form-content">
         <form class="form-horizontal m" id="form-project-edit" th:object="${project}">
             <input id="projectId" name="projectId" th:field="*{projectId}"  type="hidden">
-			<input type="hidden" name="p_COM_comment" />
+			<input type="hidden" name="p_COM_quotationComment" />
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">项目名称：</label>
 				<div class="col-sm-8">
@@ -92,7 +92,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">生产审核备注：</label>
 				<div class="col-sm-8">
-					<textarea name="comment" class="form-control"></textarea>
+					<textarea name="productionComment" th:text="${productionComment}" class="form-control"></textarea>
 				</div>
 			</div>
 			<hr />
@@ -108,7 +108,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">经理审核备注：</label>
 				<div class="col-sm-8">
-					<textarea name="comment" class="form-control"></textarea>
+					<textarea name="managerComment" th:text="${managerComment}" class="form-control"></textarea>
 				</div>
 			</div>
 			<hr />
@@ -121,7 +121,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">报价备注：</label>
 				<div class="col-sm-8">
-					<textarea name="comment" class="form-control"></textarea>
+					<textarea name="quotationComment" class="form-control"></textarea>
 				</div>
 			</div>
 		</form>
@@ -142,7 +142,7 @@
 		function submitHandler() {
 			if ($.validate.form()) {
 				if ($('textarea[name="comment"]').val()) {
-					$('input[name="p_COM_comment"]').val($('textarea[name="comment"]').val());
+					$('input[name="p_COM_quotationComment"]').val($('textarea[name="quotationComment"]').val());
 				}
 				var taskId = [[${taskId}]];
 				$.operate.save(prefix + "/complete/" + taskId, $('#form-project-edit').serialize());

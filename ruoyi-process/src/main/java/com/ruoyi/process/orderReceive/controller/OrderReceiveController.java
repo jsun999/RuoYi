@@ -20,6 +20,7 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -131,6 +132,8 @@ public class OrderReceiveController extends BaseController {
         String processInstanceId = task.getProcessInstanceId();
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
         SysProject sysProject = orderReceiveService.selectById(new Long(processInstance.getBusinessKey()));
+        List<Comment> list = taskService.getProcessInstanceComments(processInstanceId);
+        list.forEach(a -> mmap.put(a.getType(),a.getFullMessage()));
         mmap.put("project", sysProject);
         mmap.put("taskId", taskId);
         String verifyName = task.getTaskDefinitionKey().substring(0, 1).toUpperCase() + task.getTaskDefinitionKey().substring(1);
@@ -148,6 +151,7 @@ public class OrderReceiveController extends BaseController {
                                @ModelAttribute("preloadProject") SysProject project, HttpServletRequest request) {
         Map<String, Object> variables = new HashMap<>();
         Enumeration<String> parameterNames = request.getParameterNames();
+        String commentType = null;
         String comment = null;          // 批注
         try {
             while (parameterNames.hasMoreElements()) {
@@ -161,6 +165,7 @@ public class OrderReceiveController extends BaseController {
                         if (parameter[1].equals("B")) {
                             value = BooleanUtils.toBoolean(paramValue);
                         } else if (parameter[1].equals("COM")) {
+                            commentType = parameter[2];
                             comment = paramValue;
                         }
                         variables.put(parameter[2], value);
@@ -176,8 +181,8 @@ public class OrderReceiveController extends BaseController {
                 }
             }
             if (StringUtils.isNotEmpty(comment)) {
-                identityService.setAuthenticatedUserId(String.valueOf(ShiroUtils.getUserId()));
-                taskService.addComment(taskId, project.getInstanceId(), comment);
+                identityService.setAuthenticatedUserId(ShiroUtils.getLoginName());
+                taskService.addComment(taskId, project.getInstanceId(),commentType, comment);
             }
             orderReceiveService.complete(project, taskId, variables);
 
