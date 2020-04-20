@@ -46,6 +46,12 @@ $(document).ready(function(){
 		var birth = /^(19|20)\d{2}-(1[0-2]|0?[1-9])-(0?[1-9]|[1-2][0-9]|3[0-1])$/;
 		return this.optional(element) || (birth).test(value);
 	},"出生日期格式示例2000-01-01");
+	//金额
+	jQuery.validator.addMethod("isMoney", function(value, element) {
+		// return this.optional(element) || /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(value);  //金额,不允许货币格式
+		//允许, 货币格式
+		return this.optional(element) || /^([1-9]{1}[0-9]{0,3}(\,[0-9]{3,4})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/.test(value);
+	}, "请输入正确的金额格式");
 	//校验新旧密码是否相同
 	jQuery.validator.addMethod("isdiff",function(){
 		var p1=$("#pwdOld").val();

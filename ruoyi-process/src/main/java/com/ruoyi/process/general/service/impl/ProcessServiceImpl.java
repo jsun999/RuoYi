@@ -56,9 +56,14 @@ public class ProcessServiceImpl implements IProcessService {
             HistoricActivity activity = new HistoricActivity();
             BeanUtils.copyProperties(instance, activity);
             String taskId = instance.getTaskId();
-            List<Comment> comment = taskService.getTaskComments(taskId, "comment");
+            List<Comment> comment = taskService.getProcessInstanceComments(instance.getProcessInstanceId());
             if (!CollectionUtils.isEmpty(comment)) {
-                activity.setComment(comment.get(0).getFullMessage());
+                for (int i = 0; i < comment.size(); i++) {
+                    Comment comment1 =  comment.get(i);
+                    if(comment1.getTaskId().equals(taskId)){
+                        activity.setComment(comment1.getFullMessage());
+                    }
+                }
             }
             SysUser sysUser = userMapper.selectUserByLoginName(instance.getAssignee());
             if (sysUser != null) {

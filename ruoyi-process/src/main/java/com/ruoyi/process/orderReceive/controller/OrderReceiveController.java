@@ -132,8 +132,10 @@ public class OrderReceiveController extends BaseController {
         String processInstanceId = task.getProcessInstanceId();
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
         SysProject sysProject = orderReceiveService.selectById(new Long(processInstance.getBusinessKey()));
-        List<Comment> list = taskService.getProcessInstanceComments(processInstanceId);
-        list.forEach(a -> mmap.put(a.getType(),a.getFullMessage()));
+//        List<Comment> list = taskService.getProcessInstanceComments(processInstanceId);
+//        list.forEach(a -> mmap.put(a.getType(),a.getFullMessage()));
+        Map<String,Object> map = taskService.getVariables(taskId);
+        mmap.addAllAttributes(map);
         mmap.put("project", sysProject);
         mmap.put("taskId", taskId);
         String verifyName = task.getTaskDefinitionKey().substring(0, 1).toUpperCase() + task.getTaskDefinitionKey().substring(1);
