@@ -113,6 +113,7 @@
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
+            detailUrl: prefix + "/edit/{id}",
             modalName: "项目",
             showExport: true,
             showFooter: true,  //开启底部
@@ -198,7 +199,7 @@
                     formatter: function (value, row, index) {
                         var actions = [];
                         if (row.instanceId) {
-                            actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-eye"></i> 表单数据</a> ');
+                            actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.projectId + '\')"><i class="fa fa-eye"></i> 表单数据</a> ');
                             actions.push('<a class="btn btn-warning btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="showHistoryDialog(\'' + row.instanceId + '\')"><i class="fa fa-list"></i> 审批历史</a> ');
                             actions.push('<a class="btn btn-info btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="showProcessImgDialog(\'' + row.instanceId + '\')"><i class="fa fa-image"></i> 进度查看</a> ');
                         }else{
@@ -231,6 +232,17 @@
 
     function submitApply(projectId) {
         $.operate.post(prefix + "/submitApply", {"projectId": projectId});
+    }
+
+    /* 查看审批历史 */
+    function showHistoryDialog(instanceId) {
+        var url = ctx + 'process/general/historyList/' + instanceId;
+        $.modal.open("查看审批历史", url);
+    }
+
+    function showProcessImgDialog(instanceId) {
+        var url = ctx + 'process/general/processImg/' + instanceId;
+        $.modal.open("查看流程图 (标红表示已结束或活动中的流程)", url);
     }
 </script>
 </body>
