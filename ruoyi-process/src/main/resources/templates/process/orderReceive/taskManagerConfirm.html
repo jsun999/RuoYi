@@ -70,9 +70,8 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label" for="factoryApproved">生产审核意见：</label>
 				<div class="col-sm-8">
-					<select name="p_B_factoryApproved" id="factoryApproved" class="form-control m-b">
-						<option value="true">可以加工</option>
-						<option value="false">无法加工</option>
+					<select name="factoryApproved" id="factoryApproved" class="form-control m-b" th:with="type=${@dict.getType('sys_product_yes_no')}" disabled>
+						<option th:each="status : ${type}" th:text="${status.dictLabel}" th:value="${status.dictValue}" th:selected="${#strings.toString(factoryApproved)} eq ${status.dictValue}"></option>
 					</select>
 				</div>
 			</div>
@@ -91,7 +90,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">生产审核备注：</label>
 				<div class="col-sm-8">
-					<textarea name="productionComment" th:text="${productionComment}" class="form-control"></textarea>
+					<textarea name="productionComment" th:text="${productionComment}" class="form-control" disabled></textarea>
 				</div>
 			</div>
 			<hr />

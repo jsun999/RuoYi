@@ -91,7 +91,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">生产审核备注：</label>
 				<div class="col-sm-8">
-					<textarea name="productionComment" th:text="${productionComment}" class="form-control"></textarea>
+					<textarea name="productionComment" th:text="${productionComment}" class="form-control" disabled></textarea>
 				</div>
 			</div>
 			<hr />
@@ -106,20 +106,20 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">经理审核备注：</label>
 				<div class="col-sm-8">
-					<textarea name="managerComment" th:text="${managerComment}" class="form-control"></textarea>
+					<textarea name="managerComment" th:text="${managerComment}" class="form-control" disabled></textarea>
 				</div>
 			</div>
 			<hr />
 			<div class="form-group">
 				<label class="col-sm-3 control-label">实际报价：</label>
 				<div class="col-sm-8">
-					<input name="actualQuotation" th:field="*{actualQuotation}" class="form-control" type="text" required>
+					<input name="actualQuotation" th:field="*{actualQuotation}" class="form-control" type="text" required disabled>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">报价备注：</label>
 				<div class="col-sm-8">
-					<textarea name="comment" class="form-control"></textarea>
+					<textarea name="quotationComment" th:text="${quotationComment}" class="form-control" disabled></textarea>
 				</div>
 			</div>
 		</form>
