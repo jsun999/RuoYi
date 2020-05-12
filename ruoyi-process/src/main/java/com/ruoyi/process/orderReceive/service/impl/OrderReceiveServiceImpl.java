@@ -5,6 +5,7 @@ import com.ruoyi.common.enums.ProjectStatus;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.process.leave.domain.BizLeaveVo;
 import com.ruoyi.process.orderReceive.domain.ProcessProjectVo;
 import com.ruoyi.process.orderReceive.service.IOrderReceiveService;
 import com.ruoyi.process.todoitem.domain.BizTodoItem;
@@ -13,9 +14,12 @@ import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.mapper.SysProjectMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.BeanUtils;
@@ -49,6 +53,9 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
 
     @Autowired
     private SysUserMapper userMapper;
+
+    @Autowired
+    private HistoryService historyService;
 
     @Override
     public ProcessInstance submitApply(SysProject sysProject, String applyUserId) {
@@ -103,6 +110,36 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
             SysUser sysUser = userMapper.selectUserById(project.getPmUserId());
             projectVo.setPmUserName(sysUser.getUserName());
             results.add(projectVo);
+        }
+        return results;
+    }
+
+    @Override
+    public List<ProcessProjectVo> findProjectDoneTasks(ProcessProjectVo processProjectVo, Long userId) {
+        List<ProcessProjectVo> results = new ArrayList<>();
+        List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery()
+                .processDefinitionKey("orderReceive")
+                .taskAssignee(String.valueOf(userId))
+                .finished()
+                .orderByHistoricTaskInstanceEndTime()
+                .desc()
+                .list();
+        // 根据流程的业务ID查询实体并关联
+        for (HistoricTaskInstance instance : list) {
+            String processInstanceId = instance.getProcessInstanceId();
+            // 条件过滤 1
+            if (StringUtils.isNotBlank(processProjectVo.getInstanceId()) && !processProjectVo.getInstanceId().equals(processInstanceId)) {
+                continue;
+            }
+            HistoricProcessInstance processInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+            String businessKey = processInstance.getBusinessKey();
+            ProcessProjectVo project = (ProcessProjectVo) projectMapper.selectByPrimaryKey(new Long(businessKey));
+
+            project.setTaskId(instance.getId());
+            project.setTaskName(instance.getName());
+            project.setDoneTime(instance.getEndTime());
+            project.setPmUserName(project.getPmUserName());
+            results.add(project);
         }
         return results;
     }

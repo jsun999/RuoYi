@@ -18,4 +18,6 @@ public interface IOrderReceiveService {
     SysProject selectById(Long id);
 
     void complete(SysProject project, String taskId, Map<String, Object> variables);
+
+    List<ProcessProjectVo> findProjectDoneTasks(ProcessProjectVo processProjectVo, Long loginName);
 }

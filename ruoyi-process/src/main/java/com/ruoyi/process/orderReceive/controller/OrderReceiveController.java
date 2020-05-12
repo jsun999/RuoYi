@@ -214,15 +214,15 @@ public class OrderReceiveController extends BaseController {
 
     /**
      * 我的已办列表
-     * @param bizLeave
+     * @param processProjectVo
      * @return
      */
     @RequiresPermissions("process:orderReceive:taskDoneList")
     @PostMapping("/taskDoneList")
     @ResponseBody
-    public TableDataInfo taskDoneList(BizLeaveVo bizLeave) {
+    public TableDataInfo taskDoneList(ProcessProjectVo processProjectVo) {
         startPage();
-        List<BizLeaveVo> list = bizLeaveService.findDoneTasks(bizLeave, ShiroUtils.getLoginName());
+        List<ProcessProjectVo> list = orderReceiveService.findProjectDoneTasks(processProjectVo, ShiroUtils.getUserId());
         return getDataTable(list);
     }
 
