@@ -14,6 +14,7 @@ import com.ruoyi.system.domain.SysProject;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.mapper.SysProjectMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
+import com.ruoyi.system.vo.SysProjectVo;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
@@ -102,7 +103,7 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
             }
             ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
             String businessKey = processInstance.getBusinessKey();
-            SysProject project = projectMapper.selectByPrimaryKey(new Long(businessKey));
+            SysProjectVo project = projectMapper.selectSysProjectWithNameById(new Long(businessKey));
             ProcessProjectVo projectVo = new ProcessProjectVo();
             BeanUtils.copyProperties(project, projectVo);
             projectVo.setTaskId(task.getId());
@@ -115,11 +116,11 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
     }
 
     @Override
-    public List<ProcessProjectVo> findProjectDoneTasks(ProcessProjectVo processProjectVo, Long userId) {
+    public List<ProcessProjectVo> findProjectDoneTasks(ProcessProjectVo processProjectVo, String loginName) {
         List<ProcessProjectVo> results = new ArrayList<>();
         List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery()
                 .processDefinitionKey("orderReceive")
-                .taskAssignee(String.valueOf(userId))
+                .taskAssignee(loginName)
                 .finished()
                 .orderByHistoricTaskInstanceEndTime()
                 .desc()
@@ -133,13 +134,15 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
             }
             HistoricProcessInstance processInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
             String businessKey = processInstance.getBusinessKey();
-            ProcessProjectVo project = (ProcessProjectVo) projectMapper.selectByPrimaryKey(new Long(businessKey));
-
-            project.setTaskId(instance.getId());
-            project.setTaskName(instance.getName());
-            project.setDoneTime(instance.getEndTime());
-            project.setPmUserName(project.getPmUserName());
-            results.add(project);
+            ProcessProjectVo vo = new ProcessProjectVo();
+            SysProjectVo project = projectMapper.selectSysProjectWithNameById(new Long(businessKey));
+            BeanUtils.copyProperties(project,vo);
+            vo.setTaskId(instance.getId());
+            vo.setTaskName(instance.getName());
+            vo.setDoneTime(instance.getEndTime());
+            SysUser sysUser = userMapper.selectUserById(project.getPmUserId());
+            vo.setPmUserName(sysUser.getUserName());
+            results.add(vo);
         }
         return results;
     }
@@ -174,7 +177,6 @@ public class OrderReceiveServiceImpl implements IOrderReceiveService {
                 bizTodoItemService.deleteBizTodoItemById(update.getId()); // 删除候选用户组其他 todoitem
             }
         }
-
         // 下一节点处理人待办事项
         bizTodoItemService.insertProjectTodoItem(project.getInstanceId(), project, "orderReceive");
     }

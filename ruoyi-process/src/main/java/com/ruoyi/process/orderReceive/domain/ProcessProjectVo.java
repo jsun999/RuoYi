@@ -23,4 +23,6 @@ public class ProcessProjectVo extends SysProject {
     /** 创建人 */
     private String createUserName;
 
+    private String customerName;
+
 }

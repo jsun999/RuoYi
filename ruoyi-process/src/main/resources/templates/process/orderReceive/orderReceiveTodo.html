@@ -11,19 +11,55 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>请假类型：</p>
-                                <select name="type" th:with="type=${@dict.getType('biz_leave_type')}">
+                                项目名称：<input type="text" name="projectName"/>
+                            </li>
+                            <li>
+                                客户：
+                                <div style="display: inline-block;width:200px;height:30px;">
+                                    <select name="customerId" class="form-control"
+                                            th:with="customers=${@customer.getCustomer(0)}">
+                                        <option value="">所有</option>
+                                        <option th:each="customer:${customers}" th:value="${customer.customerId}"
+                                                th:text="${customer.customerName}"></option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                项目进度：
+                                <select name="projectStatus" th:with="type=${@dict.getType('sys_project_status')}">
                                     <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                    <option th:each="status : ${type}" th:text="${status.dictLabel}"
+                                            th:value="${status.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
-                                <p>流程实例ID：</p>
-                                <input type="text" name="instanceId"/>
+                                接单状态：
+                                <select name="dealFlag" th:with="type=${@dict.getType('sys_deal_status')}">
+                                    <option value="">所有</option>
+                                    <option th:each="status : ${type}" th:text="${status.dictLabel}"
+                                            th:value="${status.dictValue}"></option>
+                                </select>
                             </li>
                             <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                                负责人：<select name="pmUserId" th:with="type=${@user.getUser('104')}">
+                                <option value="">所有</option>
+                                <option th:each="user : ${type}" th:text="${user.userName}"
+                                        th:value="${user.userId}"></option>
+                            </select>
+                            </li>
+                            <li class="select-time">
+                                <label>创建时间： </label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间"
+                                       name="params[beginTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间"
+                                       name="params[endTime]"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
                         </ul>
                     </div>

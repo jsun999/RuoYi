@@ -222,7 +222,7 @@ public class OrderReceiveController extends BaseController {
     @ResponseBody
     public TableDataInfo taskDoneList(ProcessProjectVo processProjectVo) {
         startPage();
-        List<ProcessProjectVo> list = orderReceiveService.findProjectDoneTasks(processProjectVo, ShiroUtils.getUserId());
+        List<ProcessProjectVo> list = orderReceiveService.findProjectDoneTasks(processProjectVo, ShiroUtils.getLoginName());
         return getDataTable(list);
     }
 

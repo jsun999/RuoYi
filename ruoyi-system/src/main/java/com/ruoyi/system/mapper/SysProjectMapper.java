@@ -44,6 +44,7 @@ public interface SysProjectMapper extends BaseMapper<SysProject>
 	 */
 	List<SysProjectVo> selectSysProjectListWithCustomerName(SysProject project);
 
+	SysProjectVo selectSysProjectWithNameById(Long id);
 	/**
 	 * 业绩统计
 	 */
@@ -68,4 +69,6 @@ public interface SysProjectMapper extends BaseMapper<SysProject>
     SysProject selectSysProjectByNumber(String projectNumber);
 
     List<SysProject> selectSysProjectListOn();
+
+
 }

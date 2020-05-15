@@ -19,5 +19,5 @@ public interface IOrderReceiveService {
 
     void complete(SysProject project, String taskId, Map<String, Object> variables);
 
-    List<ProcessProjectVo> findProjectDoneTasks(ProcessProjectVo processProjectVo, Long loginName);
+    List<ProcessProjectVo> findProjectDoneTasks(ProcessProjectVo processProjectVo, String loginName);
 }
