@@ -1,13 +1,12 @@
 package com.ruoyi.system.domain;
 
 import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 /**
  * 生产排程表 sys_production
@@ -23,6 +22,7 @@ public class SysProduction extends BaseEntity
 	
 	/** id */
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long productionId;
 	/** 项目编号 */
 	private String projectNumber;
